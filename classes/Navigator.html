@@ -1,0 +1,1292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Initialisation">Initialisation </a></li>
+<li><a href="#Basic_navigation">Basic navigation </a></li>
+<li><a href="#Location_status">Location status </a></li>
+<li><a href="#Conversions">Conversions </a></li>
+<li><a href="#Auto_calibration">Auto-calibration </a></li>
+<li><a href="#Sailplan_stuff">Sailplan stuff </a></li>
+<li><a href="#Autopilot">Autopilot </a></li>
+<li><a href="#Maps_and_map_readers">Maps and map readers </a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><strong>Navigator</strong></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>Navigator</code></h1>
+<p>Utilities and data relating to wilderness map navigation, both on land and sea.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.sailplan">Navigator.sailplan</a></td>
+	<td class="summary">Container for sailplan features</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.waypoints">Navigator.waypoints</a></td>
+	<td class="summary">Container for waypoint data and methods</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.harbourNames">Navigator.harbourNames</a></td>
+	<td class="summary">Contains the normal map room names at various harbours</td>
+	</tr>
+</table>
+<h2><a href="#Initialisation">Initialisation </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.Navigator">Navigator.Navigator</a></td>
+	<td class="summary">Master class table, also contains basic information</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:new">Navigator:new ()</a></td>
+	<td class="summary">Creates a new instance of the Navigator class.</td>
+	</tr>
+</table>
+<h2><a href="#Basic_navigation">Basic navigation </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:findWaypoint">Navigator:findWaypoint (targetWaypoint)</a></td>
+	<td class="summary">Finds bearing and distance to waypoint from current location.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getPointBearings">Navigator:getPointBearings (_originX, _originY, _targetX, _targetY)</a></td>
+	<td class="summary">Returns the bearing to target coordinates from origin coordinates.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getChebyshevDistance">Navigator:getChebyshevDistance (originX, originY, targetX, targetY)</a></td>
+	<td class="summary">Returns the Chebyshev distance between two points.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getNearestHarbours">Navigator:getNearestHarbours (numReturns)</a></td>
+	<td class="summary">Locates an arbitrary number of the nearest harbours.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getWaypointTable">Navigator:getWaypointTable ()</a></td>
+	<td class="summary">Returns a copy of the full waypoint table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getEasting">Navigator:getEasting ()</a></td>
+	<td class="summary">Returns the player's current easting.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getSouthing">Navigator:getSouthing ()</a></td>
+	<td class="summary">Returns the player's current southing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:getError">Navigator:getError ()</a></td>
+	<td class="summary">Returns the player's current CEP.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:setEasting">Navigator:setEasting (input)</a></td>
+	<td class="summary">Sets the player's current easting.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:setSouthing">Navigator:setSouthing (input)</a></td>
+	<td class="summary">Sets the player's current southing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:setError">Navigator:setError (input)</a></td>
+	<td class="summary">Sets the player's current CEP.</td>
+	</tr>
+</table>
+<h2><a href="#Location_status">Location status </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:aboardShip">Navigator:aboardShip ()</a></td>
+	<td class="summary">Returns true if user is aboard a ship.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:havePosition">Navigator:havePosition ()</a></td>
+	<td class="summary">Returns true if Navigator has a valid position set.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:inSubdivision">Navigator:inSubdivision ()</a></td>
+	<td class="summary">Returns true if user is in a subdivision.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:inWildernessMap">Navigator:inWildernessMap ()</a></td>
+	<td class="summary">Returns true if user is in the wilderness map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:onSeafloor">Navigator:onSeafloor ()</a></td>
+	<td class="summary">Returns true if user is in in a seafloor area.</td>
+	</tr>
+</table>
+<h2><a href="#Conversions">Conversions </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:cardinalToHeading">Navigator:cardinalToHeading (_cardinalDirection)</a></td>
+	<td class="summary">Converts a cardinal-direction string to heading in degrees.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:headingToCardinal8">Navigator:headingToCardinal8 (_heading)</a></td>
+	<td class="summary">Finds approximate 8-point compass direction from input heading.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:headingToCardinal16">Navigator:headingToCardinal16 (_heading)</a></td>
+	<td class="summary">Finds approximate 16-point compass direction from input heading.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:invertDirection">Navigator:invertDirection (_cardinalDirection)</a></td>
+	<td class="summary">Returns the opposite direction of a given cardinal direction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:roomNumToCoords">Navigator:roomNumToCoords (roomNum)</a></td>
+	<td class="summary">Converts standard three-parameter ATP coordinates to screen coordinates.</td>
+	</tr>
+</table>
+<h2><a href="#Auto_calibration">Auto-calibration </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:adjustCoords">Navigator:adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</a></td>
+	<td class="summary">Returns current coordinates adjusted for input direction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:autoCal">Navigator:autoCal (inputEasting, inputSouthing)</a></td>
+	<td class="summary">Doesn't actually autocalibrate, just takes in stuff to pass to self variables.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:buildSearchTable">Navigator:buildSearchTable (doFullSearch)</a></td>
+	<td class="summary">Populates searchTable with the relevant rows of text, before we begin finding candidates.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:findLineDelta">Navigator:findLineDelta ()</a></td>
+	<td class="summary">Finds nearest Δ in <strong>self.currentMap</strong>.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:trimLocationCandidates">Navigator:trimLocationCandidates (inputTable, distanceLimit)</a></td>
+	<td class="summary">this finds things
+ allegedly, not great though</td>
+	</tr>
+</table>
+<h2><a href="#Sailplan_stuff">Sailplan stuff </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:isAtDestination">Navigator:isAtDestination ()</a></td>
+	<td class="summary">Returns true if current position matches destination position.</td>
+	</tr>
+</table>
+<h2><a href="#Autopilot">Autopilot </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.autopilot">Navigator.autopilot</a></td>
+	<td class="summary">Container for autopilot functionality</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:checkAlignment">Navigator:checkAlignment ()</a></td>
+	<td class="summary">These do things, I guess.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:waypointTurn">Navigator:waypointTurn ()</a></td>
+	<td class="summary">These do things, I guess.</td>
+	</tr>
+</table>
+<h2><a href="#Maps_and_map_readers">Maps and map readers </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.maps">Navigator.maps</a></td>
+	<td class="summary">Container for maps</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.maps.full">Navigator.maps.full</a></td>
+	<td class="summary">Full world map as a table.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator.maps.current">Navigator.maps.current</a></td>
+	<td class="summary">The last map sent to us by the game.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:isOurShip">Navigator:isOurShip ()</a></td>
+	<td class="summary">True if = under the cursor is our ship, as determined by text colour.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:isSeamonster">Navigator:isSeamonster ()</a></td>
+	<td class="summary">True if M under cursor is a seamonster, as determined by the text colour.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Navigator:isTargetShip">Navigator:isTargetShip ()</a></td>
+	<td class="summary">True if = under the cursor is our ship, as determined by text colour.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator.sailplan"></a>
+    <strong>Navigator.sailplan</strong>
+    </dt>
+    <dd>
+    Container for sailplan features
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">_index</span>
+        Currently active index of the sailplan
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator.waypoints"></a>
+    <strong>Navigator.waypoints</strong>
+    </dt>
+    <dd>
+    Container for waypoint data and methods
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator.harbourNames"></a>
+    <strong>Navigator.harbourNames</strong>
+    </dt>
+    <dd>
+    Contains the normal map room names at various harbours
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator.Navigator"></a>
+    <strong>Navigator.Navigator</strong>
+    </dt>
+    <dd>
+    Master class table, also contains basic information
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">_easting</span>
+         Current easting.
+        </li>
+        <li><span class="parameter">_southing</span>
+         Current southing.
+        </li>
+        <li><span class="parameter">_error</span>
+         Current CEP.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:new"></a>
+    <strong>Navigator:new ()</strong>
+    </dt>
+    <dd>
+    Creates a new instance of the Navigator class.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A new instance of the Navigator class.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myNavigator = Navigator:new()</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Basic_navigation"></a>Basic navigation </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator:findWaypoint"></a>
+    <strong>Navigator:findWaypoint (targetWaypoint)</strong>
+    </dt>
+    <dd>
+    Finds bearing and distance to waypoint from current location.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">targetWaypoint</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Shortname of the waypoint to located.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">float</span></span>
+        Bearing to waypoint in degrees.</li>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Chebyshev distance to waypoint.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:getPointBearings"></a>
+    <strong>Navigator:getPointBearings (_originX, _originY, _targetX, _targetY)</strong>
+    </dt>
+    <dd>
+    Returns the bearing to target coordinates from origin coordinates.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_originX</span>
+            <span class="types"><span class="type">int</span></span>
+         Origin point X-coordinate.
+        </li>
+        <li><span class="parameter">_originY</span>
+            <span class="types"><span class="type">int</span></span>
+         Origin point Y-coordinate.
+        </li>
+        <li><span class="parameter">_targetX</span>
+            <span class="types"><span class="type">int</span></span>
+         Target point X-coordinate.
+        </li>
+        <li><span class="parameter">_targetY</span>
+            <span class="types"><span class="type">int</span></span>
+         Target point Y-coordinate.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">float</span></span>
+        Bearing to target coordinate in degrees.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> bearing = myNavigator:getPointBearings(  <span class="number">418</span>,<span class="number">443</span> , <span class="number">553</span>,<span class="number">221</span> )</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:getChebyshevDistance"></a>
+    <strong>Navigator:getChebyshevDistance (originX, originY, targetX, targetY)</strong>
+    </dt>
+    <dd>
+    Returns the Chebyshev distance between two points.
+ Does not account for impassable seas or obstacles.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">originX</span>
+            <span class="types"><span class="type">int</span></span>
+         Origin point X-coordinate.
+        </li>
+        <li><span class="parameter">originY</span>
+            <span class="types"><span class="type">int</span></span>
+         Origin point Y-coordinate.
+        </li>
+        <li><span class="parameter">targetX</span>
+            <span class="types"><span class="type">int</span></span>
+         Target point X-coordinate.
+        </li>
+        <li><span class="parameter">targetY</span>
+            <span class="types"><span class="type">int</span></span>
+         Target point Y-coordinate.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Chebyshev distance to target point.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> distance = myNavigator:getChebyshevDistance(<span class="number">374</span>,<span class="number">804</span>,<span class="number">447</span>,<span class="number">878</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:getNearestHarbours"></a>
+    <strong>Navigator:getNearestHarbours (numReturns)</strong>
+    </dt>
+    <dd>
+    Locates an arbitrary number of the nearest harbours.
+ Gathers the name, distance, and bearings of the nearest harbours, and organises them for further processing.
+ Limited in number of returns by <strong>numReturns</strong>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">numReturns</span>
+            <span class="types"><span class="type">int</span></span>
+         The number of nearest harbours to return results for, after sorting.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        Indexed table containing information for the <strong>numReturns</strong> nearest harbours, sorted by ascending distance..
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> nearestHarbour = myNavigator:getNearestHarbours(<span class="number">1</span>)[<span class="number">1</span>]</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:getWaypointTable"></a>
+    <strong>Navigator:getWaypointTable ()</strong>
+    </dt>
+    <dd>
+    Returns a copy of the full waypoint table.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A full copy of the master <strong>Navigator.waypoints</strong> table.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(myNavigator:getWaypointTable()) <span class="keyword">do</span> echo(v.name..<span class="string">"\n"</span>) <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:getEasting"></a>
+    <strong>Navigator:getEasting ()</strong>
+    </dt>
+    <dd>
+    Returns the player's current easting.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Current Navigator easting.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:getSouthing"></a>
+    <strong>Navigator:getSouthing ()</strong>
+    </dt>
+    <dd>
+    Returns the player's current southing.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Current Navigator southing.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:getError"></a>
+    <strong>Navigator:getError ()</strong>
+    </dt>
+    <dd>
+    Returns the player's current CEP.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Current Navigator CEP.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:setEasting"></a>
+    <strong>Navigator:setEasting (input)</strong>
+    </dt>
+    <dd>
+    Sets the player's current easting.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><span class="type">int</span></span>
+         New Navigator easting.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myNavigator:setEasting(<span class="number">261</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:setSouthing"></a>
+    <strong>Navigator:setSouthing (input)</strong>
+    </dt>
+    <dd>
+    Sets the player's current southing.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><span class="type">int</span></span>
+         New Navigator southing.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myNavigator:setSouthing(<span class="number">729</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:setError"></a>
+    <strong>Navigator:setError (input)</strong>
+    </dt>
+    <dd>
+    Sets the player's current CEP.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">input</span>
+            <span class="types"><span class="type">int</span></span>
+         New Navigator CEP.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myNavigator:setError(<span class="number">2</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Location_status"></a>Location status </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator:aboardShip"></a>
+    <strong>Navigator:aboardShip ()</strong>
+    </dt>
+    <dd>
+    Returns true if user is aboard a ship.
+ Does its best to avoid false positives, such as ferries, using a table of failure states as its metric.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Whether user is aboard a ship.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/Navigator.html#Navigator:onSeafloor">Navigator:onSeafloor</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> myNavigator:aboardShip() <span class="keyword">then</span>...</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:havePosition"></a>
+    <strong>Navigator:havePosition ()</strong>
+    </dt>
+    <dd>
+    Returns true if Navigator has a valid position set.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if valid position set.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> myNavigator:havePosition() <span class="keyword">then</span>...</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:inSubdivision"></a>
+    <strong>Navigator:inSubdivision ()</strong>
+    </dt>
+    <dd>
+    Returns true if user is in a subdivision.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if in subdivision.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> myNavigator:inSubdivision() <span class="keyword">then</span>...</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:inWildernessMap"></a>
+    <strong>Navigator:inWildernessMap ()</strong>
+    </dt>
+    <dd>
+    Returns true if user is in the wilderness map.
+ Does not count being aboard a vessel as being in the wilderness map.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if in subdivision.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/Navigator.html#Navigator:aboardShip">Navigator:aboardShip</a></li>
+         <li><a href="../classes/Navigator.html#Navigator:onSeafloor">Navigator:onSeafloor</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> myNavigator:aboardShip() <span class="keyword">then</span>...</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:onSeafloor"></a>
+    <strong>Navigator:onSeafloor ()</strong>
+    </dt>
+    <dd>
+    Returns true if user is in in a seafloor area.
+ Useful to keep us from zeroing out data when we don't actually want to.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if in seafloor area.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/Navigator.html#Navigator:aboardShip">Navigator:aboardShip</a></li>
+         <li><a href="../classes/Navigator.html#Navigator:inWildernessMap">Navigator:inWildernessMap</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> myNavigator:onSeafloor() <span class="keyword">then</span>...</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Conversions"></a>Conversions </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator:cardinalToHeading"></a>
+    <strong>Navigator:cardinalToHeading (_cardinalDirection)</strong>
+    </dt>
+    <dd>
+    Converts a cardinal-direction string to heading in degrees.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_cardinalDirection</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Direction (e.g. "north", "e", "south-southwest", "ene")
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">float</span></span>
+        Heading in degrees
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:headingToCardinal8"></a>
+    <strong>Navigator:headingToCardinal8 (_heading)</strong>
+    </dt>
+    <dd>
+    Finds approximate 8-point compass direction from input heading.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_heading</span>
+            <span class="types"><span class="type">int</span> or <span class="type">float</span></span>
+         Heading to convert.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Nearest 8-point compass direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:headingToCardinal16"></a>
+    <strong>Navigator:headingToCardinal16 (_heading)</strong>
+    </dt>
+    <dd>
+    Finds approximate 16-point compass direction from input heading.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_heading</span>
+            <span class="types"><span class="type">int</span> or <span class="type">float</span></span>
+         Heading to convert.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Nearest 16-point compass direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:invertDirection"></a>
+    <strong>Navigator:invertDirection (_cardinalDirection)</strong>
+    </dt>
+    <dd>
+    Returns the opposite direction of a given cardinal direction.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_cardinalDirection</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Direction (e.g. "north", "e", "south-southwest", "ene")
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">float</span></span>
+        Heading in degrees
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:roomNumToCoords"></a>
+    <strong>Navigator:roomNumToCoords (roomNum)</strong>
+    </dt>
+    <dd>
+    Converts standard three-parameter ATP coordinates to screen coordinates.
+ Used in setting our position when we have a wilderness room number.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">roomNum</span>
+            <span class="types"><span class="type">int</span></span>
+         The room number we wish to convert.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Easting in screen coordinates.</li>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Southing in screen coordinates.</li>
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Auto_calibration"></a>Auto-calibration </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator:adjustCoords"></a>
+    <strong>Navigator:adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</strong>
+    </dt>
+    <dd>
+    Returns current coordinates adjusted for input direction.
+  Also invoked by Figurehead for wavecall.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_dirMoved</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Short-form direction string.
+        </li>
+        <li><span class="parameter">_inputEasting</span>
+            <span class="types"><span class="type">int</span></span>
+         Current Navigator easting.
+        </li>
+        <li><span class="parameter">_inputSouthing</span>
+            <span class="types"><span class="type">int</span></span>
+         Current Navigator southing.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Adjusted easting.</li>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Adjusted southing.</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myNavigator:adjustCoords(<span class="string">"n"</span>,<span class="number">625</span>,<span class="number">715</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:autoCal"></a>
+    <strong>Navigator:autoCal (inputEasting, inputSouthing)</strong>
+    </dt>
+    <dd>
+    Doesn't actually autocalibrate, just takes in stuff to pass to self variables.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">inputEasting</span>
+            <span class="types"><span class="type">int</span></span>
+         New easting to set.
+        </li>
+        <li><span class="parameter">inputSouthing</span>
+            <span class="types"><span class="type">int</span></span>
+         New southing to set.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:buildSearchTable"></a>
+    <strong>Navigator:buildSearchTable (doFullSearch)</strong>
+    </dt>
+    <dd>
+    Populates searchTable with the relevant rows of text, before we begin finding candidates.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">doFullSearch</span>
+            <span class="types"><span class="type">bool</span></span>
+         True, to search the entire map for candidates. False if building a limited array to search through.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:findLineDelta"></a>
+    <strong>Navigator:findLineDelta ()</strong>
+    </dt>
+    <dd>
+    Finds nearest Δ in <strong>self.currentMap</strong>.
+ Is our current line in open water? Don't even try to locate with that stuff, we'll just get infinite results.
+ So let's set up the offsets that'll give us a positive visual landmark.
+ Then return the locator we found, as well as as our Δ for the fixtaking section ahead.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Contents of the line containing the located reference. Used in later steps to verify location candidates, before heading into confidence calculations.</li>
+        <li>
+           <span class="types"><span class="type">int</span></span>
+        Distance from the central calibration point as Δ. Negative values are north.</li>
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> locatorString, lineDelta = myNavigator:findLineDelta()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Navigator:trimLocationCandidates"></a>
+    <strong>Navigator:trimLocationCandidates (inputTable, distanceLimit)</strong>
+    </dt>
+    <dd>
+    this finds things
+ allegedly, not great though
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">inputTable</span>
+         what.
+        </li>
+        <li><span class="parameter">distanceLimit</span>
+         what.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Sailplan_stuff"></a>Sailplan stuff </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator:isAtDestination"></a>
+    <strong>Navigator:isAtDestination ()</strong>
+    </dt>
+    <dd>
+    Returns true if current position matches destination position.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True if at destination position.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Autopilot"></a>Autopilot </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator.autopilot"></a>
+    <strong>Navigator.autopilot</strong>
+    </dt>
+    <dd>
+    Container for autopilot functionality
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">_autopilotEnabled</span>
+        If autopilot is enabled
+        </li>
+        <li><span class="parameter">_stoppedToTurn</span>
+        If autopilot is stopped for purposes of turning
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:checkAlignment"></a>
+    <strong>Navigator:checkAlignment ()</strong>
+    </dt>
+    <dd>
+    These do things, I guess.
+ Yep. I guess.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:waypointTurn"></a>
+    <strong>Navigator:waypointTurn ()</strong>
+    </dt>
+    <dd>
+    These do things, I guess.
+ Yep. I guess.
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Maps_and_map_readers"></a>Maps and map readers </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "Navigator.maps"></a>
+    <strong>Navigator.maps</strong>
+    </dt>
+    <dd>
+    Container for maps
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator.maps.full"></a>
+    <strong>Navigator.maps.full</strong>
+    </dt>
+    <dd>
+    Full world map as a table.  Table indices are 1 higher than their actual coordinate value!
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator.maps.current"></a>
+    <strong>Navigator.maps.current</strong>
+    </dt>
+    <dd>
+    The last map sent to us by the game.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:isOurShip"></a>
+    <strong>Navigator:isOurShip ()</strong>
+    </dt>
+    <dd>
+    True if = under the cursor is our ship, as determined by text colour.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:isSeamonster"></a>
+    <strong>Navigator:isSeamonster ()</strong>
+    </dt>
+    <dd>
+    True if M under cursor is a seamonster, as determined by the text colour.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Navigator:isTargetShip"></a>
+    <strong>Navigator:isTargetShip ()</strong>
+    </dt>
+    <dd>
+    True if = under the cursor is our ship, as determined by text colour.
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-01-07 07:27:16 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

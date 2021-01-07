@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Initialisation_methods">Initialisation methods </a></li>
+<li><a href="#Notification_methods">Notification methods </a></li>
+<li><a href="#Page_methods">Page methods </a></li>
+<li><a href="#Query_methods">Query methods </a></li>
+<li><a href="#Output_methods">Output methods </a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><strong>MFD</strong></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/Navigator.html">Navigator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>MFD</code></h1>
+<p>Display for general shipboard use.</p>
+<p> Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.</p>
+
+
+<h2><a href="#Initialisation_methods">Initialisation methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MFD:new">MFD:new ()</a></td>
+	<td class="summary">Creates a new intance of the MFD class.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#MFD:build">MFD:build (mfd_name, mfd_X, mfd_Y)</a></td>
+	<td class="summary">Creates and blanks the MFD display.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#self.container">self.container</a></td>
+	<td class="summary">The container that holds all of the things</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#self.console">self.console</a></td>
+	<td class="summary">The console itself</td>
+	</tr>
+</table>
+<h2><a href="#Notification_methods">Notification methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MFD:notify">MFD:notify (text, displayTime, fontSize, bgColour, fgColour)</a></td>
+	<td class="summary">Raises an on-screen notification, with multiple options for styling.</td>
+	</tr>
+</table>
+<h2><a href="#Page_methods">Page methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MFD:writeNavPage">MFD:writeNavPage ()</a></td>
+	<td class="summary">Writes UACS and related data to the screen.</td>
+	</tr>
+</table>
+<h2><a href="#Query_methods">Query methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MFD:getColour">MFD:getColour ()</a></td>
+	<td class="summary">Retrieves current time of day from Time object, if present.</td>
+	</tr>
+</table>
+<h2><a href="#Output_methods">Output methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#MFD:cls">MFD:cls ()</a></td>
+	<td class="summary">Resets and erases the entire screen, and readies for writing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#MFD:drawBorderNav">MFD:drawBorderNav (colour)</a></td>
+	<td class="summary">Draws a basic border around the edges of the screen, arranged for Nav page.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#MFD:setCursor">MFD:setCursor (inputX, inputY, doBlink)</a></td>
+	<td class="summary">Places an underscore at the given X,Y with optional blinking.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#MFD:write">MFD:write (writeText, writeX, writeY, fgColour, bgColour)</a></td>
+	<td class="summary">Writes text to the MFD.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header has-description"><a name="Initialisation_methods"></a>Initialisation methods </h2>
+
+          <div class="section-description">
+           For creating and Initialising MFD object.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MFD:new"></a>
+    <strong>MFD:new ()</strong>
+    </dt>
+    <dd>
+    Creates a new intance of the MFD class.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A new instance of the MFD class.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD = MFD:new()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "MFD:build"></a>
+    <strong>MFD:build (mfd_name, mfd_X, mfd_Y)</strong>
+    </dt>
+    <dd>
+    Creates and blanks the MFD display.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">mfd_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name for the consoles and such. Should be identical to object's unique name.
+        </li>
+        <li><span class="parameter">mfd_X</span>
+            <span class="types"><span class="type">int</span></span>
+         X screen coordinate of MFD's top-left point.
+        </li>
+        <li><span class="parameter">mfd_Y</span>
+            <span class="types"><span class="type">int</span></span>
+         Y screen coordinate of MFD's top-left point.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if successful.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:build(<span class="string">"myMFD"</span>,<span class="number">240</span>,<span class="number">632</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "self.container"></a>
+    <strong>self.container</strong>
+    </dt>
+    <dd>
+    The container that holds all of the things
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "self.console"></a>
+    <strong>self.console</strong>
+    </dt>
+    <dd>
+    The console itself
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Notification_methods"></a>Notification methods </h2>
+
+          <div class="section-description">
+           For drawing notifications on-screen.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MFD:notify"></a>
+    <strong>MFD:notify (text, displayTime, fontSize, bgColour, fgColour)</strong>
+    </dt>
+    <dd>
+    Raises an on-screen notification, with multiple options for styling.
+ Raises a notification on screen, centered in lower-middle.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+         string The notification text to display.
+        </li>
+        <li><span class="parameter">displayTime</span>
+         int How many seconds to show the notification. 0 leaves notification indefinitely.
+        </li>
+        <li><span class="parameter">fontSize</span>
+         int The font size to use (default 12).
+        </li>
+        <li><span class="parameter">bgColour</span>
+         <em>[optional]</em> <strong><em>string</em></strong> Colour to use for alert background, as hex string.
+        </li>
+        <li><span class="parameter">fgColour</span>
+         <em>[optional]</em> <strong><em>string</em></strong> Colour to use for foreground text, as HTML colour name.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:notify(<span class="string">"Testing..."</span>, <span class="number">160</span>, <span class="number">50</span>, <span class="number">2</span>, <span class="number">12</span>, <span class="string">"#004400"</span>, <span class="string">"yellow"</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Page_methods"></a>Page methods </h2>
+
+          <div class="section-description">
+           Stuff for drawing full pages of text to the MFD screen in a single routine.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MFD:writeNavPage"></a>
+    <strong>MFD:writeNavPage ()</strong>
+    </dt>
+    <dd>
+    Writes UACS and related data to the screen.
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:writeNavPage()</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Query_methods"></a>Query methods </h2>
+
+          <div class="section-description">
+           Stuff for retrieving data to help us draw to the screen.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MFD:getColour"></a>
+    <strong>MFD:getColour ()</strong>
+    </dt>
+    <dd>
+    Retrieves current time of day from Time object, if present.
+  Defaults to green if no Time object.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        HTML colour string, depending on Time:isNight().
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">html_colour = MFD:getColour()</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Output_methods"></a>Output methods </h2>
+
+          <div class="section-description">
+           Stuff for outputting to the MFD screen.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "MFD:cls"></a>
+    <strong>MFD:cls ()</strong>
+    </dt>
+    <dd>
+    Resets and erases the entire screen, and readies for writing.
+ Clears the entirety of the consoles, and fills it with spaces so write functions can successfully locate.
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:cls() myMFD:drawBorder()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "MFD:drawBorderNav"></a>
+    <strong>MFD:drawBorderNav (colour)</strong>
+    </dt>
+    <dd>
+    Draws a basic border around the edges of the screen, arranged for Nav page.
+ Will overwrite any text beneath the border!
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">colour</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         <em>[optional]</em> Colour to draw border in, as HTML colour name.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:drawBorderNav(<span class="string">"forest_green"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "MFD:setCursor"></a>
+    <strong>MFD:setCursor (inputX, inputY, doBlink)</strong>
+    </dt>
+    <dd>
+    Places an underscore at the given X,Y with optional blinking.
+ Purely aesthetic, serves no functional purpose.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">inputX</span>
+
+<ul>
+    <li><strong><em>num</em></strong> X coordinate of cursor position.</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">inputY</span>
+
+<ul>
+    <li><strong><em>num</em></strong> Y coordinate of cursor position.</li>
+</ul>
+
+        </li>
+        <li><span class="parameter">doBlink</span>
+
+<ul>
+    <li><strong><em>bool</em></strong> Blink cursor at the rate of cursorRate if true.</li>
+</ul>
+
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:setCursor(<span class="number">25</span>,<span class="number">12</span>,<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "MFD:write"></a>
+    <strong>MFD:write (writeText, writeX, writeY, fgColour, bgColour)</strong>
+    </dt>
+    <dd>
+    Writes text to the MFD.
+ Writes text of arbitrary length, position, and colour to the MFD. Overwrites existing text for the length of the string.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">writeText</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The text to be written to the MFD.
+        </li>
+        <li><span class="parameter">writeX</span>
+            <span class="types"><span class="type">int</span></span>
+         X position of cursor, where text will be inserted. 0-51
+        </li>
+        <li><span class="parameter">writeY</span>
+            <span class="types"><span class="type">int</span></span>
+         Y position of cursor, where text will be inserted. 0-15
+        </li>
+        <li><span class="parameter">fgColour</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         <em>[optional]</em> Colour to be used for the text foreground colour, as HTML colour name. Defaults to standard day/night colour if not specified.
+        </li>
+        <li><span class="parameter">bgColour</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         <em>[optional]</em> Colour to be used for the text background colour, as HTML colour name. Defaults to *near_black* if not specified.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if write successful.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">myMFD:write(<span class="string">"Beginning Δcal routine..."</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="string">"green"</span>, <span class="string">"dim_grey"</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-01-07 07:27:16 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
