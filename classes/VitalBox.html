@@ -32,11 +32,7 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Initialisation">Initialisation </a></li>
-<li><a href="#Gauge_methods">Gauge methods </a></li>
-<li><a href="#Label_methods">Label methods </a></li>
-<li><a href="#Battlerage_methods">Battlerage methods </a></li>
-<li><a href="#Misc_methods">Misc methods </a></li>
+<li><a href="#Functions">Functions</a></li>
 </ul>
 
 
@@ -48,21 +44,21 @@
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
-  <li><strong>VitalsBox</strong></li>
+  <li><strong>VitalBox</strong></li>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Class <code>VitalsBox</code></h1>
+<h1>Class <code>VitalBox</code></h1>
 <p>Gauges that sit at the bottom and do gauge things.</p>
 <p>
 
 </p>
 
 
-<h2><a href="#Initialisation">Initialisation </a></h2>
+<h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new ()</a></td>
@@ -71,13 +67,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:build">VitalsBox:build (_elementX, _elementY)</a></td>
 	<td class="summary">Constructs the actual box itself.</td>
-	</tr>
-</table>
-<h2><a href="#Gauge_methods">Gauge methods </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setEndurance">VitalsBox:setEndurance (_currentEnd, _maxEnd)</a></td>
-	<td class="summary">Sets endurance gauge and text.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setHealth">VitalsBox:setHealth (_currentHP, _maxHP)</a></td>
@@ -88,16 +77,21 @@
 	<td class="summary">Sets MP gauge and text.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setTargetHealth">VitalsBox:setTargetHealth (_value)</a></td>
-	<td class="summary">Sets target HP gauge and readout.</td>
+	<td class="name" nowrap><a href="#VitalsBox:setLowHP">VitalsBox:setLowHP (_value)</a></td>
+	<td class="summary">Sets low HP warning indicator.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setWillpower">VitalsBox:setWillpower (_currentWP, _maxWP)</a></td>
+	<td class="name" nowrap><a href="#VitalsBox:setEndurance">VitalsBox:setEndurance (_currentEndurance, _maxEndurance)</a></td>
+	<td class="summary">Sets endurance gauge and text.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:setWillpower">VitalsBox:setWillpower (_currentWillpower, _maxWillpower)</a></td>
 	<td class="summary">Sets willpower gauge and text.</td>
 	</tr>
-</table>
-<h2><a href="#Label_methods">Label methods </a></h2>
-<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:setRage">VitalsBox:setRage (_currentRage)</a></td>
+	<td class="summary">Sets rage text.</td>
+	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setBalance">VitalsBox:setBalance (balance)</a></td>
 	<td class="summary">Sets balance indicator.</td>
@@ -107,26 +101,16 @@
 	<td class="summary">Sets equilibrium indicator.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setLowHP">VitalsBox:setLowHP (_value)</a></td>
-	<td class="summary">Sets low HP warning indicator.</td>
+	<td class="name" nowrap><a href="#VitalsBox:showTargetHP">VitalsBox:showTargetHP (_show)</a></td>
+	<td class="summary">Shows or hides target information.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setTargetName">VitalsBox:setTargetName (_name)</a></td>
 	<td class="summary">Sets target name to be displayed.</td>
 	</tr>
-</table>
-<h2><a href="#Battlerage_methods">Battlerage methods </a></h2>
-<table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setRage">VitalsBox:setRage (_currentRage)</a></td>
-	<td class="summary">Sets rage text.</td>
-	</tr>
-</table>
-<h2><a href="#Misc_methods">Misc methods </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:showTargetHP">VitalsBox:showTargetHP (_show)</a></td>
-	<td class="summary">Shows or hides target information.</td>
+	<td class="name" nowrap><a href="#VitalsBox:setTargetHealth">VitalsBox:setTargetHealth (_value)</a></td>
+	<td class="summary">Sets target HP gauge and readout.</td>
 	</tr>
 </table>
 
@@ -134,8 +118,8 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
-
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+    Methods
     <dl class="function">
     <dt>
     <a name = "VitalsBox:new"></a>
@@ -188,35 +172,6 @@
     <ul>
         <pre class="example">vitals:build(<span class="number">489</span>,<span class="number">916</span>)</pre>
     </ul>
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="Gauge_methods"></a>Gauge methods </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "VitalsBox:setEndurance"></a>
-    <strong>VitalsBox:setEndurance (_currentEnd, _maxEnd)</strong>
-    </dt>
-    <dd>
-    Sets endurance gauge and text.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_currentEnd</span>
-            <span class="types"><span class="type">int</span></span>
-         Current endurance
-        </li>
-        <li><span class="parameter">_maxEnd</span>
-            <span class="types"><span class="type">int</span></span>
-         Maximum endurance
-        </li>
-    </ul>
-
-
-
-
 
 </dd>
     <dt>
@@ -278,18 +233,18 @@
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setTargetHealth"></a>
-    <strong>VitalsBox:setTargetHealth (_value)</strong>
+    <a name = "VitalsBox:setLowHP"></a>
+    <strong>VitalsBox:setLowHP (_value)</strong>
     </dt>
     <dd>
-    Sets target HP gauge and readout.
+    Sets low HP warning indicator.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_value</span>
-            <span class="types"><span class="type">int</span></span>
-         Target HP (percent)
+            <span class="types"><span class="type">boolean</span></span>
+         True, to enable low HP warnings.
         </li>
     </ul>
 
@@ -298,13 +253,38 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setTargetHealth(<span class="number">57</span>)</pre>
+        <pre class="example">vitals:setLowHP(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
     <dt>
+    <a name = "VitalsBox:setEndurance"></a>
+    <strong>VitalsBox:setEndurance (_currentEndurance, _maxEndurance)</strong>
+    </dt>
+    <dd>
+    Sets endurance gauge and text.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_currentEndurance</span>
+            <span class="types"><span class="type">int</span></span>
+         Current endurance
+        </li>
+        <li><span class="parameter">_maxEndurance</span>
+            <span class="types"><span class="type">int</span></span>
+         Maximum endurance
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "VitalsBox:setWillpower"></a>
-    <strong>VitalsBox:setWillpower (_currentWP, _maxWP)</strong>
+    <strong>VitalsBox:setWillpower (_currentWillpower, _maxWillpower)</strong>
     </dt>
     <dd>
     Sets willpower gauge and text.
@@ -312,11 +292,11 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_currentWP</span>
+        <li><span class="parameter">_currentWillpower</span>
             <span class="types"><span class="type">int</span></span>
          Current willpower
         </li>
-        <li><span class="parameter">_maxWP</span>
+        <li><span class="parameter">_maxWillpower</span>
             <span class="types"><span class="type">int</span></span>
          Maximum willpower
         </li>
@@ -327,10 +307,27 @@
 
 
 </dd>
-</dl>
-    <h2 class="section-header "><a name="Label_methods"></a>Label methods </h2>
+    <dt>
+    <a name = "VitalsBox:setRage"></a>
+    <strong>VitalsBox:setRage (_currentRage)</strong>
+    </dt>
+    <dd>
+    Sets rage text.
 
-    <dl class="function">
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_currentRage</span>
+            <span class="types"><span class="type">int</span></span>
+         Current rage
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
     <dt>
     <a name = "VitalsBox:setBalance"></a>
     <strong>VitalsBox:setBalance (balance)</strong>
@@ -382,18 +379,18 @@
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setLowHP"></a>
-    <strong>VitalsBox:setLowHP (_value)</strong>
+    <a name = "VitalsBox:showTargetHP"></a>
+    <strong>VitalsBox:showTargetHP (_show)</strong>
     </dt>
     <dd>
-    Sets low HP warning indicator.
+    Shows or hides target information.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_value</span>
-            <span class="types"><span class="type">boolean</span></span>
-         True, to enable low HP warnings.
+        <li><span class="parameter">_show</span>
+            <span class="types"><span class="type">bool</span></span>
+         True to show self._targetHP, false to hide.
         </li>
     </ul>
 
@@ -402,7 +399,7 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setLowHP(<span class="keyword">true</span>)</pre>
+        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
@@ -431,48 +428,19 @@
     </ul>
 
 </dd>
-</dl>
-    <h2 class="section-header "><a name="Battlerage_methods"></a>Battlerage methods </h2>
-
-    <dl class="function">
     <dt>
-    <a name = "VitalsBox:setRage"></a>
-    <strong>VitalsBox:setRage (_currentRage)</strong>
+    <a name = "VitalsBox:setTargetHealth"></a>
+    <strong>VitalsBox:setTargetHealth (_value)</strong>
     </dt>
     <dd>
-    Sets rage text.
+    Sets target HP gauge and readout.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_currentRage</span>
+        <li><span class="parameter">_value</span>
             <span class="types"><span class="type">int</span></span>
-         Current rage
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "VitalsBox:showTargetHP"></a>
-    <strong>VitalsBox:showTargetHP (_show)</strong>
-    </dt>
-    <dd>
-    Shows or hides target information.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_show</span>
-            <span class="types"><span class="type">bool</span></span>
-         True to show self._targetHP, false to hide.
+         Target HP (percent)
         </li>
     </ul>
 
@@ -481,7 +449,7 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
+        <pre class="example">vitals:setTargetHealth(<span class="number">57</span>)</pre>
     </ul>
 
 </dd>
@@ -492,7 +460,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-09 00:15:56 </i>
+<i style="float:right;">Last updated 2021-01-09 00:04:37 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
