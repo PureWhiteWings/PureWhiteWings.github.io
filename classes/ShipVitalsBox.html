@@ -33,9 +33,9 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Initialisation">Initialisation </a></li>
+<li><a href="#Misc_methods">Misc methods </a></li>
 <li><a href="#Gauge_methods">Gauge methods </a></li>
 <li><a href="#Label_methods">Label methods </a></li>
-<li><a href="#Misc_methods">Misc methods </a></li>
 </ul>
 
 
@@ -47,6 +47,7 @@
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
   <li><strong>ShipVitalsBox</strong></li>
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
@@ -71,6 +72,21 @@
 	<tr>
 	<td class="name" nowrap><a href="#ShipVitalsBox:new">ShipVitalsBox:new (_name, _elementX, _elementY)</a></td>
 	<td class="summary">Creates a new instance of the ShipVitalsBox class.</td>
+	</tr>
+</table>
+<h2><a href="#Misc_methods">Misc methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setVisible">ShipVitalsBox:setVisible (_visible)</a></td>
+	<td class="summary">Shows or hides the whole object on the screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setLowHP">ShipVitalsBox:setLowHP (_value)</a></td>
+	<td class="summary">Handles audio alerts for low HP.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:update">ShipVitalsBox:update ()</a></td>
+	<td class="summary">Updates all prompt-tagged elements in a single call.</td>
 	</tr>
 </table>
 <h2><a href="#Gauge_methods">Gauge methods </a></h2>
@@ -127,21 +143,6 @@
 	<td class="summary">Handles updating after SVO ship prompt.</td>
 	</tr>
 </table>
-<h2><a href="#Misc_methods">Misc methods </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#ShipVitalsBox:setVisible">ShipVitalsBox:setVisible (_visible)</a></td>
-	<td class="summary">Shows or hides the whole object on the screen.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#ShipVitalsBox:setLowHP">ShipVitalsBox:setLowHP (_value)</a></td>
-	<td class="summary">Handles audio alerts for low HP.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#ShipVitalsBox:update">ShipVitalsBox:update ()</a></td>
-	<td class="summary">Updates all instance elements in a single call.</td>
-	</tr>
-</table>
 
 <br/>
 <br/>
@@ -187,6 +188,82 @@
     <ul>
         <pre class="example">vitals = ShipVitalsBox:new(<span class="string">"shipVitals"</span>, <span class="number">964</span>, <span class="number">955</span>)</pre>
     </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "ShipVitalsBox:setVisible"></a>
+    <strong>ShipVitalsBox:setVisible (_visible)</strong>
+    </dt>
+    <dd>
+    Shows or hides the whole object on the screen.
+ Just a shortcut for things like getting into my ship UI.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_visible</span>
+            <span class="types"><span class="type">bool</span></span>
+         True to show object, false to hide.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">shipVitalsBox:setVisible(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:setLowHP"></a>
+    <strong>ShipVitalsBox:setLowHP (_value)</strong>
+    </dt>
+    <dd>
+    Handles audio alerts for low HP.  Plays sounds if true, and conditions within met.
+ Unlike VitalsBox counterpart, does <em>not</em> have flashers.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_value</span>
+            <span class="types"><span class="type">boolean</span></span>
+         True, if in low HP state.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">shipVitalsBox:setLowHP(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:update"></a>
+    <strong>ShipVitalsBox:update ()</strong>
+    </dt>
+    <dd>
+    Updates all prompt-tagged elements in a single call.
+ Fires off of the event "svo done with prompt" by default.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
+
+
+
 
 </dd>
 </dl>
@@ -497,89 +574,13 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "ShipVitalsBox:setVisible"></a>
-    <strong>ShipVitalsBox:setVisible (_visible)</strong>
-    </dt>
-    <dd>
-    Shows or hides the whole object on the screen.
- Just a shortcut for things like getting into my ship UI.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_visible</span>
-            <span class="types"><span class="type">bool</span></span>
-         True to show object, false to hide.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">shipVitalsBox:setVisible(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "ShipVitalsBox:setLowHP"></a>
-    <strong>ShipVitalsBox:setLowHP (_value)</strong>
-    </dt>
-    <dd>
-    Handles audio alerts for low HP.  Plays sounds if true, and conditions within met.
- Unlike VitalsBox counterpart, does <em>not</em> have flashers.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_value</span>
-            <span class="types"><span class="type">boolean</span></span>
-         True, if in low HP state.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">shipVitalsBox:setLowHP(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "ShipVitalsBox:update"></a>
-    <strong>ShipVitalsBox:update ()</strong>
-    </dt>
-    <dd>
-    Updates all instance elements in a single call.
- Fires off of the event "svo done with prompt" by default.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        None.
-    </ol>
-
-
-
-
-</dd>
-</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-12 06:15:01 </i>
+<i style="float:right;">Last updated 2021-01-12 11:11:48 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

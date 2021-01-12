@@ -32,19 +32,20 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Initialisation_methods">Initialisation methods </a></li>
+<li><a href="#Initialisation">Initialisation </a></li>
 </ul>
 
 
 <h2>Classes</h2>
 <ul class="nowrap">
+  <li><strong>classbox</strong></li>
   <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/LCDtext.html">LCDtext</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
   <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
-  <li><strong>ShipAnnunciator</strong></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
-  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
   <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
@@ -57,20 +58,22 @@
 
 <div id="content">
 
-<h1>Class <code>ShipAnnunciator</code></h1>
-<p>Display for general shipboard use.</p>
-<p> Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.</p>
+<h1>Class <code>classbox</code></h1>
+<p>Bunch of stuff to do specific with class, in a VitalsBox.</p>
+<p>
+
+</p>
 
 
-<h2><a href="#Initialisation_methods">Initialisation methods </a></h2>
+<h2><a href="#Initialisation">Initialisation </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ShipAnnunciator:new">ShipAnnunciator:new ()</a></td>
-	<td class="summary">Creates a new instance of the ShipAnnunciator class.</td>
+	<td class="name" nowrap><a href="#ClassBox:new">ClassBox:new (_name)</a></td>
+	<td class="summary">Creates a new instance of the ClassBox class.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ShipAnnunciator:setVisible">ShipAnnunciator:setVisible (element, showElement)</a></td>
-	<td class="summary">Toggles element visibility via boolean input.</td>
+	<td class="name" nowrap><a href="#ClassBox:build">ClassBox:build (_elementX, _elementY)</a></td>
+	<td class="summary">Constructs the actual box itself.</td>
 	</tr>
 </table>
 
@@ -78,53 +81,57 @@
 <br/>
 
 
-    <h2 class="section-header has-description"><a name="Initialisation_methods"></a>Initialisation methods </h2>
+    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
 
-          <div class="section-description">
-           For creating and Initialising MFD object.
-          </div>
     <dl class="function">
     <dt>
-    <a name = "ShipAnnunciator:new"></a>
-    <strong>ShipAnnunciator:new ()</strong>
+    <a name = "ClassBox:new"></a>
+    <strong>ClassBox:new (_name)</strong>
     </dt>
     <dd>
-    Creates a new instance of the ShipAnnunciator class.
+    Creates a new instance of the ClassBox class.
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Instance name, should be identical to variable instance is assigned to.
+        </li>
+    </ul>
 
     <h3>Returns:</h3>
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        A new instance of the ShipAnnunciator class.
+        A new instance of the ClassBox class.
     </ol>
 
 
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">annunc = ShipAnnunciator:new()</pre>
+        <pre class="example">myClassBox = ClassBox:new()</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "ShipAnnunciator:setVisible"></a>
-    <strong>ShipAnnunciator:setVisible (element, showElement)</strong>
+    <a name = "ClassBox:build"></a>
+    <strong>ClassBox:build (_elementX, _elementY)</strong>
     </dt>
     <dd>
-    Toggles element visibility via boolean input.
+    Constructs the actual box itself.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">element</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         The element to hide/show.
+        <li><span class="parameter">_elementX</span>
+            <span class="types"><span class="type">number</span></span>
+         X coordinate of ClassBox, in screen coordinates.
         </li>
-        <li><span class="parameter">showElement</span>
-            <span class="types"><span class="type">bool</span></span>
-         Show if true, hide if false.
+        <li><span class="parameter">_elementY</span>
+            <span class="types"><span class="type">number</span></span>
+         Y coordinate of ClassBox, in screen coordinates.
         </li>
     </ul>
 
@@ -133,7 +140,7 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">annunc = ShipAnnunciator:new()</pre>
+        <pre class="example">myClassBox:build(<span class="number">489</span>,<span class="number">916</span>)</pre>
     </ul>
 
 </dd>
@@ -144,7 +151,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-12 11:11:48 </i>
+<i style="float:right;">Last updated 2021-01-12 06:17:11 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

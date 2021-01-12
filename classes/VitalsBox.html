@@ -33,9 +33,9 @@
 <h2>Contents</h2>
 <ul>
 <li><a href="#Initialisation">Initialisation </a></li>
+<li><a href="#Misc_methods">Misc methods </a></li>
 <li><a href="#Gauge_methods">Gauge methods </a></li>
 <li><a href="#Label_methods">Label methods </a></li>
-<li><a href="#Misc_methods">Misc methods </a></li>
 <li><a href="#Battlerage_methods">Battlerage methods </a></li>
 </ul>
 
@@ -48,6 +48,7 @@
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
   <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
   <li><strong>VitalsBox</strong></li>
 </ul>
@@ -72,6 +73,17 @@
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
 	<td class="summary">Creates a new instance of the VitalsBox class.</td>
+	</tr>
+</table>
+<h2><a href="#Misc_methods">Misc methods </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:showTargetHP">VitalsBox:showTargetHP (_show)</a></td>
+	<td class="summary">Shows or hides target information.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:setVisible">VitalsBox:setVisible (_visible)</a></td>
+	<td class="summary">Shows or hides the whole object on the screen.</td>
 	</tr>
 </table>
 <h2><a href="#Gauge_methods">Gauge methods </a></h2>
@@ -114,17 +126,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setTargetName">VitalsBox:setTargetName (_name)</a></td>
 	<td class="summary">Sets target name to be displayed.</td>
-	</tr>
-</table>
-<h2><a href="#Misc_methods">Misc methods </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:showTargetHP">VitalsBox:showTargetHP (_show)</a></td>
-	<td class="summary">Shows or hides target information.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setVisible">VitalsBox:setVisible (_visible)</a></td>
-	<td class="summary">Shows or hides the whole object on the screen.</td>
 	</tr>
 </table>
 <h2><a href="#Battlerage_methods">Battlerage methods </a></h2>
@@ -178,6 +179,61 @@
     <h3>Usage:</h3>
     <ul>
         <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "VitalsBox:showTargetHP"></a>
+    <strong>VitalsBox:showTargetHP (_show)</strong>
+    </dt>
+    <dd>
+    Shows or hides target information.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_show</span>
+            <span class="types"><span class="type">bool</span></span>
+         True to show self._targetHP, false to hide.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "VitalsBox:setVisible"></a>
+    <strong>VitalsBox:setVisible (_visible)</strong>
+    </dt>
+    <dd>
+    Shows or hides the whole object on the screen.
+ Just a shortcut for things like getting into my ship UI.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_visible</span>
+            <span class="types"><span class="type">bool</span></span>
+         True to show object, false to hide.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
@@ -423,61 +479,6 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "VitalsBox:showTargetHP"></a>
-    <strong>VitalsBox:showTargetHP (_show)</strong>
-    </dt>
-    <dd>
-    Shows or hides target information.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_show</span>
-            <span class="types"><span class="type">bool</span></span>
-         True to show self._targetHP, false to hide.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "VitalsBox:setVisible"></a>
-    <strong>VitalsBox:setVisible (_visible)</strong>
-    </dt>
-    <dd>
-    Shows or hides the whole object on the screen.
- Just a shortcut for things like getting into my ship UI.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_visible</span>
-            <span class="types"><span class="type">bool</span></span>
-         True to show object, false to hide.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-</dl>
     <h2 class="section-header "><a name="Battlerage_methods"></a>Battlerage methods </h2>
 
     <dl class="function">
@@ -510,7 +511,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-12 06:15:01 </i>
+<i style="float:right;">Last updated 2021-01-12 11:11:48 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
