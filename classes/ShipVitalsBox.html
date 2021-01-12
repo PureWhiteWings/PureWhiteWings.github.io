@@ -36,7 +36,6 @@
 <li><a href="#Gauge_methods">Gauge methods </a></li>
 <li><a href="#Label_methods">Label methods </a></li>
 <li><a href="#Misc_methods">Misc methods </a></li>
-<li><a href="#Battlerage_methods">Battlerage methods </a></li>
 </ul>
 
 
@@ -48,8 +47,8 @@
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
-  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
-  <li><strong>VitalsBox</strong></li>
+  <li><strong>ShipVitalsBox</strong></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
 <h2>Modules</h2>
 <ul class="nowrap">
@@ -60,8 +59,8 @@
 
 <div id="content">
 
-<h1>Class <code>VitalsBox</code></h1>
-<p>Gauges that sit at the bottom and do gauge things.</p>
+<h1>Class <code>ShipVitalsBox</code></h1>
+<p>Gauges that sit at the bottom and do gauge things related to things to do on a ship.</p>
 <p>
 
 </p>
@@ -70,68 +69,77 @@
 <h2><a href="#Initialisation">Initialisation </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
-	<td class="summary">Creates a new instance of the VitalsBox class.</td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:new">ShipVitalsBox:new (_name, _elementX, _elementY)</a></td>
+	<td class="summary">Creates a new instance of the ShipVitalsBox class.</td>
 	</tr>
 </table>
 <h2><a href="#Gauge_methods">Gauge methods </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setEndurance">VitalsBox:setEndurance (_currentEnd, _maxEnd)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setEndurance">ShipVitalsBox:setEndurance (_currentEnd, _maxEnd)</a></td>
 	<td class="summary">Sets endurance gauge and text.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setHealth">VitalsBox:setHealth (_currentHP, _maxHP)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setFigurehead">ShipVitalsBox:setFigurehead (_currentCharge)</a></td>
+	<td class="summary">UNDOCUMENTED</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setHealth">ShipVitalsBox:setHealth (_currentHP, _maxHP)</a></td>
 	<td class="summary">Sets HP gauge and text.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setMana">VitalsBox:setMana (_currentMP, _maxMP)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setMana">ShipVitalsBox:setMana (_currentMP, _maxMP)</a></td>
 	<td class="summary">Sets MP gauge and text.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setTargetHealth">VitalsBox:setTargetHealth (_value)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setSeamonsterGauge">ShipVitalsBox:setSeamonsterGauge (currentHealth, maxHealth)</a></td>
+	<td class="summary">UNDOCUMENTED</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setTargetHealth">ShipVitalsBox:setTargetHealth (_value)</a></td>
 	<td class="summary">Sets target HP gauge and readout.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setWillpower">VitalsBox:setWillpower (_currentWP, _maxWP)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setWillpower">ShipVitalsBox:setWillpower (_currentWP, _maxWP)</a></td>
 	<td class="summary">Sets willpower gauge and text.</td>
 	</tr>
 </table>
 <h2><a href="#Label_methods">Label methods </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setBalance">VitalsBox:setBalance (_labelBalance)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setBalance">ShipVitalsBox:setBalance (_haveBalance)</a></td>
 	<td class="summary">Sets balance indicator.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setEquilibrium">VitalsBox:setEquilibrium (_labelBalance)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setCrewBalanceLabel">ShipVitalsBox:setCrewBalanceLabel (_haveBalance)</a></td>
+	<td class="summary">UNDOCUMENTED</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setEquilibrium">ShipVitalsBox:setEquilibrium (_haveEquilibrium)</a></td>
 	<td class="summary">Sets equilibrium indicator.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setLowHP">VitalsBox:setLowHP (_value)</a></td>
-	<td class="summary">Sets low HP warning indicator.</td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setTargetName">ShipVitalsBox:setTargetName (_name)</a></td>
+	<td class="summary">Sets target name to be displayed.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setTargetName">VitalsBox:setTargetName (_name)</a></td>
-	<td class="summary">Sets target name to be displayed.</td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:promptUpdate">ShipVitalsBox:promptUpdate ()</a></td>
+	<td class="summary">Handles updating after SVO ship prompt.</td>
 	</tr>
 </table>
 <h2><a href="#Misc_methods">Misc methods </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:showTargetHP">VitalsBox:showTargetHP (_show)</a></td>
-	<td class="summary">Shows or hides target information.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setVisible">VitalsBox:setVisible (_visible)</a></td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setVisible">ShipVitalsBox:setVisible (_visible)</a></td>
 	<td class="summary">Shows or hides the whole object on the screen.</td>
 	</tr>
-</table>
-<h2><a href="#Battlerage_methods">Battlerage methods </a></h2>
-<table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:setRage">VitalsBox:setRage (_currentRage)</a></td>
-	<td class="summary">Sets rage text.</td>
+	<td class="name" nowrap><a href="#ShipVitalsBox:setLowHP">ShipVitalsBox:setLowHP (_value)</a></td>
+	<td class="summary">Handles audio alerts for low HP.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#ShipVitalsBox:update">ShipVitalsBox:update ()</a></td>
+	<td class="summary">Updates all instance elements in a single call.</td>
 	</tr>
 </table>
 
@@ -143,11 +151,11 @@
 
     <dl class="function">
     <dt>
-    <a name = "VitalsBox:new"></a>
-    <strong>VitalsBox:new (_name, _elementX, _elementY)</strong>
+    <a name = "ShipVitalsBox:new"></a>
+    <strong>ShipVitalsBox:new (_name, _elementX, _elementY)</strong>
     </dt>
     <dd>
-    Creates a new instance of the VitalsBox class.
+    Creates a new instance of the ShipVitalsBox class.
 
 
     <h3>Parameters:</h3>
@@ -158,11 +166,11 @@
         </li>
         <li><span class="parameter">_elementX</span>
             <span class="types"><span class="type">number</span></span>
-         X coordinate of VitalsBox, in screen coordinates.
+         X coordinate of ShipVitalsBox, in screen coordinates.
         </li>
         <li><span class="parameter">_elementY</span>
             <span class="types"><span class="type">number</span></span>
-         Y coordinate of VitalsBox, in screen coordinates.
+         Y coordinate of ShipVitalsBox, in screen coordinates.
         </li>
     </ul>
 
@@ -170,14 +178,14 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        A new instance of the VitalsBox class.
+        A new instance of the ShipVitalsBox class.
     </ol>
 
 
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
+        <pre class="example">vitals = ShipVitalsBox:new(<span class="string">"shipVitals"</span>, <span class="number">964</span>, <span class="number">955</span>)</pre>
     </ul>
 
 </dd>
@@ -186,8 +194,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "VitalsBox:setEndurance"></a>
-    <strong>VitalsBox:setEndurance (_currentEnd, _maxEnd)</strong>
+    <a name = "ShipVitalsBox:setEndurance"></a>
+    <strong>ShipVitalsBox:setEndurance (_currentEnd, _maxEnd)</strong>
     </dt>
     <dd>
     Sets endurance gauge and text.
@@ -211,8 +219,30 @@
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setHealth"></a>
-    <strong>VitalsBox:setHealth (_currentHP, _maxHP)</strong>
+    <a name = "ShipVitalsBox:setFigurehead"></a>
+    <strong>ShipVitalsBox:setFigurehead (_currentCharge)</strong>
+    </dt>
+    <dd>
+    UNDOCUMENTED
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_currentCharge</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:setHealth"></a>
+    <strong>ShipVitalsBox:setHealth (_currentHP, _maxHP)</strong>
     </dt>
     <dd>
     Sets HP gauge and text.
@@ -235,13 +265,13 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setHealth(<span class="number">3723</span>, <span class="number">5200</span>)</pre>
+        <pre class="example">shipVitalsBox:setHealth(<span class="number">3723</span>, <span class="number">5200</span>)</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setMana"></a>
-    <strong>VitalsBox:setMana (_currentMP, _maxMP)</strong>
+    <a name = "ShipVitalsBox:setMana"></a>
+    <strong>ShipVitalsBox:setMana (_currentMP, _maxMP)</strong>
     </dt>
     <dd>
     Sets MP gauge and text.
@@ -264,13 +294,40 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setMana(<span class="number">4158</span>, <span class="number">4700</span>)</pre>
+        <pre class="example">shipVitalsBox:setMana(<span class="number">4158</span>, <span class="number">4700</span>)</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setTargetHealth"></a>
-    <strong>VitalsBox:setTargetHealth (_value)</strong>
+    <a name = "ShipVitalsBox:setSeamonsterGauge"></a>
+    <strong>ShipVitalsBox:setSeamonsterGauge (currentHealth, maxHealth)</strong>
+    </dt>
+    <dd>
+    UNDOCUMENTED
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">currentHealth</span>
+
+
+
+        </li>
+        <li><span class="parameter">maxHealth</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:setTargetHealth"></a>
+    <strong>ShipVitalsBox:setTargetHealth (_value)</strong>
     </dt>
     <dd>
     Sets target HP gauge and readout.
@@ -289,13 +346,13 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setTargetHealth(<span class="number">57</span>)</pre>
+        <pre class="example">shipVitalsBox:setTargetHealth(<span class="number">57</span>)</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setWillpower"></a>
-    <strong>VitalsBox:setWillpower (_currentWP, _maxWP)</strong>
+    <a name = "ShipVitalsBox:setWillpower"></a>
+    <strong>ShipVitalsBox:setWillpower (_currentWP, _maxWP)</strong>
     </dt>
     <dd>
     Sets willpower gauge and text.
@@ -323,8 +380,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "VitalsBox:setBalance"></a>
-    <strong>VitalsBox:setBalance (_labelBalance)</strong>
+    <a name = "ShipVitalsBox:setBalance"></a>
+    <strong>ShipVitalsBox:setBalance (_haveBalance)</strong>
     </dt>
     <dd>
     Sets balance indicator.
@@ -332,7 +389,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_labelBalance</span>
+        <li><span class="parameter">_haveBalance</span>
             <span class="types"><span class="type">Boolean</span></span>
          True if on balance.
         </li>
@@ -343,13 +400,35 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setBalance(<span class="keyword">true</span>)</pre>
+        <pre class="example">shipVitalsBox:setBalance(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setEquilibrium"></a>
-    <strong>VitalsBox:setEquilibrium (_labelBalance)</strong>
+    <a name = "ShipVitalsBox:setCrewBalanceLabel"></a>
+    <strong>ShipVitalsBox:setCrewBalanceLabel (_haveBalance)</strong>
+    </dt>
+    <dd>
+    UNDOCUMENTED
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_haveBalance</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:setEquilibrium"></a>
+    <strong>ShipVitalsBox:setEquilibrium (_haveEquilibrium)</strong>
     </dt>
     <dd>
     Sets equilibrium indicator.
@@ -357,7 +436,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_labelBalance</span>
+        <li><span class="parameter">_haveEquilibrium</span>
             <span class="types"><span class="type">boolean</span></span>
          True if on balance.
         </li>
@@ -368,38 +447,13 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setEquilibrium(<span class="keyword">true</span>)</pre>
+        <pre class="example">shipVitalsBox:setEquilibrium(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
     <dt>
-    <a name = "VitalsBox:setLowHP"></a>
-    <strong>VitalsBox:setLowHP (_value)</strong>
-    </dt>
-    <dd>
-    Sets low HP warning indicator.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_value</span>
-            <span class="types"><span class="type">boolean</span></span>
-         True, to enable low HP warnings.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals:setLowHP(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "VitalsBox:setTargetName"></a>
-    <strong>VitalsBox:setTargetName (_name)</strong>
+    <a name = "ShipVitalsBox:setTargetName"></a>
+    <strong>ShipVitalsBox:setTargetName (_name)</strong>
     </dt>
     <dd>
     Sets target name to be displayed.
@@ -418,7 +472,27 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:setTargetName(<span class="string">"orc48192"</span>)</pre>
+        <pre class="example">shipVitalsBox:setTargetName(<span class="string">"orc48192"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:promptUpdate"></a>
+    <strong>ShipVitalsBox:promptUpdate ()</strong>
+    </dt>
+    <dd>
+    Handles updating after SVO ship prompt. </p>
+
+<p> There's no point in updating the entire thing every go, so let's just run this every time "svo done with prompt" is raised. Consistent and clean, with no external dependencies outside of svof.
+
+
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">shipVitalsBox:setTargetName(<span class="string">"orc48192"</span>)</pre>
     </ul>
 
 </dd>
@@ -427,33 +501,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "VitalsBox:showTargetHP"></a>
-    <strong>VitalsBox:showTargetHP (_show)</strong>
-    </dt>
-    <dd>
-    Shows or hides target information.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_show</span>
-            <span class="types"><span class="type">bool</span></span>
-         True to show self._targetHP, false to hide.
-        </li>
-    </ul>
-
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "VitalsBox:setVisible"></a>
-    <strong>VitalsBox:setVisible (_visible)</strong>
+    <a name = "ShipVitalsBox:setVisible"></a>
+    <strong>ShipVitalsBox:setVisible (_visible)</strong>
     </dt>
     <dd>
     Shows or hides the whole object on the screen.
@@ -473,31 +522,51 @@
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
+        <pre class="example">shipVitalsBox:setVisible(<span class="keyword">true</span>)</pre>
     </ul>
 
 </dd>
-</dl>
-    <h2 class="section-header "><a name="Battlerage_methods"></a>Battlerage methods </h2>
-
-    <dl class="function">
     <dt>
-    <a name = "VitalsBox:setRage"></a>
-    <strong>VitalsBox:setRage (_currentRage)</strong>
+    <a name = "ShipVitalsBox:setLowHP"></a>
+    <strong>ShipVitalsBox:setLowHP (_value)</strong>
     </dt>
     <dd>
-    Sets rage text.
+    Handles audio alerts for low HP.  Plays sounds if true, and conditions within met.
+ Unlike VitalsBox counterpart, does <em>not</em> have flashers.
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_currentRage</span>
-            <span class="types"><span class="type">int</span></span>
-         Current rage
- ! And it doesn't work
+        <li><span class="parameter">_value</span>
+            <span class="types"><span class="type">boolean</span></span>
+         True, if in low HP state.
         </li>
     </ul>
 
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">shipVitalsBox:setLowHP(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "ShipVitalsBox:update"></a>
+    <strong>ShipVitalsBox:update ()</strong>
+    </dt>
+    <dd>
+    Updates all instance elements in a single call.
+ Fires off of the event "svo done with prompt" by default.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        None.
+    </ol>
 
 
 

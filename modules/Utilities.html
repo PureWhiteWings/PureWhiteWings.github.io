@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#General_utilities">General utilities </a></li>
+<li><a href="#Navigation_utilities">Navigation utilities </a></li>
+<li><a href="#Unit_conversion">Unit conversion </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>Utilities</strong></li>
+</ul>
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Navigator.html">Navigator</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>Utilities</code></h1>
+<p>General utilities, that are useful to utilise.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#General_utilities">General utilities </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#round">round (_input[, _precision])</a></td>
+	<td class="summary">Rounds things to nearest integer, just like it sounds.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#switch">switch (_keyToCheck, _caseTable)</a></td>
+	<td class="summary">Mimics C#/JS switch functionality.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tobool">tobool (_input)</a></td>
+	<td class="summary">Turns things from string to bool, duh.</td>
+	</tr>
+</table>
+<h2><a href="#Navigation_utilities">Navigation utilities </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#headingToCardinal8">headingToCardinal8 (_heading)</a></td>
+	<td class="summary">Finds approximate 8-point compass direction from input heading.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#headingToCardinal16">headingToCardinal16 (_heading)</a></td>
+	<td class="summary">Finds approximate 16-point compass direction from input heading.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#invertDirection">invertDirection (_cardinalDirection)</a></td>
+	<td class="summary">Returns the opposite direction of a given cardinal direction.</td>
+	</tr>
+</table>
+<h2><a href="#Unit_conversion">Unit conversion </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#mphToKmh">mphToKmh (_input)</a></td>
+	<td class="summary">Does what it sounds like.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#mphToMs">mphToMs (_input)</a></td>
+	<td class="summary">Does what it sounds like.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#fToC">fToC (_input)</a></td>
+	<td class="summary">Does what it sounds like.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="General_utilities"></a>General utilities </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "round"></a>
+    <strong>round (_input[, _precision])</strong>
+    </dt>
+    <dd>
+    Rounds things to nearest integer, just like it sounds. </p>
+
+<p> Somehow <code>Math.round()</code> isn't a thing. This is stupidly simple though, just adds 0.5 to our input and floors it.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_input</span>
+            <span class="types"><span class="type">number</span></span>
+         Number to round.
+        </li>
+        <li><span class="parameter">_precision</span>
+            <span class="types"><span class="type">number</span></span>
+         Number of decimal places to round to. Default 0.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Input rounded to nearest integer.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "switch"></a>
+    <strong>switch (_keyToCheck, _caseTable)</strong>
+    </dt>
+    <dd>
+    Mimics C#/JS switch functionality. </p>
+
+<p> Fails to optional entry <code>_default</code> if check fails, otherwise raises error.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_keyToCheck</span>
+         Input to check against keys in <code>_caseTable</code>
+        </li>
+        <li><span class="parameter">_caseTable</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         Key-value table, with keys being cases, and values being their returns
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Value of <code>_caseTable[_keyToCheck]</code>
+    </ol>
+
+    <h3>Raises:</h3>
+    Exception if key not found and no <code>_default</code> entry
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <li><pre class="example"><span class="comment">-- Function will return "I'm true", since 1 == 1
+</span><span class="keyword">local</span> truthiness = switch( <span class="number">1</span> == <span class="number">1</span>, {
+  [<span class="keyword">true</span>] = <span class="string">"I'm true!"</span>,
+  [<span class="keyword">false</span>] = <span class="string">"I'm false!"</span>,
+  _default = <span class="string">"I'm neither, so probably nil!"</span>
+})</pre></li>
+        <li><pre class="example"><span class="comment">-- Function will retrieve function B, and then ourFunction() will be executable
+</span><span class="keyword">local</span> functionTable = {
+  [<span class="string">"Function A"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm A!"</span>)        <span class="keyword">end</span>
+  [<span class="string">"Function B"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm B!"</span>)        <span class="keyword">end</span>
+  [<span class="string">"Function C"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm C!"</span>)        <span class="keyword">end</span>
+  _default       = <span class="keyword">function</span>() echo(<span class="string">"I'm _default!"</span>) <span class="keyword">end</span>
+}
+
+<span class="keyword">local</span> ourFunction = switch( <span class="string">"Function B"</span>, functionTable)
+ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "tobool"></a>
+    <strong>tobool (_input)</strong>
+    </dt>
+    <dd>
+    Turns things from string to bool, duh.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_input</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The string to check
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Navigation_utilities"></a>Navigation utilities </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "headingToCardinal8"></a>
+    <strong>headingToCardinal8 (_heading)</strong>
+    </dt>
+    <dd>
+    Finds approximate 8-point compass direction from input heading.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_heading</span>
+            <span class="types"><span class="type">num</span></span>
+         Heading to convert.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Nearest 8-point compass direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "headingToCardinal16"></a>
+    <strong>headingToCardinal16 (_heading)</strong>
+    </dt>
+    <dd>
+    Finds approximate 16-point compass direction from input heading.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_heading</span>
+            <span class="types"><span class="type">num</span></span>
+         Heading to convert.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        Nearest 16-point compass direction.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "invertDirection"></a>
+    <strong>invertDirection (_cardinalDirection)</strong>
+    </dt>
+    <dd>
+    Returns the opposite direction of a given cardinal direction.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_cardinalDirection</span>
+            <span class="types"><span class="type">num</span></span>
+         (e.g. "north", "e", "south-southwest", "ene")
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">float</span></span>
+        Heading in degrees
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Unit_conversion"></a>Unit conversion </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "mphToKmh"></a>
+    <strong>mphToKmh (_input)</strong>
+    </dt>
+    <dd>
+    Does what it sounds like.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_input</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "mphToMs"></a>
+    <strong>mphToMs (_input)</strong>
+    </dt>
+    <dd>
+    Does what it sounds like.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_input</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "fToC"></a>
+    <strong>fToC (_input)</strong>
+    </dt>
+    <dd>
+    Does what it sounds like.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_input</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-01-12 06:15:01 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
