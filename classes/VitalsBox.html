@@ -32,11 +32,12 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Initialisation">Initialisation </a></li>
 <li><a href="#Misc_methods">Misc methods </a></li>
+<li><a href="#Initialisation__For_creating_and_Initialising_VitalsBox_object">Initialisation
+ For creating and Initialising VitalsBox object </a></li>
 <li><a href="#Gauge_methods">Gauge methods </a></li>
 <li><a href="#Label_methods">Label methods </a></li>
-<li><a href="#Battlerage_methods">Battlerage methods </a></li>
+<li><a href="#Battlerage">Battlerage </a></li>
 </ul>
 
 
@@ -68,13 +69,6 @@
 </p>
 
 
-<h2><a href="#Initialisation">Initialisation </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
-	<td class="summary">Creates a new instance of the VitalsBox class.</td>
-	</tr>
-</table>
 <h2><a href="#Misc_methods">Misc methods </a></h2>
 <table class="function_list">
 	<tr>
@@ -84,6 +78,18 @@
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setVisible">VitalsBox:setVisible (_visible)</a></td>
 	<td class="summary">Shows or hides the whole object on the screen.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:update">VitalsBox:update ()</a></td>
+	<td class="summary">It updates things.</td>
+	</tr>
+</table>
+<h2><a href="#Initialisation__For_creating_and_Initialising_VitalsBox_object">Initialisation
+ For creating and Initialising VitalsBox object </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
+	<td class="summary">Creates a new instance of the VitalsBox class.</td>
 	</tr>
 </table>
 <h2><a href="#Gauge_methods">Gauge methods </a></h2>
@@ -128,7 +134,7 @@
 	<td class="summary">Sets target name to be displayed.</td>
 	</tr>
 </table>
-<h2><a href="#Battlerage_methods">Battlerage methods </a></h2>
+<h2><a href="#Battlerage">Battlerage </a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:setRage">VitalsBox:setRage (_currentRage)</a></td>
@@ -140,49 +146,6 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "VitalsBox:new"></a>
-    <strong>VitalsBox:new (_name, _elementX, _elementY)</strong>
-    </dt>
-    <dd>
-    Creates a new instance of the VitalsBox class.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         Instance name, should be identical to variable instance is assigned to.
-        </li>
-        <li><span class="parameter">_elementX</span>
-            <span class="types"><span class="type">number</span></span>
-         X coordinate of VitalsBox, in screen coordinates.
-        </li>
-        <li><span class="parameter">_elementY</span>
-            <span class="types"><span class="type">number</span></span>
-         Y coordinate of VitalsBox, in screen coordinates.
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        A new instance of the VitalsBox class.
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
-    </ul>
-
-</dd>
-</dl>
     <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
 
     <dl class="function">
@@ -234,6 +197,64 @@
     <h3>Usage:</h3>
     <ul>
         <pre class="example">vitals:showTarget(<span class="keyword">true</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "VitalsBox:update"></a>
+    <strong>VitalsBox:update ()</strong>
+    </dt>
+    <dd>
+    It updates things.
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Initialisation__For_creating_and_Initialising_VitalsBox_object"></a>Initialisation
+ For creating and Initialising VitalsBox object </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "VitalsBox:new"></a>
+    <strong>VitalsBox:new (_name, _elementX, _elementY)</strong>
+    </dt>
+    <dd>
+    Creates a new instance of the VitalsBox class.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Instance name, should be identical to variable instance is assigned to.
+        </li>
+        <li><span class="parameter">_elementX</span>
+            <span class="types"><span class="type">number</span></span>
+         X coordinate of VitalsBox, in screen coordinates.
+        </li>
+        <li><span class="parameter">_elementY</span>
+            <span class="types"><span class="type">number</span></span>
+         Y coordinate of VitalsBox, in screen coordinates.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A new instance of the VitalsBox class.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
     </ul>
 
 </dd>
@@ -479,7 +500,7 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Battlerage_methods"></a>Battlerage methods </h2>
+    <h2 class="section-header "><a name="Battlerage"></a>Battlerage </h2>
 
     <dl class="function">
     <dt>
@@ -511,7 +532,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-12 11:11:48 </i>
+<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

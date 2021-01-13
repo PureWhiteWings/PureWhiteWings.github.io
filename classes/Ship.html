@@ -32,10 +32,10 @@
 
 <h2>Contents</h2>
 <ul>
-<li><a href="#Query_methods">Query methods </a></li>
-<li><a href="#Initialisation_section">Initialisation section </a></li>
+<li><a href="#Initialisation">Initialisation </a></li>
 <li><a href="#Repair_methods">Repair methods </a></li>
 <li><a href="#Prompt_methods">Prompt methods </a></li>
+<li><a href="#Queries">Queries </a></li>
 <li><a href="#Get_methods">Get methods </a></li>
 <li><a href="#Set_methods">Set methods </a></li>
 <li><a href="#Internal_functions">Internal functions </a></li>
@@ -70,50 +70,7 @@
 </p>
 
 
-<h2><a href="#Query_methods">Query methods </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isAnchorRaised">Ship:isAnchorRaised ()</a></td>
-	<td class="summary">Retrieves anchor state.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isDocked">Ship:isDocked ()</a></td>
-	<td class="summary">Returns if ship is docked.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isGangplankRaised">Ship:isGangplankRaised ()</a></td>
-	<td class="summary">Retrieves gangplank state.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isGrappled">Ship:isGrappled ()</a></td>
-	<td class="summary">Returns if ship is grappled.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isLeaking">Ship:isLeaking ()</a></td>
-	<td class="summary">Returns if ship is leaking.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isOnFire">Ship:isOnFire ()</a></td>
-	<td class="summary">Returns if ship is on fire.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isRowing">Ship:isRowing ()</a></td>
-	<td class="summary">True if ship is rowing.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isSailing">Ship:isSailing ()</a></td>
-	<td class="summary">True if ship is sailing.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isSinking">Ship:isSinking ()</a></td>
-	<td class="summary">Returns if ship is sinking.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#Ship:isTurning">Ship:isTurning ()</a></td>
-	<td class="summary">Returns if ship is turning.</td>
-	</tr>
-</table>
-<h2><a href="#Initialisation_section">Initialisation section </a></h2>
+<h2><a href="#Initialisation">Initialisation </a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#Ship:new">Ship:new (_instanceName)</a></td>
@@ -164,6 +121,49 @@
 	<tr>
 	<td class="name" nowrap><a href="#Ship:processPrompt">Ship:processPrompt (_promptString)</a></td>
 	<td class="summary">Processes a ship prompt line in-object, instead of using complex triggers.</td>
+	</tr>
+</table>
+<h2><a href="#Queries">Queries </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isAnchorRaised">Ship:isAnchorRaised ()</a></td>
+	<td class="summary">Retrieves anchor state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isDocked">Ship:isDocked ()</a></td>
+	<td class="summary">Returns if ship is docked.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isGangplankRaised">Ship:isGangplankRaised ()</a></td>
+	<td class="summary">Retrieves gangplank state.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isGrappled">Ship:isGrappled ()</a></td>
+	<td class="summary">Returns if ship is grappled.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isLeaking">Ship:isLeaking ()</a></td>
+	<td class="summary">Returns if ship is leaking.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isOnFire">Ship:isOnFire ()</a></td>
+	<td class="summary">Returns if ship is on fire.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isRowing">Ship:isRowing ()</a></td>
+	<td class="summary">True if ship is rowing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isSailing">Ship:isSailing ()</a></td>
+	<td class="summary">True if ship is sailing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isSinking">Ship:isSinking ()</a></td>
+	<td class="summary">Returns if ship is sinking.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:isTurning">Ship:isTurning ()</a></td>
+	<td class="summary">Returns if ship is turning.</td>
 	</tr>
 </table>
 <h2><a href="#Get_methods">Get methods </a></h2>
@@ -260,224 +260,7 @@
 <br/>
 
 
-    <h2 class="section-header has-description"><a name="Query_methods"></a>Query methods </h2>
-
-          <div class="section-description">
-           Stuff for retrieving data to help us draw to the screen.
-          </div>
-    <dl class="function">
-    <dt>
-    <a name = "Ship:isAnchorRaised"></a>
-    <strong>Ship:isAnchorRaised ()</strong>
-    </dt>
-    <dd>
-    Retrieves anchor state.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        True if anchor raised, false if anchor lowered.
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example"><span class="keyword">if</span> <span class="keyword">not</span> thisShip:isAnchorRaised() <span class="keyword">then</span> send(<span class="string">"ship raise anchor"</span>) <span class="keyword">end</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "Ship:isDocked"></a>
-    <strong>Ship:isDocked ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is docked.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        True, if ship is docked.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isGangplankRaised"></a>
-    <strong>Ship:isGangplankRaised ()</strong>
-    </dt>
-    <dd>
-    Retrieves gangplank state.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        True if gangplank raised, false if gangplank lowered.
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example"><span class="keyword">if</span> <span class="keyword">not</span> thisShip:isGangplankRaised() <span class="keyword">then</span> send(<span class="string">"ship raise gangplank"</span>) <span class="keyword">end</span></pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "Ship:isGrappled"></a>
-    <strong>Ship:isGrappled ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is grappled.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-        <li>
-           <span class="types"><span class="type">bool</span></span>
-        True, if ship is grappled.</li>
-        <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        Key/value table containing grapplers and hooks per.</li>
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isLeaking"></a>
-    <strong>Ship:isLeaking ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is leaking.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        True, if ship is leaking.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isOnFire"></a>
-    <strong>Ship:isOnFire ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is on fire.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">int</span> or <span class="type">bool</span></span>
-        false = no fire, 1 = deck fire, 2 = sails fire, 3 = deck and sails on fire.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isRowing"></a>
-    <strong>Ship:isRowing ()</strong>
-    </dt>
-    <dd>
-    True if ship is rowing.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        bool
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isSailing"></a>
-    <strong>Ship:isSailing ()</strong>
-    </dt>
-    <dd>
-    True if ship is sailing.
- "Sailing" is defined as any sail setter beyond furled.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-        bool
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isSinking"></a>
-    <strong>Ship:isSinking ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is sinking.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        True, if ship is sinking.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "Ship:isTurning"></a>
-    <strong>Ship:isTurning ()</strong>
-    </dt>
-    <dd>
-    Returns if ship is turning.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-        False, if not turning. Ordered course as string, otherwise.
-    </ol>
-
-
-
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="Initialisation_section"></a>Initialisation section </h2>
+    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
 
     <dl class="function">
     <dt>
@@ -748,6 +531,223 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header has-description"><a name="Queries"></a>Queries </h2>
+
+          <div class="section-description">
+           Methods to query about various states within the ship.
+          </div>
+    <dl class="function">
+    <dt>
+    <a name = "Ship:isAnchorRaised"></a>
+    <strong>Ship:isAnchorRaised ()</strong>
+    </dt>
+    <dd>
+    Retrieves anchor state.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True if anchor raised, false if anchor lowered.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> <span class="keyword">not</span> thisShip:isAnchorRaised() <span class="keyword">then</span> send(<span class="string">"ship raise anchor"</span>) <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Ship:isDocked"></a>
+    <strong>Ship:isDocked ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is docked.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if ship is docked.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isGangplankRaised"></a>
+    <strong>Ship:isGangplankRaised ()</strong>
+    </dt>
+    <dd>
+    Retrieves gangplank state.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True if gangplank raised, false if gangplank lowered.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">if</span> <span class="keyword">not</span> thisShip:isGangplankRaised() <span class="keyword">then</span> send(<span class="string">"ship raise gangplank"</span>) <span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "Ship:isGrappled"></a>
+    <strong>Ship:isGrappled ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is grappled.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">bool</span></span>
+        True, if ship is grappled.</li>
+        <li>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        Key/value table containing grapplers and hooks per.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isLeaking"></a>
+    <strong>Ship:isLeaking ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is leaking.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if ship is leaking.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isOnFire"></a>
+    <strong>Ship:isOnFire ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is on fire.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span> or <span class="type">bool</span></span>
+        false = no fire, 1 = deck fire, 2 = sails fire, 3 = deck and sails on fire.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isRowing"></a>
+    <strong>Ship:isRowing ()</strong>
+    </dt>
+    <dd>
+    True if ship is rowing.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        bool
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isSailing"></a>
+    <strong>Ship:isSailing ()</strong>
+    </dt>
+    <dd>
+    True if ship is sailing.
+ "Sailing" is defined as any sail setter beyond furled.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        bool
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isSinking"></a>
+    <strong>Ship:isSinking ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is sinking.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if ship is sinking.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:isTurning"></a>
+    <strong>Ship:isTurning ()</strong>
+    </dt>
+    <dd>
+    Returns if ship is turning.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        False, if not turning. Ordered course as string, otherwise.
+    </ol>
 
 
 
@@ -1097,6 +1097,7 @@
     <dd>
     Sets the current sail health of the Ship object.
  Can accept prompt symbols, integer percenage strings, and raw numbers.
+ Possible input examples: <code>++</code>, <code>--</code>, <code>or </code>int`.
 
 
     <h3>Parameters:</h3>
@@ -1128,6 +1129,7 @@
     <dd>
     Sets the current sail setting of the Ship object.
  Can accept prompt symbols, integer percenage strings, and raw numbers.
+ Possible input examples: <code>++</code>, <code>--</code>, <code>or </code>int`.
 
 
     <h3>Parameters:</h3>
@@ -1237,6 +1239,7 @@
     </dt>
     <dd>
     Sets the current wind speed of the Ship object.
+ Possible inputs: <code>++</code>, <code>--</code>, or <code>int</code>.
 
 
     <h3>Parameters:</h3>
@@ -1261,7 +1264,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-12 11:11:48 </i>
+<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
