@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><strong>shiplcdbox.lua</strong></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>shiplcdbox.lua</h2>
+<pre>
+<span class="comment">--- Gauges that sit at the bottom and do gauge things related to things to do on a ship.
+</span><span class="comment">--@classmod ShipLCDBox
+</span>
+ShipLCDBox = {}
+
+ShipLCDBox.update = <span class="keyword">function</span>()
+
+<span class="keyword">end</span>
+<span class="comment">--_updateHandler
+</span>
+
+
+
+
+<span class="comment">-------------------------------------------------------
+</span><span class="comment">--- Initialisation
+</span><span class="comment">-- @section initialisation
+</span>
+<span class="comment">--- Creates a new instance of the ShipLCDBox class.
+</span><span class="comment">-- @tparam string _instanceName Instance name, should be identical to variable instance is assigned to.
+</span><span class="comment">-- @tparam int _elementX X position of
+</span><span class="comment">-- @tparam int _elementY
+</span><span class="comment">-- @tparam string _inputText Text to display.
+</span><span class="comment">-- @tparam test _backingText Dark backing text to mimic unlit LCD segments.
+</span><span class="comment">-- @tparam int[opt=30] _fontSize Font size of the attached text.
+</span><span class="comment">-- @tparam string[opt="HotPink"] _fontColour Font colour in a QtCSS compatible string.
+</span><span class="comment">-- @treturn table A new instance of the ShipLCDBox class.
+</span><a id="29"></a><span class="comment">-- @usage lcds = ShipLCDBox:new("lcds")
+</span><span class="keyword">function</span> ShipLCDBox:new(_instanceName, _elementX, _elementY, _inputText, _backingText, _fontSize, _fontColour)
+
+    cloudDir = cloudDir <span class="keyword">or</span> <span class="string">[[D:\Achaea\]]</span>
+    self.__index = ShipLCDBox
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, ShipLCDBox)
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- BASIC ATTRIBUTES
+</span>
+    self._instanceName = _instanceName
+    self._fontSize = _fontSize <span class="keyword">or</span> <span class="number">30</span>
+    self._fontName = <span class="string">"DSEG7 Classic Mini-Bold Italic"</span>
+    self._padding = <span class="number">4</span>
+    self._fontColour = _fontColour <span class="keyword">or</span> <span class="string">"HotPink"</span>
+
+    registerAnonymousEventHandler( <span class="string">"ship prompt processed"</span>, self._instanceName..<span class="string">":update"</span>)
+
+    self._LCD_CSS = CSSMan.new(<span class="string">[[
+        background-color: #00000000;
+        border-style: solid;
+        border-color: white;
+        border-width: 0px;
+        border-radius: 0px;
+        margin: 0px;
+        qproperty-alignment: 'AlignHCenter | AlignVCenter';
+        font-family: "]]</span>..self._fontName..<span class="string">[[", sans-serif;
+    ]]</span>)
+
+    self._LCD_off_CSS = CSSMan.new(<span class="string">[[
+        background-color: #00000000;
+        border-style: solid;
+        border-color: white;
+        border-width: 0px;
+        border-radius: 0px;
+        margin: 0px;
+        qproperty-alignment: 'AlignHCenter | AlignVCenter';
+        font-family: "]]</span>..self._fontName..<span class="string">[[", sans-serif;
+        color: #333333;
+    ]]</span>)
+
+    self._updateHandler = self._updateHandler <span class="keyword">or</span> registerAnonymousEventHandler(<span class="string">"svo done with prompt"</span>, self._instanceName..<span class="string">":update"</span>)
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- MAIN CONTAINER
+</span>    _charW,_charH   = calcFontSize(self._fontSize, self._fontName)
+    _elementWidth   = (<span class="global">math</span>.max( <span class="global">string</span>.len(_inputText), <span class="global">string</span>.len(_backingText) )*_charW) + (self._padding*<span class="number">2</span>)
+    _elementHeight  = _charH + (self._padding*<span class="number">2</span>)
+
+    self._container = Geyser.Label:new({ name = self._instanceName..<span class="string">"._container"</span>, x = _elementX, y = _elementY, width = _elementWidth, height = _elementHeight })
+
+    <span class="comment">--========================================================================--
+</span>    <span class="comment">-- LABELS
+</span>
+    <span class="comment">--self._labelBackground  = Geyser.Label:new({ name = self._instanceName.."._labelBackground",  x = 0,   y = 0, width  = 980, height = 26 }, self._container )
+</span>    self._labelForegroundText = Geyser.Label:new({ name = self._instanceName..<span class="string">"._labelForegroundText"</span>, x = <span class="number">0</span>, y = <span class="number">0</span>, width  = <span class="string">"100%"</span>,  height = <span class="string">"100%"</span>, color = <span class="string">"#007700"</span> }, self._container )
+    self._labelBackgroundText = Geyser.Label:new({ name = self._instanceName..<span class="string">"._labelBackgroundText"</span>, x = <span class="number">0</span>, y = <span class="number">0</span>, width  = <span class="string">"100%"</span>,  height = <span class="string">"100%"</span>, color = <span class="string">"#007700"</span> }, self._container )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- LABEL STYLESHEETS AND IMAGES
+</span>
+    self._container:setStyleSheet( <span class="string">[[background-color: #00000000;]]</span> )
+
+    self._labelForegroundText:setStyleSheet(self._LCD_CSS:getCSS())
+    self._labelBackgroundText:setStyleSheet(self._LCD_off_CSS:getCSS())
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- LABEL ECHOES
+</span>
+    self._labelForegroundText:echo( <span class="global">tostring</span>( _inputText ), self._fontColour, <span class="string">"r"</span>..<span class="global">tostring</span>(self._fontSize) )
+    self._labelBackgroundText:echo( <span class="global">tostring</span>(_backingText), <span class="string">"#333333"</span>, <span class="string">"r"</span>..<span class="global">tostring</span>(self._fontSize) )
+
+    self._container:raiseAll()
+    self._labelBackgroundText:raise()
+    self._labelForegroundText:raise()
+
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Misc methods
+</span><span class="comment">-- @section misc
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Shows or hides the whole object on the screen.
+</span><span class="comment">-- Just a shortcut for things like getting into my ship UI.
+</span><span class="comment">-- @tparam bool _visible True to show object, false to hide.
+</span><span class="comment">-- @usage ShipLCDBox:setVisible(true)
+</span><span class="keyword">function</span> ShipLCDBox:setVisible(_visible)
+    <span class="keyword">if</span> _visible <span class="keyword">then</span>
+        self._container:show()
+    <span class="keyword">else</span>
+        self._container:hide()
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Shows or hides the whole object on the screen.
+</span><span class="comment">-- Just a shortcut for things like getting into my ship UI.
+</span><span class="comment">-- @tparam table _positionTable Key/value table, with key being
+</span><span class="comment">-- @tparam string _type Type of display to instantiate. Valid options are <code>hull</code>, <code>sails</code>, <code>speed</code>, 'wind`
+</span><span class="comment">-- @usage ShipLCDBox:setVisible(true)
+</span><span class="keyword">function</span> ShipLCDBox:build(_positionTable, _type)
+    self.hull  = ShipLCDBox:new(self._instanceName..<span class="string">".hull"</span>,  <span class="number">846</span>, <span class="number">808</span>, <span class="string">"42"</span>, <span class="string">"88"</span>, <span class="number">36</span>, <span class="string">"green"</span>)
+    self.sails = ShipLCDBox:new(self._instanceName..<span class="string">".sails"</span>, <span class="number">846</span>, <span class="number">923</span>, <span class="string">"42"</span>, <span class="string">"88"</span>, <span class="number">36</span>, <span class="string">"green"</span>)
+    self.speed = ShipLCDBox:new(self._instanceName..<span class="string">".speed"</span>, <span class="number">330</span>, <span class="number">941</span>, <span class="string">"42"</span>, <span class="string">"88"</span>, <span class="number">28</span>, <span class="string">"cyan"</span> )
+    self.wind  = ShipLCDBox:new(self._instanceName..<span class="string">".wind"</span>,  <span class="number">24</span>,  <span class="number">941</span>, <span class="string">"42"</span>, <span class="string">"88"</span>, <span class="number">28</span>, <span class="string">"cyan"</span> )
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

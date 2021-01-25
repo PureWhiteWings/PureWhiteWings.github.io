@@ -39,20 +39,22 @@
 
 
 <h2>Modules</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
   <li><strong>Utilities</strong></li>
 </ul>
 <h2>Classes</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
-  <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
   <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
   <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
 </ul>
 
 </div>
@@ -116,12 +118,14 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="General_utilities"></a>General utilities </h2>
+    <h2><a name="General_utilities"></a>General utilities </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "round"></a>
     <strong>round (_input[, _precision])</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#31">line 31</a>
     </dt>
     <dd>
     Rounds things to nearest integer, just like it sounds. </p>
@@ -155,6 +159,7 @@
     <dt>
     <a name = "switch"></a>
     <strong>switch (_keyToCheck, _caseTable)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#71">line 71</a>
     </dt>
     <dd>
     Mimics C#/JS switch functionality. </p>
@@ -168,7 +173,7 @@
          Input to check against keys in <code>_caseTable</code>
         </li>
         <li><span class="parameter">_caseTable</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Key-value table, with keys being cases, and values being their returns
         </li>
     </ul>
@@ -185,28 +190,29 @@
 
     <h3>Usage:</h3>
     <ul>
-        <li><pre class="example"><span class="comment">-- Function will return "I'm true", since 1 == 1
-</span><span class="keyword">local</span> truthiness = switch( <span class="number">1</span> == <span class="number">1</span>, {
-  [<span class="keyword">true</span>] = <span class="string">"I'm true!"</span>,
-  [<span class="keyword">false</span>] = <span class="string">"I'm false!"</span>,
-  _default = <span class="string">"I'm neither, so probably nil!"</span>
-})</pre></li>
-        <li><pre class="example"><span class="comment">-- Function will retrieve function B, and then ourFunction() will be executable
-</span><span class="keyword">local</span> functionTable = {
-  [<span class="string">"Function A"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm A!"</span>)        <span class="keyword">end</span>
-  [<span class="string">"Function B"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm B!"</span>)        <span class="keyword">end</span>
-  [<span class="string">"Function C"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm C!"</span>)        <span class="keyword">end</span>
-  _default       = <span class="keyword">function</span>() echo(<span class="string">"I'm _default!"</span>) <span class="keyword">end</span>
-}
+        <li><pre class="example"> <span class="comment">-- Function will return "I'm true", since 1 == 1
+</span> <span class="keyword">local</span> truthiness = switch( <span class="number">1</span> == <span class="number">1</span>, {
+   [<span class="keyword">true</span>] = <span class="string">"I'm true!"</span>,
+   [<span class="keyword">false</span>] = <span class="string">"I'm false!"</span>,
+   _default = <span class="string">"I'm neither, so probably nil!"</span>
+ })</pre></li>
+        <li><pre class="example"> <span class="comment">-- Function will retrieve function B, and then ourFunction() will be executable
+</span> <span class="keyword">local</span> functionTable = {
+   [<span class="string">"Function A"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm A!"</span>)        <span class="keyword">end</span>
+   [<span class="string">"Function B"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm B!"</span>)        <span class="keyword">end</span>
+   [<span class="string">"Function C"</span>] = <span class="keyword">function</span>() echo(<span class="string">"I'm C!"</span>)        <span class="keyword">end</span>
+   _default       = <span class="keyword">function</span>() echo(<span class="string">"I'm _default!"</span>) <span class="keyword">end</span>
+ }
 
-<span class="keyword">local</span> ourFunction = switch( <span class="string">"Function B"</span>, functionTable)
-ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
+ <span class="keyword">local</span> ourFunction = switch( <span class="string">"Function B"</span>, functionTable)
+ ourFunction()  -- echo(<span class="string">"I'm B!"</span>)</pre></li>
     </ul>
 
 </dd>
     <dt>
     <a name = "tobool"></a>
     <strong>tobool (_input)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#93">line 93</a>
     </dt>
     <dd>
     Turns things from string to bool, duh.
@@ -215,7 +221,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_input</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The string to check
         </li>
     </ul>
@@ -226,12 +232,14 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Navigation_utilities"></a>Navigation utilities </h2>
+    <h2><a name="Navigation_utilities"></a>Navigation utilities </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "headingToCardinal8"></a>
     <strong>headingToCardinal8 (_heading)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#121">line 121</a>
     </dt>
     <dd>
     Finds approximate 8-point compass direction from input heading.
@@ -248,7 +256,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         Nearest 8-point compass direction.
     </ol>
 
@@ -259,6 +267,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <dt>
     <a name = "headingToCardinal16"></a>
     <strong>headingToCardinal16 (_heading)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#148">line 148</a>
     </dt>
     <dd>
     Finds approximate 16-point compass direction from input heading.
@@ -275,7 +284,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         Nearest 16-point compass direction.
     </ol>
 
@@ -286,6 +295,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <dt>
     <a name = "invertDirection"></a>
     <strong>invertDirection (_cardinalDirection)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#183">line 183</a>
     </dt>
     <dd>
     Returns the opposite direction of a given cardinal direction.
@@ -311,12 +321,14 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Unit_conversion"></a>Unit conversion </h2>
+    <h2><a name="Unit_conversion"></a>Unit conversion </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "mphToKmh"></a>
     <strong>mphToKmh (_input)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#237">line 237</a>
     </dt>
     <dd>
     Does what it sounds like.
@@ -339,6 +351,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <dt>
     <a name = "mphToMs"></a>
     <strong>mphToMs (_input)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#242">line 242</a>
     </dt>
     <dd>
     Does what it sounds like.
@@ -361,6 +374,7 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
     <dt>
     <a name = "fToC"></a>
     <strong>fToC (_input)</strong>
+    <a style="float:right;" href="../source/Utilities.lua.html#247">line 247</a>
     </dt>
     <dd>
     Does what it sounds like.
@@ -386,8 +400,8 @@ ourFunction()  <span class="comment">-- echo("I'm B!")</span></pre></li>
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

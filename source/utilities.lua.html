@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><strong>utilities.lua</strong></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>utilities.lua</h2>
+<pre>
+<span class="comment">--- General utilities, that are useful to utilise.
+</span><span class="comment">-- @module Utilities
+</span>
+<span class="comment">--------------------------------------------------------
+</span><span class="comment">--- General utilities
+</span><span class="comment">-- @section general
+</span>
+<span class="keyword">function</span> padnum ( _input, _minDecimalDigits)
+
+    <span class="comment">-- Get how many digits are after the decimal point. We can't allow a DecimalDigits less than this.
+</span>     _numberDecimals = <span class="global">string</span>.gsub( <span class="global">string</span>.match( <span class="global">tostring</span>(_input), <span class="string">"%.%d+$"</span>),<span class="string">"%."</span>, <span class="string">""</span>) <span class="keyword">or</span> <span class="number">0</span>
+    _numberDecimals = #_numberDecimals
+
+    <span class="keyword">if</span> _numberDecimals &gt; _minDecimalDigits <span class="keyword">then</span>
+        _minDecimalDigits = _numberDecimals
+        echo(<span class="string">"Hey, _numberDecimals is bigger than _minDecimalDigits!\n"</span>)
+    <span class="keyword">end</span>
+
+    echo(<span class="string">"Input: "</span>..<span class="global">tostring</span>(_input)..<span class="string">"\nDesired minimum decimal digits: "</span>.._precision..<span class="string">"\nDecimal digits in input: "</span>.._numberDecimals..<span class="string">"\nFinal string: "</span>)
+
+    <span class="keyword">return</span> <span class="global">string</span>.format( <span class="string">"%.0"</span>.._minDecimalDigits..<span class="string">"f"</span>, _input) <span class="keyword">or</span> <span class="string">"error"</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Rounds things to nearest integer, just like it sounds.
+</span><span class="comment">--
+</span><span class="comment">-- Somehow <code>Math.round()</code> isn't a thing. This is stupidly simple though, just adds 0.5 to our input and floors it.
+</span><span class="comment">-- @tparam number _input Number to round.
+</span><span class="comment">-- @tparam[opt] number _precision Number of decimal places to round to. Default 0.
+</span><a id="31"></a><span class="comment">-- @return Input rounded to nearest integer.
+</span><span class="keyword">function</span> round(_input, _precision)
+    <span class="keyword">if</span> _precision <span class="keyword">then</span>
+        <span class="keyword">if</span> _precision &gt; <span class="number">0</span> <span class="keyword">then</span>
+            _precision = <span class="number">10</span>^_precision
+            <span class="keyword">return</span> <span class="global">math</span>.floor(( (_input) * _precision )+ <span class="number">0.5</span>) / _precision
+        <span class="keyword">elseif</span> _precision &lt;= <span class="number">0</span>  <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="global">math</span>.floor(_input + <span class="number">0.5</span>)
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="global">math</span>.floor(_input + <span class="number">0.5</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+
+<span class="comment">-------------------------
+</span>
+<span class="comment">--- Mimics C#/JS switch functionality.
+</span><span class="comment">--
+</span><span class="comment">-- Fails to optional entry <code>_default</code> if check fails, otherwise raises error.
+</span><span class="comment">-- @param _keyToCheck Input to check against keys in <code>_caseTable</code>
+</span><span class="comment">-- @tparam table _caseTable Key-value table, with keys being cases, and values being their returns
+</span><span class="comment">-- @return Value of <code>_caseTable[_keyToCheck]</code>
+</span><span class="comment">-- @raise Exception if key not found and no <code>_default</code> entry
+</span><span class="comment">-- @usage -- Function will return "I'm true", since 1 == 1
+</span><span class="comment">-- local truthiness = switch( 1 == 1, {
+</span><span class="comment">--   [true] = "I'm true!",
+</span><span class="comment">--   [false] = "I'm false!",
+</span><span class="comment">--   _default = "I'm neither, so probably nil!"
+</span><span class="comment">-- })
+</span><span class="comment">-- @usage -- Function will retrieve function B, and then ourFunction() will be executable
+</span><span class="comment">-- local functionTable = {
+</span><span class="comment">--   ["Function A"] = function() echo("I'm A!")        end
+</span><span class="comment">--   ["Function B"] = function() echo("I'm B!")        end
+</span><span class="comment">--   ["Function C"] = function() echo("I'm C!")        end
+</span><span class="comment">--   _default       = function() echo("I'm _default!") end
+</span><span class="comment">-- }
+</span><span class="comment">--
+</span><span class="comment">-- local ourFunction = switch( "Function B", functionTable)
+</span><a id="71"></a><span class="comment">-- ourFunction()  -- echo("I'm B!")
+</span><span class="keyword">function</span> switch(_keyToCheck, _caseTable)
+
+    <span class="keyword">local</span> case = <span class="keyword">false</span>
+
+    <span class="keyword">if</span> _caseTable[_keyToCheck] <span class="keyword">then</span>
+        case = _caseTable[_keyToCheck]
+        resultKey = <span class="global">tostring</span>(_keyToCheck)
+    <span class="keyword">elseif</span> _caseTable[<span class="string">"_default"</span>] <span class="keyword">then</span>
+        case = _caseTable[<span class="string">"_default"</span>]
+        resultKey = <span class="string">"_default"</span>
+    <span class="keyword">else</span>
+        error(<span class="string">"switch() - Key not found in case table!"</span>)
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> case, <span class="global">type</span>(case)
+
+<span class="keyword">end</span>
+
+<span class="comment">-------------------------
+</span>
+<span class="comment">--- Turns things from string to bool, duh.
+</span><a id="93"></a><span class="comment">-- @tparam string _input The string to check
+</span><span class="keyword">function</span> tobool(_input)
+
+    _cleanInput = <span class="global">string</span>.lower(<span class="global">string</span>.trim(_input))
+
+    <span class="keyword">if</span> _cleanInput == <span class="string">"true"</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>
+    <span class="keyword">elseif</span> _cleanInput == <span class="string">"false"</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">else</span>
+        error(<span class="string">"tobool() - Hey, \""</span>.._input..<span class="string">"\" isn't something I can work with."</span>)
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+
+<span class="comment">--------------------------------------------------------
+</span><span class="comment">--- Navigation utilities
+</span><span class="comment">-- @section navigation
+</span>
+<span class="comment">--- Finds approximate 8-point compass direction from input heading.
+</span><span class="comment">-- @tparam num _heading Heading to convert.
+</span><a id="121"></a><span class="comment">-- @treturn string Nearest 8-point compass direction.
+</span><span class="keyword">function</span> headingToCardinal8(_heading)
+
+    <span class="keyword">if</span> _heading &gt;= <span class="number">360</span> <span class="keyword">then</span> _heading = _heading - <span class="number">360</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> _conversionTable = {
+        [<span class="number">1</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"N"</span>, [<span class="string">"minHeading"</span>] = <span class="number">337.5</span>},
+        [<span class="number">2</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">292.5</span>},
+        [<span class="number">3</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"W"</span>, [<span class="string">"minHeading"</span>] = <span class="number">247.5</span>},
+        [<span class="number">4</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">202.5</span>},
+        [<span class="number">5</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"S"</span>, [<span class="string">"minHeading"</span>] = <span class="number">157.5</span>},
+        [<span class="number">6</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">112.5</span>},
+        [<span class="number">7</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"E"</span>, [<span class="string">"minHeading"</span>] = <span class="number">67.5</span>},
+        [<span class="number">8</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">22.5</span>},
+        [<span class="number">9</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"N"</span>, [<span class="string">"minHeading"</span>] = <span class="number">0</span>}
+    }
+
+    <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">ipairs</span>(_conversionTable) <span class="keyword">do</span>
+        <span class="keyword">if</span> _heading &gt;= v.minHeading <span class="keyword">then</span> <span class="keyword">return</span> v.cardinal <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> -<span class="number">1</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Finds approximate 16-point compass direction from input heading.
+</span><span class="comment">-- @tparam num _heading Heading to convert.
+</span><a id="148"></a><span class="comment">-- @treturn string Nearest 16-point compass direction.
+</span><span class="keyword">function</span> headingToCardinal16(_heading)
+
+    <span class="keyword">while</span> _heading &gt;= <span class="number">360</span> <span class="keyword">do</span> _heading = _heading - <span class="number">360</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> _conversionTable = {
+        [<span class="number">1</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"N"</span>, [<span class="string">"minHeading"</span>] = <span class="number">348.75</span>},
+        [<span class="number">2</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NNW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">326.25</span>},
+        [<span class="number">3</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">303.75</span>},
+        [<span class="number">4</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"WNW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">281.25</span>},
+        [<span class="number">5</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"W"</span>, [<span class="string">"minHeading"</span>] = <span class="number">258.75</span>},
+        [<span class="number">6</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"WSW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">236.25</span>},
+        [<span class="number">7</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">213.75</span>},
+        [<span class="number">8</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SSW"</span>, [<span class="string">"minHeading"</span>] = <span class="number">191.25</span>},
+        [<span class="number">9</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"S"</span>, [<span class="string">"minHeading"</span>] = <span class="number">168.75</span>},
+        [<span class="number">10</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SSE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">146.25</span>},
+        [<span class="number">11</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"SE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">123.75</span>},
+        [<span class="number">12</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"ESE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">101.25</span>},
+        [<span class="number">13</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"E"</span>, [<span class="string">"minHeading"</span>] = <span class="number">78.75</span>},
+        [<span class="number">14</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"ENE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">56.25</span>},
+        [<span class="number">15</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">33.75</span>},
+        [<span class="number">16</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"NNE"</span>, [<span class="string">"minHeading"</span>] = <span class="number">11.25</span>},
+        [<span class="number">17</span>] = {[<span class="string">"cardinal"</span>] = <span class="string">"N"</span>, [<span class="string">"minHeading"</span>] = <span class="number">0</span>}
+    }
+
+    <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">ipairs</span>(_conversionTable) <span class="keyword">do</span>
+        <span class="keyword">if</span> _heading &gt;= v.minHeading <span class="keyword">then</span> <span class="keyword">return</span> v.cardinal <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> -<span class="number">1</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns the opposite direction of a given cardinal direction.
+</span><span class="comment">-- @tparam num _cardinalDirection (e.g. "north", "e", "south-southwest", "ene")
+</span><a id="183"></a><span class="comment">-- @treturn float Heading in degrees
+</span><span class="keyword">function</span> invertDirection(_cardinalDirection)
+
+    <span class="keyword">local</span> _cardinalDirection = <span class="global">string</span>.lower(<span class="global">string</span>.trim(_cardinalDirection))
+
+    <span class="keyword">local</span> _lookupTable = {
+        [<span class="string">"north"</span>] = <span class="string">"south"</span>,
+        [<span class="string">"north-northeast"</span>] = <span class="string">"south-southwest"</span>,
+        [<span class="string">"northeast"</span>] = <span class="string">"southwest"</span>,
+        [<span class="string">"east-northeast"</span>] = <span class="string">"west-southwest"</span>,
+        [<span class="string">"east"</span>] = <span class="string">"west"</span>,
+        [<span class="string">"east-southeast"</span>] = <span class="string">"west-northwest"</span>,
+        [<span class="string">"southeast"</span>] = <span class="string">"northwest"</span>,
+        [<span class="string">"south-southeast"</span>] = <span class="string">"north-northwest"</span>,
+        [<span class="string">"south"</span>] = <span class="string">"north"</span>,
+        [<span class="string">"south-southwest"</span>] = <span class="string">"north-northeast"</span>,
+        [<span class="string">"southwest"</span>] = <span class="string">"northeast"</span>,
+        [<span class="string">"west-southwest"</span>] = <span class="string">"east-northeast"</span>,
+        [<span class="string">"west"</span>] = <span class="string">"east"</span>,
+        [<span class="string">"west-northwest"</span>] = <span class="string">"east-southeast"</span>,
+        [<span class="string">"northwest"</span>] = <span class="string">"southeast"</span>,
+        [<span class="string">"north-northwest"</span>] = <span class="string">"south-southeast"</span>,
+        [<span class="string">"n"</span>] = <span class="string">"s"</span>,
+        [<span class="string">"nne"</span>] = <span class="string">"ssw"</span>,
+        [<span class="string">"ne"</span>] = <span class="string">"sw"</span>,
+        [<span class="string">"ene"</span>] = <span class="string">"wsw"</span>,
+        [<span class="string">"e"</span>] = <span class="string">"w"</span>,
+        [<span class="string">"ese"</span>] = <span class="string">"wnw"</span>,
+        [<span class="string">"se"</span>] = <span class="string">"nw"</span>,
+        [<span class="string">"sse"</span>] = <span class="string">"nnw"</span>,
+        [<span class="string">"s"</span>] = <span class="string">"n"</span>,
+        [<span class="string">"ssw"</span>] = <span class="string">"nne"</span>,
+        [<span class="string">"sw"</span>] = <span class="string">"ne"</span>,
+        [<span class="string">"wsw"</span>] = <span class="string">"ene"</span>,
+        [<span class="string">"w"</span>] = <span class="string">"e"</span>,
+        [<span class="string">"wnw"</span>] = <span class="string">"ese"</span>,
+        [<span class="string">"nw"</span>] = <span class="string">"se"</span>,
+        [<span class="string">"nnw"</span>] = <span class="string">"sse"</span>
+    }
+
+    <span class="keyword">return</span> _lookupTable[_cardinalDirection] <span class="keyword">or</span> <span class="keyword">false</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+<span class="comment">--------------------------------------------------------
+</span><span class="comment">--- Unit conversion
+</span><span class="comment">-- @section unit
+</span>
+<a id="237"></a><span class="comment">--- Does what it sounds like.
+</span><span class="keyword">function</span> mphToKmh(_input)
+  <span class="keyword">return</span> round(_input*<span class="number">1.609344</span>)
+<span class="keyword">end</span>
+
+<a id="242"></a><span class="comment">--- Does what it sounds like.
+</span><span class="keyword">function</span> mphToMs(_input)
+  <span class="keyword">return</span> round (_input* <span class="number">0.44704</span>)
+<span class="keyword">end</span>
+
+<a id="247"></a><span class="comment">--- Does what it sounds like.
+</span><span class="keyword">function</span> fToC(_input)
+  <span class="keyword">return</span> round( (_input-<span class="number">32</span>) / <span class="number">1.8</span> )
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

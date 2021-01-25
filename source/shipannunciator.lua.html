@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><strong>shipannunciator.lua</strong></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>shipannunciator.lua</h2>
+<pre>
+<span class="comment">--- Display for general shipboard use. Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.
+</span><span class="comment">--@classmod ShipAnnunciator
+</span>
+ShipAnnunciator = {}
+
+
+
+
+
+
+
+
+
+
+<span class="comment">----------------------------------------------------------------------------------------------------
+</span><span class="comment">----------------------------------------------------------------------------------------------------
+</span><span class="comment">----------------------------------------------------------------------------------------------------
+</span><span class="comment">--- Initialisation methods.
+</span><span class="comment">-- For creating and Initialising ShipAnnunciator object.
+</span><span class="comment">-- @section Initialisation
+</span>
+
+
+<span class="comment">----------------------------------------------
+</span><span class="comment">--- Creates a new instance of the ShipAnnunciator class.
+</span><span class="comment">-- @treturn table A new instance of the ShipAnnunciator class.
+</span><a id="28"></a><span class="comment">-- @usage annunc = ShipAnnunciator:new()
+</span><span class="keyword">function</span> ShipAnnunciator:new()
+
+    ShipAnnunciator.__index = ShipAnnunciator
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, ShipAnnunciator)
+
+    <span class="comment">--------------------
+</span>
+    self.container = Geyser.Label:new({ name = self._instanceName..<span class="string">".container"</span>, x = elementX, y = elementY, width = <span class="number">395</span>, height = <span class="number">256</span> } )
+    self.container:setStyleSheet(<span class="string">[[background-color: #222222;]]</span>)
+
+    <span class="comment">--------------------
+</span>
+    self.rowingLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".rowingLabel"</span>, x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.rowingLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\rowing.png]]</span> )
+    self.rowingLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.sailsLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".sailsLabel"</span>, x = <span class="number">132</span>, y = <span class="number">0</span>, width = <span class="number">131</span>, height = <span class="number">64</span> }, self.container )
+    self.sailsLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\sails.png]]</span> )
+    self.sailsLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.anchorLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".anchorLabel"</span>, x = <span class="number">263</span>, y = <span class="number">0</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.anchorLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\anchor.png]]</span> )
+    self.anchorLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.gangplankLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".gangplankLabel"</span>, x = <span class="number">263</span>, y = <span class="number">64</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.gangplankLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\gangplank.png]]</span> )
+    self.gangplankLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.apLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".apLabel"</span>, x = <span class="number">0</span>, y = <span class="number">128</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.apLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\ap_on.png]]</span> )
+    self.apLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.windboostLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".windboostLabel"</span>, x = <span class="number">0</span>, y = <span class="number">64</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.windboostLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\windboost.png]]</span> )
+    self.windboostLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.shieldLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".shieldLabel"</span>, x = <span class="number">132</span>, y = <span class="number">64</span>, width = <span class="number">131</span>, height = <span class="number">64</span> }, self.container )
+    self.shieldLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\shield.png]]</span> )
+    self.shieldLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.insDriftLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".insDriftLabel"</span>, x = <span class="number">0</span>, y = <span class="number">192</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.insDriftLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\ins_drift.png]]</span> )
+    self.insDriftLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.grappledLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".grappledLabel"</span>, x = <span class="number">132</span>, y = <span class="number">128</span>, width = <span class="number">131</span>, height = <span class="number">64</span> }, self.container )
+    self.grappledLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\grappled.png]]</span> )
+    self.grappledLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.leakDetectLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".leakDetectLabel"</span>, x = <span class="number">263</span>, y = <span class="number">128</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.leakDetectLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\leak.png]]</span> )
+    self.leakDetectLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.fireLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".fireLabel"</span>, x = <span class="number">132</span>, y = <span class="number">192</span>, width = <span class="number">131</span>, height = <span class="number">64</span> }, self.container )
+    self.fireLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\fire.png]]</span> )
+    self.fireLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.abandonShipLabel = Geyser.Label:new({ name = self._instanceName..<span class="string">".abandonShipLabel"</span>, x = <span class="number">263</span>, y = <span class="number">192</span>, width = <span class="number">132</span>, height = <span class="number">64</span> }, self.container )
+    self.abandonShipLabel:setBackgroundImage( cloudDir .. <span class="string">[[GUI\images\sailing\abandon_ship.png]]</span> )
+    self.abandonShipLabel:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    <span class="comment">--------------------
+</span>
+    self.container:show()
+    self.rowingLabel:hide()
+    self.sailsLabel:hide()
+    self.anchorLabel:hide()
+    self.gangplankLabel:hide()
+    self.apLabel:hide()
+    self.windboostLabel:hide()
+    self.shieldLabel:hide()
+    self.insDriftLabel:hide()
+    self.grappledLabel:hide()
+    self.leakDetectLabel:hide()
+    self.fireLabel:hide()
+    self.abandonShipLabel:hide()
+
+    <span class="comment">--------------------
+</span>
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+<span class="comment">----------------------------------------------
+</span><span class="comment">--- Toggles element visibility via boolean input.
+</span><span class="comment">-- @tparam table element The element to hide/show.
+</span><span class="comment">-- @tparam bool showElement Show if true, hide if false.
+</span><a id="117"></a><span class="comment">-- @usage annunc = ShipAnnunciator:new()
+</span><span class="keyword">function</span> ShipAnnunciator:setVisible(element, showElement)
+
+    <span class="keyword">if</span> showElement <span class="keyword">then</span>
+        element:show()
+    <span class="keyword">else</span>
+        element:hide()
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+<span class="keyword">function</span> ShipAnnunciator:updateAnnunciator()
+
+    <span class="comment">-- Row 1
+</span>    <span class="comment">------------------------------------------------------------------
+</span>    <span class="comment">-- ROWING
+</span>    self.setVisible( self.rowingLabel, self.isRowing() )
+    <span class="comment">-- SAILING
+</span>    self.setVisible( self.sailingLabel, (self.sailSetting() &gt; <span class="number">0</span>))
+    <span class="comment">-- ANCHOR
+</span>    self.setVisible( self.anchorLabel, (<span class="keyword">not</span> self.isAnchorRaised()) )
+
+    <span class="comment">-- Row 2
+</span>    <span class="comment">------------------------------------------------------------------
+</span>    <span class="comment">-- WINDBOOST
+</span>    self:setVisible( self.windboostLabel, ship.windboost )
+    <span class="comment">-- SHIELD
+</span>    self:setVisible( self.shieldLabel, ship.shield )
+    <span class="comment">-- GANGPLANK
+</span>    self:setVisible( self.gangplankLabel, ship.windboost )
+
+    <span class="comment">-- Row 3
+</span>    <span class="comment">------------------------------------------------------------------
+</span>    <span class="comment">-- A/P ON
+</span>    self:setVisible( self.apLabel, ship.autopilotEnabled)
+    <span class="comment">-- GRAPPLED
+</span>        <span class="comment">-- INOP
+</span>    <span class="comment">-- LEAK DETECT
+</span>        <span class="comment">-- INOP
+</span>
+    <span class="comment">-- Row 4
+</span>    <span class="comment">------------------------------------------------------------------
+</span>    <span class="comment">-- INS DRIFT
+</span>    <span class="keyword">if</span> uacs.easting &gt;= <span class="number">0</span> <span class="keyword">and</span> uacs.southing &gt;= <span class="number">0</span> <span class="keyword">and</span> uacs.error &gt;= <span class="number">5</span> <span class="keyword">then</span>
+        shipAnnunciator.insDriftLabel:show()
+    <span class="keyword">else</span>
+        shipAnnunciator.insDriftLabel:hide()
+    <span class="keyword">end</span>
+    <span class="comment">-- FIRE
+</span>    self:setVisible( self.fireLabel, ship.fire )
+    <span class="comment">-- ABANDON SHIP
+</span>    self:setVisible( self.abandonShipLabel, ship.abandonShip )
+
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

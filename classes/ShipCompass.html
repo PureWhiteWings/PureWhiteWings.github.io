@@ -38,10 +38,9 @@
 
 
 <h2>Classes</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
-  <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><strong>ShipCompass</strong></li>
@@ -50,8 +49,11 @@
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
 <h2>Modules</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
   <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
 </ul>
 
 </div>
@@ -73,15 +75,15 @@
 <h2><a href="#Private_methods">Private methods </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#ShipCompass:setCourseNeedle">ShipCompass:setCourseNeedle (direction)</a></td>
+	<td class="name" nowrap><a href="#ShipCompass:setCourseNeedle">ShipCompass:setCourseNeedle (_direction)</a></td>
 	<td class="summary">Sets the orientation of the course needle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ShipCompass:setWindNeedle">ShipCompass:setWindNeedle (direction)</a></td>
+	<td class="name" nowrap><a href="#ShipCompass:setWindNeedle">ShipCompass:setWindNeedle (_direction)</a></td>
 	<td class="summary">Sets the orientation of the wind needle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ShipCompass:setBearingNeedle">ShipCompass:setBearingNeedle (direction)</a></td>
+	<td class="name" nowrap><a href="#ShipCompass:setBearingNeedle">ShipCompass:setBearingNeedle (_direction)</a></td>
 	<td class="summary">Sets the orientation of the bearing needle.</td>
 	</tr>
 	<tr>
@@ -89,7 +91,7 @@
 	<td class="summary">Sets the orientation of the bearing needle.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ShipCompass:update">ShipCompass:update (to_X, to_Y)</a></td>
+	<td class="name" nowrap><a href="#ShipCompass:update">ShipCompass:update (Takes)</a></td>
 	<td class="summary">Updates needles.</td>
 	</tr>
 </table>
@@ -98,15 +100,15 @@
 <br/>
 
 
-    <h2 class="section-header has-description"><a name="Public_methods"></a>Public methods </h2>
+    <h2><a name="Public_methods"></a>Public methods </h2>
 
-          <div class="section-description">
-           For creating and Initialising ShipCompass object.
-          </div>
+
+ For creating and Initialising ShipCompass object.
     <dl class="function">
     <dt>
     <a name = "ShipCompass:new"></a>
     <strong>ShipCompass:new (_instanceName, _x, _y)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#21">line 21</a>
     </dt>
     <dd>
     Creates a new instance of the ShipCompass class and its display
@@ -115,7 +117,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_instanceName</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name for the consoles and such. Should be identical to object's unique name.
         </li>
         <li><span class="parameter">_x</span>
@@ -131,7 +133,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         A new instance of the ShipCompass class.
     </ol>
 
@@ -144,15 +146,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Private_methods"></a>Private methods </h2>
+    <h2><a name="Private_methods"></a>Private methods </h2>
 
-          <div class="section-description">
-           <strong><em>Privatise these, you silly bird.</em></strong>
-          </div>
+
+ <strong><em>Privatise these, you silly bird.</em></strong>
     <dl class="function">
     <dt>
     <a name = "ShipCompass:setCourseNeedle"></a>
-    <strong>ShipCompass:setCourseNeedle (direction)</strong>
+    <strong>ShipCompass:setCourseNeedle (_direction)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#83">line 83</a>
     </dt>
     <dd>
     Sets the orientation of the course needle.
@@ -160,8 +162,8 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">direction</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <li><span class="parameter">_direction</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Direction in short format.
         </li>
     </ul>
@@ -177,7 +179,8 @@
 </dd>
     <dt>
     <a name = "ShipCompass:setWindNeedle"></a>
-    <strong>ShipCompass:setWindNeedle (direction)</strong>
+    <strong>ShipCompass:setWindNeedle (_direction)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#100">line 100</a>
     </dt>
     <dd>
     Sets the orientation of the wind needle.
@@ -185,8 +188,8 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">direction</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <li><span class="parameter">_direction</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Direction in short format.
         </li>
     </ul>
@@ -202,7 +205,8 @@
 </dd>
     <dt>
     <a name = "ShipCompass:setBearingNeedle"></a>
-    <strong>ShipCompass:setBearingNeedle (direction)</strong>
+    <strong>ShipCompass:setBearingNeedle (_direction)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#119">line 119</a>
     </dt>
     <dd>
     Sets the orientation of the bearing needle.
@@ -210,7 +214,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">direction</span>
+        <li><span class="parameter">_direction</span>
             <span class="types"><span class="type">int</span></span>
          Direction in rounded degrees.
         </li>
@@ -228,6 +232,7 @@
     <dt>
     <a name = "ShipCompass:move"></a>
     <strong>ShipCompass:move (to_X, to_Y)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#139">line 139</a>
     </dt>
     <dd>
     Sets the orientation of the bearing needle.
@@ -256,31 +261,25 @@
 </dd>
     <dt>
     <a name = "ShipCompass:update"></a>
-    <strong>ShipCompass:update (to_X, to_Y)</strong>
+    <strong>ShipCompass:update (Takes)</strong>
+    <a style="float:right;" href="../source/ShipCompass.lua.html#152">line 152</a>
     </dt>
     <dd>
     Updates needles.  Has event handler to handle it trigger-free.
+ <a href="../classes/Ship.html#Ship:processPrompt">Ship:processPrompt</a>
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">to_X</span>
-            <span class="types"><span class="type">int</span></span>
-         X coordinate to move top-left point of container to, in screen coordinates.
-        </li>
-        <li><span class="parameter">to_Y</span>
-            <span class="types"><span class="type">int</span></span>
-         Y coordinate to move top-left point of container to, in screen coordinates.
+        <li><span class="parameter">Takes</span>
+            <span class="types"><span class="type">args</span></span>
+         in prompt data from event handler.
         </li>
     </ul>
 
 
 
 
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">compass:move(<span class="number">273</span>,<span class="number">270</span>)</pre>
-    </ul>
 
 </dd>
 </dl>
@@ -289,8 +288,8 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

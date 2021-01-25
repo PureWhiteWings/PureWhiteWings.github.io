@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><strong>shipcompass.lua</strong></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>shipcompass.lua</h2>
+<pre>
+<span class="comment">--- Compass for general shipboard use. Packaged up all nice and pretty. I think so, anyway.
+</span><span class="comment">--@classmod ShipCompass
+</span>
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Public methods.
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section Public
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+ShipCompass = {}
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Creates a new instance of the ShipCompass class and its display
+</span><span class="comment">-- @tparam string _instanceName Name for the consoles and such. Should be identical to object's unique name.
+</span><span class="comment">-- @tparam int _x X screen coordinate of ShipCompass's top-left point.
+</span><span class="comment">-- @tparam int _y Y screen coordinate of ShipCompass's top-left point.
+</span><span class="comment">-- @treturn table A new instance of the ShipCompass class.
+</span><a id="21"></a><span class="comment">-- @usage compass = ShipCompass:new("compass",14,587)
+</span><span class="keyword">function</span> ShipCompass:new(_instanceName, _x, _y)
+
+    ShipCompass.__index = ShipCompass
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, ShipCompass)
+
+    self._instanceName = <span class="global">tostring</span>(_instanceName)
+
+    self.container = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".container"</span>,
+        x = _x, y = _y,
+        width = <span class="number">483</span>, height = <span class="number">456</span>,
+    })
+
+    self.courseNeedle = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".courseNeedle"</span>,
+        x = <span class="number">42</span>, y = <span class="number">22</span>,
+        width = <span class="number">310</span>, height = <span class="number">310</span>,
+    }, self.container)
+
+    self.windNeedle = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".windNeedle"</span>,
+        x = <span class="number">42</span>, y = <span class="number">22</span>,
+        width = <span class="number">310</span>, height = <span class="number">310</span>,
+    }, self.container)
+
+    self.bearingNeedle = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".bearingNeedle"</span>,
+        x = <span class="number">35</span>, y = <span class="number">20</span>,
+        width = <span class="number">324</span>, height = <span class="number">324</span>,
+    }, self.container)
+
+    self.container:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+
+    self.bearingNeedle:raise()
+    self.windNeedle:raise()
+    self.courseNeedle:raise()
+
+    self:setCourseNeedle(<span class="string">"n"</span>)
+    self:setWindNeedle(<span class="string">"n"</span>)
+    self:setBearingNeedle(<span class="number">0</span>)
+
+    self._updateHandler = self._updateHandler <span class="keyword">or</span> registerAnonymousEventHandler(<span class="string">"ship done with prompt"</span>, self._instanceName..<span class="string">":update"</span>)
+
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Private methods.
+</span><span class="comment">-- ***Privatise these, you silly bird.***
+</span><span class="comment">-- @todo Privatise these methods!
+</span><span class="comment">-- @section Public
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets the orientation of the course needle.
+</span><span class="comment">-- @tparam string _direction Direction in short format.
+</span><a id="83"></a><span class="comment">-- @usage compass:setCourseNeedle("nw")
+</span><span class="keyword">function</span> ShipCompass:setCourseNeedle(_direction)
+
+    _direction = <span class="global">string</span>.lower(_direction)
+
+    self.courseNeedle:setStyleSheet(<span class="string">[[
+        background-color: #00000000;
+        border-image: url(]]</span>..cloudDir:gsub(<span class="string">"\\","</span>/<span class="string">")..[[GUI/images/needles/big16/]].._direction..[[.png);
+    ]])
+
+    self.courseNeedle._displayed = _direction
+
+end
+
+----------------------------------------
+--- Sets the orientation of the wind needle.
+-- @tparam string _direction Direction in short format.
+-- @usage compass:setWindNeedle("</span>ne<span class="string">")
+function ShipCompass:setWindNeedle(_direction)
+
+    _direction = string.lower(_direction)
+
+    self.windNeedle:setStyleSheet([[
+        background-color: #00000000;
+        border-image: url(]]..cloudDir:gsub("</span>\\<span class="string">","</span>/<span class="string">")..[[GUI/images/needles/bigred16/]].._direction..[[.png);
+    ]])
+
+    self.windNeedle._displayed = _direction
+
+end
+
+
+
+----------------------------------------
+--- Sets the orientation of the bearing needle.
+-- @tparam int _direction Direction in rounded degrees.
+-- @usage compass:setBearingNeedle(270)
+function ShipCompass:setBearingNeedle(_direction)
+
+    _direction = string.lower(_direction)
+
+    self.bearingNeedle:setStyleSheet([[
+        background-color: #00000000;
+        border-image: url(]]..cloudDir:gsub("</span>\\<span class="string">","</span>/")..<span class="string">[[GUI/images/needles/outer360/]]</span>.._direction..<span class="string">[[.png);
+    ]]</span>)
+
+    self.bearingNeedle._displayed = _direction
+
+<span class="keyword">end</span>
+
+
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets the orientation of the bearing needle.
+</span><span class="comment">-- @tparam int to_X X coordinate to move top-left point of container to, in screen coordinates.
+</span><span class="comment">-- @tparam int to_Y Y coordinate to move top-left point of container to, in screen coordinates.
+</span><a id="100"></a><span class="comment">-- @usage compass:move(273,270)
+</span><span class="keyword">function</span> ShipCompass:move(to_X,to_Y)
+
+    self.container:move(to_X,to_Y)
+
+<span class="keyword">end</span>
+
+
+
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Updates needles. Has event handler to handle it trigger-free.
+</span><span class="comment">-- <a href="../classes/Ship.html#Ship:processPrompt">Ship:processPrompt</a>
+</span><span class="comment">-- @tparam args Takes in prompt data from event handler.
+</span><span class="keyword">function</span> ShipCompass:update(...)
+
+    <span class="keyword">local</span> promptTable = arg[<span class="number">2</span>]
+
+    self:setCourseNeedle  (promptTable._course)
+    self:setWindNeedle    (promptTable._windDirection)<a id="119"></a>
+    <span class="comment">--self:setBearingNeedle (0)
+</span>
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

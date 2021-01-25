@@ -32,9 +32,8 @@
 
 <h2>Contents</h2>
 <ul>
+<li><a href="#Initialisation">Initialisation </a></li>
 <li><a href="#Misc_methods">Misc methods </a></li>
-<li><a href="#Initialisation__For_creating_and_Initialising_VitalsBox_object">Initialisation
- For creating and Initialising VitalsBox object </a></li>
 <li><a href="#Gauge_methods">Gauge methods </a></li>
 <li><a href="#Label_methods">Label methods </a></li>
 <li><a href="#Battlerage">Battlerage </a></li>
@@ -42,10 +41,9 @@
 
 
 <h2>Classes</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
-  <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
@@ -54,8 +52,11 @@
   <li><strong>VitalsBox</strong></li>
 </ul>
 <h2>Modules</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
   <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
 </ul>
 
 </div>
@@ -69,6 +70,13 @@
 </p>
 
 
+<h2><a href="#Initialisation">Initialisation </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
+	<td class="summary">Creates a new instance of the VitalsBox class.</td>
+	</tr>
+</table>
 <h2><a href="#Misc_methods">Misc methods </a></h2>
 <table class="function_list">
 	<tr>
@@ -82,14 +90,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#VitalsBox:update">VitalsBox:update ()</a></td>
 	<td class="summary">It updates things.</td>
-	</tr>
-</table>
-<h2><a href="#Initialisation__For_creating_and_Initialising_VitalsBox_object">Initialisation
- For creating and Initialising VitalsBox object </a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#VitalsBox:new">VitalsBox:new (_name, _elementX, _elementY)</a></td>
-	<td class="summary">Creates a new instance of the VitalsBox class.</td>
 	</tr>
 </table>
 <h2><a href="#Gauge_methods">Gauge methods </a></h2>
@@ -146,12 +146,60 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Misc_methods"></a>Misc methods </h2>
+    <h2><a name="Initialisation"></a>Initialisation </h2>
+
+
+ For creating and Initialising ShipCompass object.
+    <dl class="function">
+    <dt>
+    <a name = "VitalsBox:new"></a>
+    <strong>VitalsBox:new (_name, _elementX, _elementY)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#23">line 23</a>
+    </dt>
+    <dd>
+    Creates a new instance of the VitalsBox class.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">_name</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Instance name, should be identical to variable instance is assigned to.
+        </li>
+        <li><span class="parameter">_elementX</span>
+            <span class="types"><span class="type">number</span></span>
+         X coordinate of VitalsBox, in screen coordinates.
+        </li>
+        <li><span class="parameter">_elementY</span>
+            <span class="types"><span class="type">number</span></span>
+         Y coordinate of VitalsBox, in screen coordinates.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A new instance of the VitalsBox class.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2><a name="Misc_methods"></a>Misc methods </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "VitalsBox:showTargetHP"></a>
     <strong>VitalsBox:showTargetHP (_show)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#327">line 327</a>
     </dt>
     <dd>
     Shows or hides target information.
@@ -177,6 +225,7 @@
     <dt>
     <a name = "VitalsBox:setVisible"></a>
     <strong>VitalsBox:setVisible (_visible)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#340">line 340</a>
     </dt>
     <dd>
     Shows or hides the whole object on the screen.
@@ -203,6 +252,7 @@
     <dt>
     <a name = "VitalsBox:update"></a>
     <strong>VitalsBox:update ()</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#350">line 350</a>
     </dt>
     <dd>
     It updates things.
@@ -215,56 +265,14 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Initialisation__For_creating_and_Initialising_VitalsBox_object"></a>Initialisation
- For creating and Initialising VitalsBox object </h2>
+    <h2><a name="Gauge_methods"></a>Gauge methods </h2>
 
-    <dl class="function">
-    <dt>
-    <a name = "VitalsBox:new"></a>
-    <strong>VitalsBox:new (_name, _elementX, _elementY)</strong>
-    </dt>
-    <dd>
-    Creates a new instance of the VitalsBox class.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         Instance name, should be identical to variable instance is assigned to.
-        </li>
-        <li><span class="parameter">_elementX</span>
-            <span class="types"><span class="type">number</span></span>
-         X coordinate of VitalsBox, in screen coordinates.
-        </li>
-        <li><span class="parameter">_elementY</span>
-            <span class="types"><span class="type">number</span></span>
-         Y coordinate of VitalsBox, in screen coordinates.
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        A new instance of the VitalsBox class.
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">vitals = VitalsBox:new(<span class="string">"vitals"</span>,<span class="number">89</span>,<span class="number">916</span>)</pre>
-    </ul>
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="Gauge_methods"></a>Gauge methods </h2>
 
     <dl class="function">
     <dt>
     <a name = "VitalsBox:setEndurance"></a>
     <strong>VitalsBox:setEndurance (_currentEnd, _maxEnd)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#150">line 150</a>
     </dt>
     <dd>
     Sets endurance gauge and text.
@@ -290,6 +298,7 @@
     <dt>
     <a name = "VitalsBox:setHealth"></a>
     <strong>VitalsBox:setHealth (_currentHP, _maxHP)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#161">line 161</a>
     </dt>
     <dd>
     Sets HP gauge and text.
@@ -298,11 +307,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_currentHP</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Current HP
         </li>
         <li><span class="parameter">_maxHP</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Maximum HP
         </li>
     </ul>
@@ -319,6 +328,7 @@
     <dt>
     <a name = "VitalsBox:setMana"></a>
     <strong>VitalsBox:setMana (_currentMP, _maxMP)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#172">line 172</a>
     </dt>
     <dd>
     Sets MP gauge and text.
@@ -327,11 +337,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_currentMP</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Current MP
         </li>
         <li><span class="parameter">_maxMP</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Maximum MP
         </li>
     </ul>
@@ -348,6 +358,7 @@
     <dt>
     <a name = "VitalsBox:setTargetHealth"></a>
     <strong>VitalsBox:setTargetHealth (_value)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#182">line 182</a>
     </dt>
     <dd>
     Sets target HP gauge and readout.
@@ -373,6 +384,7 @@
     <dt>
     <a name = "VitalsBox:setWillpower"></a>
     <strong>VitalsBox:setWillpower (_currentWP, _maxWP)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#192">line 192</a>
     </dt>
     <dd>
     Sets willpower gauge and text.
@@ -396,12 +408,14 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Label_methods"></a>Label methods </h2>
+    <h2><a name="Label_methods"></a>Label methods </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "VitalsBox:setBalance"></a>
     <strong>VitalsBox:setBalance (_labelBalance)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#211">line 211</a>
     </dt>
     <dd>
     Sets balance indicator.
@@ -427,6 +441,7 @@
     <dt>
     <a name = "VitalsBox:setEquilibrium"></a>
     <strong>VitalsBox:setEquilibrium (_labelBalance)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#231">line 231</a>
     </dt>
     <dd>
     Sets equilibrium indicator.
@@ -452,6 +467,7 @@
     <dt>
     <a name = "VitalsBox:setLowHP"></a>
     <strong>VitalsBox:setLowHP (_value)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#251">line 251</a>
     </dt>
     <dd>
     Sets low HP warning indicator.
@@ -477,6 +493,7 @@
     <dt>
     <a name = "VitalsBox:setTargetName"></a>
     <strong>VitalsBox:setTargetName (_name)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#294">line 294</a>
     </dt>
     <dd>
     Sets target name to be displayed.
@@ -485,7 +502,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Set target name
         </li>
     </ul>
@@ -500,12 +517,14 @@
 
 </dd>
 </dl>
-    <h2 class="section-header "><a name="Battlerage"></a>Battlerage </h2>
+    <h2><a name="Battlerage"></a>Battlerage </h2>
+
 
     <dl class="function">
     <dt>
     <a name = "VitalsBox:setRage"></a>
     <strong>VitalsBox:setRage (_currentRage)</strong>
+    <a style="float:right;" href="../source/VitalsBox.lua.html#310">line 310</a>
     </dt>
     <dd>
     Sets rage text.
@@ -531,8 +550,8 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

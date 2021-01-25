@@ -41,10 +41,9 @@
 
 
 <h2>Classes</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><strong>MFD</strong></li>
-  <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
@@ -53,8 +52,11 @@
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
 <h2>Modules</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
   <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
 </ul>
 
 </div>
@@ -63,18 +65,16 @@
 
 <h1>Class <code>MFD</code></h1>
 <p>Display for general shipboard use.</p>
-<p> Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.</p>
+<p> Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.
+ Yeah.
+ # That's <strong>rad</strong>.</p>
 
 
 <h2><a href="#Initialisation_methods">Initialisation methods </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#MFD:new">MFD:new ()</a></td>
+	<td class="name" nowrap><a href="#MFD:new">MFD:new (_instanceName, _x, _y)</a></td>
 	<td class="summary">Creates a new intance of the MFD class.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#MFD:build">MFD:build (mfd_name, mfd_X, mfd_Y)</a></td>
-	<td class="summary">Creates and blanks the MFD display.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#self.container">self.container</a></td>
@@ -130,55 +130,31 @@
 <br/>
 
 
-    <h2 class="section-header has-description"><a name="Initialisation_methods"></a>Initialisation methods </h2>
+    <h2><a name="Initialisation_methods"></a>Initialisation methods </h2>
 
-          <div class="section-description">
-           For creating and Initialising MFD object.
-          </div>
+
+ For creating and Initialising MFD object.
     <dl class="function">
     <dt>
     <a name = "MFD:new"></a>
-    <strong>MFD:new ()</strong>
+    <strong>MFD:new (_instanceName, _x, _y)</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#26">line 26</a>
     </dt>
     <dd>
     Creates a new intance of the MFD class.
 
 
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-        A new instance of the MFD class.
-    </ol>
-
-
-
-    <h3>Usage:</h3>
-    <ul>
-        <pre class="example">myMFD = MFD:new()</pre>
-    </ul>
-
-</dd>
-    <dt>
-    <a name = "MFD:build"></a>
-    <strong>MFD:build (mfd_name, mfd_X, mfd_Y)</strong>
-    </dt>
-    <dd>
-    Creates and blanks the MFD display.
-
-
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">mfd_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        <li><span class="parameter">_instanceName</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name for the consoles and such. Should be identical to object's unique name.
         </li>
-        <li><span class="parameter">mfd_X</span>
+        <li><span class="parameter">_x</span>
             <span class="types"><span class="type">int</span></span>
          X screen coordinate of MFD's top-left point.
         </li>
-        <li><span class="parameter">mfd_Y</span>
+        <li><span class="parameter">_y</span>
             <span class="types"><span class="type">int</span></span>
          Y screen coordinate of MFD's top-left point.
         </li>
@@ -187,21 +163,22 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">bool</span></span>
-        True, if successful.
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        A new instance of the MFD class.
     </ol>
 
 
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example">myMFD:build(<span class="string">"myMFD"</span>,<span class="number">240</span>,<span class="number">632</span>)</pre>
+        <pre class="example">myMFD = MFD:new(<span class="string">"myMFD"</span>,<span class="number">423</span>,<span class="number">406</span>)</pre>
     </ul>
 
 </dd>
     <dt>
     <a name = "self.container"></a>
     <strong>self.container</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#35">line 35</a>
     </dt>
     <dd>
     The container that holds all of the things
@@ -216,6 +193,7 @@
     <dt>
     <a name = "self.console"></a>
     <strong>self.console</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#46">line 46</a>
     </dt>
     <dd>
     The console itself
@@ -228,15 +206,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Notification_methods"></a>Notification methods </h2>
+    <h2><a name="Notification_methods"></a>Notification methods </h2>
 
-          <div class="section-description">
-           For drawing notifications on-screen.
-          </div>
+
+ For drawing notifications on-screen.
     <dl class="function">
     <dt>
     <a name = "MFD:notify"></a>
     <strong>MFD:notify (text, displayTime, fontSize[, bgColour[, fgColour]])</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#110">line 110</a>
     </dt>
     <dd>
     Raises an on-screen notification, with multiple options for styling.
@@ -246,7 +224,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">text</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          string The notification text to display.
         </li>
         <li><span class="parameter">displayTime</span>
@@ -258,12 +236,12 @@
          int The font size to use (default 12).
         </li>
         <li><span class="parameter">bgColour</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Colour to use for alert background. Defaults to MFD's current primary if not set.
          (<em>optional</em>)
         </li>
         <li><span class="parameter">fgColour</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Colour to use for foreground text.
          (<em>optional</em>)
         </li>
@@ -279,15 +257,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Page_methods"></a>Page methods </h2>
+    <h2><a name="Page_methods"></a>Page methods </h2>
 
-          <div class="section-description">
-           Stuff for drawing full pages of text to the MFD screen in a single routine.
-          </div>
+
+ Stuff for drawing full pages of text to the MFD screen in a single routine.
     <dl class="function">
     <dt>
     <a name = "MFD:writeNavPage"></a>
     <strong>MFD:writeNavPage ()</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#190">line 190</a>
     </dt>
     <dd>
     Writes UACS and related data to the screen.
@@ -304,15 +282,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Query_methods"></a>Query methods </h2>
+    <h2><a name="Query_methods"></a>Query methods </h2>
 
-          <div class="section-description">
-           Stuff for retrieving data to help us draw to the screen.
-          </div>
+
+ Stuff for retrieving data to help us draw to the screen.
     <dl class="function">
     <dt>
     <a name = "MFD:getColour"></a>
     <strong>MFD:getColour ()</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#234">line 234</a>
     </dt>
     <dd>
     Retrieves current time of day from Time object, if present.
@@ -335,15 +313,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Output_methods"></a>Output methods </h2>
+    <h2><a name="Output_methods"></a>Output methods </h2>
 
-          <div class="section-description">
-           Stuff for outputting to the MFD screen.
-          </div>
+
+ Stuff for outputting to the MFD screen.
     <dl class="function">
     <dt>
     <a name = "MFD:cls"></a>
     <strong>MFD:cls ()</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#260">line 260</a>
     </dt>
     <dd>
     Resets and erases the entire screen, and readies for writing.
@@ -363,6 +341,7 @@
     <dt>
     <a name = "MFD:drawBorderNav"></a>
     <strong>MFD:drawBorderNav (colour)</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#287">line 287</a>
     </dt>
     <dd>
     Draws a basic border around the edges of the screen, arranged for Nav page.
@@ -372,7 +351,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">colour</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          <em>[optional]</em> Colour to draw border in, as HTML colour name.
         </li>
     </ul>
@@ -389,6 +368,7 @@
     <dt>
     <a name = "MFD:setCursor"></a>
     <strong>MFD:setCursor (inputX, inputY, doBlink)</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#323">line 323</a>
     </dt>
     <dd>
     Places an underscore at the given X,Y with optional blinking.
@@ -432,16 +412,18 @@
     <dt>
     <a name = "MFD:write"></a>
     <strong>MFD:write (writeText, writeX, writeY, fgColour, bgColour)</strong>
+    <a style="float:right;" href="../source/MFD.lua.html#339">line 339</a>
     </dt>
     <dd>
-    Writes text to the MFD.
- Writes text of arbitrary length, position, and colour to the MFD. Overwrites existing text for the length of the string.
+    Writes text to the MFD. </p>
+
+<p> Writes text of arbitrary length, position, and colour to the MFD. Overwrites existing text for the length of the string.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">writeText</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The text to be written to the MFD.
         </li>
         <li><span class="parameter">writeX</span>
@@ -453,12 +435,12 @@
          Y position of cursor, where text will be inserted. 0-15
         </li>
         <li><span class="parameter">fgColour</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         <em>[optional]</em> Colour to be used for the text foreground colour, as HTML colour name. Defaults to standard day/night colour if not specified.
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Colour to be used for the text foreground colour, as HTML colour name.
         </li>
         <li><span class="parameter">bgColour</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         <em>[optional]</em> Colour to be used for the text background colour, as HTML colour name. Defaults to *near_black* if not specified.
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Colour to be used for the text background colour, as HTML colour name.
         </li>
     </ul>
 
@@ -483,8 +465,8 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

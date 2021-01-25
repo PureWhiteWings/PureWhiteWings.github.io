@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><strong>ship.lua</strong></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>ship.lua</h2>
+<pre>
+<span class="comment">--- The main ship meta class.
+</span><span class="comment">-- @classmod Ship
+</span>
+Ship = {}
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Initialisation.
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section initialisation
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Creates a new intance of the Ship class.
+</span><span class="comment">-- @tparam string _instanceName, should be identical to variable instance is assigned to.
+</span><span class="comment">-- @treturn table A new instance of the Ship class.
+</span><a id="20"></a><span class="comment">-- @usage thisShip = Ship:new()
+</span><span class="keyword">function</span> Ship:new(_instanceName)
+
+    Ship.__index = Ship
+    self = <span class="global">setmetatable</span>({}, Ship)
+
+    <span class="keyword">local</span> _anchorRaised = <span class="keyword">false</span>
+    <span class="keyword">local</span> _autorepairType = -<span class="number">1</span>
+    <span class="keyword">local</span> _course = <span class="keyword">false</span>
+    <span class="keyword">local</span> _crewBalance = <span class="keyword">true</span>
+    <span class="keyword">local</span> _deckFire = <span class="keyword">false</span>
+    <span class="keyword">local</span> _gangplankRaised = <span class="keyword">false</span>
+    <span class="keyword">local</span> _hullHealth = -<span class="number">1</span>
+    <span class="keyword">local</span> _instanceName = _instanceName
+    <span class="keyword">local</span> _isLeaking = <span class="keyword">false</span>
+    <span class="keyword">local</span> _isRowing = <span class="keyword">false</span>
+    <span class="keyword">local</span> _isSinking = <span class="keyword">false</span>
+    <span class="keyword">local</span> _isTangled = <span class="keyword">false</span>
+    <span class="keyword">local</span> _promptType = -<span class="number">1</span>
+    <span class="keyword">local</span> _repairCooldown = <span class="keyword">false</span>
+    <span class="keyword">local</span> _repairingHull = <span class="keyword">false</span>
+    <span class="keyword">local</span> _repairingSails = <span class="keyword">false</span>
+    <span class="keyword">local</span> _requestedCourse = <span class="keyword">false</span>
+    <span class="keyword">local</span> _sailFire = <span class="keyword">false</span>
+    <span class="keyword">local</span> _sailHealth = <span class="number">100</span>
+    <span class="keyword">local</span> _sailSetting = -<span class="number">1</span>
+    <span class="keyword">local</span> _seaState = -<span class="number">1</span>
+    <span class="keyword">local</span> _speed = -<span class="number">1</span>
+    <span class="keyword">local</span> _type = -<span class="number">1</span>
+    <span class="keyword">local</span> _windDirection = <span class="keyword">false</span>
+    <span class="keyword">local</span> _windSpeed = -<span class="number">1</span>
+
+    _handlers = _handlers <span class="keyword">or</span> {}
+    <span class="keyword">if</span> _instanceName <span class="keyword">then</span>
+        <span class="keyword">if</span> _handlers[self._instanceName] <span class="keyword">then</span> killAnonymousEventHandler(_handlers[self._instanceName]) <span class="keyword">end</span>
+        _handlers[self._instanceName] = registerAnonymousEventHandler(<span class="string">"ship prompt captured"</span>, <span class="string">"_handlers["</span>..self._instanceName..<span class="string">"]"</span>)
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Repair methods.
+</span><span class="comment">-- Methods to handle repairing.
+</span><span class="comment">-- @section repair
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Runs autorepair routine, and issues repair orders if necessary.
+</span><span class="comment">-- Immediately returns if already repairing, so can be called on every prompt.
+</span><span class="comment">-- Check functionality on this. Ugly, but it should work.
+</span><a id="75"></a><span class="comment">-- @usage thisShip:runAutorepair()
+</span><span class="keyword">function</span> Ship:runAutorepair()
+
+    <span class="keyword">if</span> svo.conf.paused <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> _repairHull = <span class="keyword">false</span>
+    <span class="keyword">local</span> _repairSails = <span class="keyword">false</span>
+
+    <span class="keyword">if</span> self._autoRepair == <span class="number">0</span> <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+    <span class="keyword">if</span> self._repairCooldown <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+
+    <span class="comment">---------------
+</span>
+    <span class="keyword">if</span> self._hullHealth &lt; <span class="number">95</span> <span class="keyword">and</span> <span class="keyword">not</span> self._repairingHull <span class="keyword">then</span>
+        _repairHull = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> self._sailHealth &lt; <span class="number">95</span> <span class="keyword">and</span> <span class="keyword">not</span> self._repairingSails <span class="keyword">and</span> self._autoRepair == <span class="number">2</span> <span class="keyword">then</span>
+        _repairSails = <span class="keyword">true</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> _repairHull <span class="keyword">and</span> <span class="keyword">not</span> _repairSails <span class="keyword">then</span>
+        send(<span class="string">"ship repair hull"</span>)
+        self._repairCooldown = <span class="keyword">true</span>
+        tempTimer(<span class="number">1.0</span>, <span class="keyword">function</span>() self._repairCooldown = <span class="keyword">false</span> <span class="keyword">end</span>)
+    <span class="keyword">elseif</span> <span class="keyword">not</span> _repairHull <span class="keyword">and</span> _repairSails <span class="keyword">then</span>
+        send(<span class="string">"ship repair sails"</span>)
+        self._repairCooldown = <span class="keyword">true</span>
+        tempTimer(<span class="number">1.0</span>, <span class="keyword">function</span>() self._repairCooldown = <span class="keyword">false</span> <span class="keyword">end</span>)
+    <span class="keyword">elseif</span> _repairHull <span class="keyword">and</span> _repairSails <span class="keyword">then</span>
+        send(<span class="string">"ship repair all"</span>)
+        self._repairCooldown = <span class="keyword">true</span>
+        tempTimer(<span class="number">1.0</span>, <span class="keyword">function</span>() self._repairCooldown = <span class="keyword">false</span> <span class="keyword">end</span>)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current autorepair type for the ship.
+</span><span class="comment">-- @treturn int 0 = no repair, 1 = hull repair, 2 = all repair
+</span><a id="113"></a><span class="comment">-- @usage local autorepairType = Ship:getAutorepairType()
+</span><span class="keyword">function</span> Ship:getAutorepairType()
+    <span class="keyword">return</span> self._autorepairType
+<span class="keyword">end</span>
+
+<span class="comment">--- True if on cooldown between repair attempts.
+</span><span class="comment">-- @treturn bool True, if on cooldown.
+</span><a id="120"></a><span class="comment">-- @usage local repairCooldown = Ship:getRepairCooldown()
+</span><span class="keyword">function</span> Ship:getRepairCooldown()
+    <span class="keyword">return</span> self._repairCooldown
+<span class="keyword">end</span>
+
+<span class="comment">--- True if crew is repairing hull.
+</span><span class="comment">-- @treturn bool True, if repairing hull.
+</span><a id="127"></a><span class="comment">-- @usage local repairingHull = Ship:isRepairingHull()
+</span><span class="keyword">function</span> Ship:isRepairingHull()
+    <span class="keyword">return</span> self._repairingHull
+<span class="keyword">end</span>
+
+<span class="comment">--- True if crew is repairing sails.
+</span><span class="comment">-- @treturn bool True, if repairing sails.
+</span><a id="134"></a><span class="comment">-- @usage local repairingSails = Ship:isRepairingSails()
+</span><span class="keyword">function</span> Ship:isRepairingSails()
+    <span class="keyword">return</span> self._repairingSails
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the autorepair type for the ship.
+</span><span class="comment">-- @tparam int autorepairType 0 = repair none, 1 = repair hull, 2 = repair both
+</span><a id="141"></a><span class="comment">-- @usage outShip:setAutorepairType(1)
+</span><span class="keyword">function</span> Ship:setAutorepairType(autorepairType)
+    self._autorepairType = autoRepairType
+<span class="keyword">end</span>
+
+<span class="comment">--- Enable or disable autorepair cooldown.
+</span><span class="comment">-- Will automatically disable itself after three seconds enabled.
+</span><span class="comment">-- @tparam bool _cooldown **true** to enable crew cooldown timer, **false** to disable it early.
+</span><a id="149"></a><span class="comment">-- @todo Make it not double-disable.
+</span><span class="keyword">function</span> Ship:setRepairCooldown(_cooldown)
+    self._repairCooldown = _coolDown <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">if</span> _cooldown <span class="keyword">then</span> tempTimer(<span class="number">3</span>, <span class="keyword">function</span>() self:setRepairCooldown(<span class="keyword">false</span>) <span class="keyword">end</span>) <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set if crew is repairing hull.
+</span><a id="156"></a><span class="comment">-- @tparam bool _keepRepairing True, if repairing hull.
+</span><span class="keyword">function</span> Ship:repairHull(_keepRepairing)
+    self._repairingHull = _keepRepairing <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Set if crew is repairing sails.
+</span><a id="162"></a><span class="comment">-- @tparam bool _keepRepairing True, if repairing sails.
+</span><span class="keyword">function</span> Ship:repairSails(_keepRepairing)
+    self._repairingSails = _keepRepairing <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Prompt methods.
+</span><span class="comment">-- Methods to handle the various ship prompts.
+</span><span class="comment">-- @section prompt
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Processes a ship prompt line in-object, instead of using complex triggers.
+</span><span class="comment">-- Reads both Battle and Cryptic prompts, and populates the instance's attributes accordingly.
+</span><span class="comment">-- To enable, simply use a trigger to pass the prompt
+</span><span class="comment">-- @tparam string _promptString The full ship prompt line from the game.
+</span><a id="181"></a><span class="comment">-- @treturn event,table Raises <code>ship prompt processed</code> event. Prompt data passed along as a table.
+</span><span class="keyword">function</span> Ship:processPrompt(_promptString)
+
+    <span class="keyword">local</span> _searchString = <span class="string">""</span>
+    <span class="keyword">if</span> <span class="global">string</span>.match(_promptString, <span class="string">"(%w+)"</span>) == <span class="string">"Sl"</span> <span class="keyword">then</span>
+        _searchString = <span class="string">"^= Sl (.*) %- hp (.*),Hl: (.*),Wd (%w+)@(%d+)kts,Cr/Sp (%w+)@(%d+),Sea (%w+)(.*)$"</span>
+    <span class="keyword">elseif</span> <span class="global">string</span>.match(_promptString, <span class="string">"(%w+)"</span>) == <span class="string">"S"</span>  <span class="keyword">then</span>
+        _searchString = <span class="string">"^= S(.*)@h(.*),H(.*),W&lt;%-(%w*)@(%d*)kts,C/S%-&gt;(%w+)@(%d+),(%w+)(.*)"</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">local</span> promptCaptures = { <span class="global">string</span>.match( _promptString, _searchString ) }
+
+    <span class="keyword">local</span> promptData = {}                                       <span class="comment">-- EXAMPLE DATA
+</span>    promptData._sailSetting   = promptCaptures[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 75
+</span>    promptData._sailHealth    = promptCaptures[<span class="number">2</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 95
+</span>    promptData._hullHealth    = promptCaptures[<span class="number">3</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 87
+</span>    promptData._windDirection = promptCaptures[<span class="number">4</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- "ne"
+</span>    promptData._windSpeed     = promptCaptures[<span class="number">5</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 20
+</span>    promptData._course        = promptCaptures[<span class="number">6</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- "nw"
+</span>    promptData._speed         = promptCaptures[<span class="number">7</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 15
+</span>    promptData._seaState      = promptCaptures[<span class="number">8</span>] <span class="keyword">or</span> <span class="string">"error"</span>    <span class="comment">-- 3
+</span>
+    <span class="comment">-------------
+</span>
+    promptData._rowing        = <span class="keyword">false</span>
+
+    <span class="keyword">if</span> promptCaptures[<span class="number">9</span>] <span class="keyword">then</span>
+        <span class="comment">--promptData._requestedCourse = string.match(promptCaptures[9], "T%w*%-&gt;(%w+)") or false
+</span>        <span class="keyword">if</span> <span class="global">string</span>.find(promptCaptures[<span class="number">9</span>], <span class="string">"R%w?w"</span>) <span class="keyword">then</span>
+            promptData._rowing = <span class="keyword">true</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">------------------------------------------------
+</span>
+    self:setCourse(promptData._course)
+    self:setHullHealth(promptData._hullHealth)
+    <span class="comment">-- ? self:setRequestedCourse(promptData._requestedCourse)
+</span>    self:setRowing(promptData._rowing)
+    self:setSailHealth(promptData._sailHealth)
+    self:setSailSetting(promptData._sailSetting)
+    self:setSeaState(promptData._seaState)
+    self:setSpeed(promptData._speed)
+    self:setWindDirection(promptData._windDirection)
+    self:setWindSpeed(promptData._windSpeed)
+
+    promptData._course        = self:getCourse()
+    promptData._hullHealth    = self:getHullHealth()
+    promptData._rowing        = self:isRowing()
+    promptData._sailHealth    = self:getSailHealth()
+    promptData._sailSetting   = self:getSailSetting()
+    promptData._seaState      = self:getSeaState()
+    promptData._speed         = self:getSpeed()
+    promptData._windDirection = self:getWindDirection()
+    promptData._windSpeed     = self:getWindSpeed()
+
+    raiseEvent(<span class="string">"ship done with prompt"</span>, promptData)
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Queries.
+</span><span class="comment">-- Methods to query about various states within the ship.
+</span><span class="comment">-- @section queries
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Retrieves anchor state.
+</span><span class="comment">-- @treturn bool True if anchor raised, false if anchor lowered.
+</span><a id="253"></a><span class="comment">-- @usage if not thisShip:isAnchorRaised() then send("ship raise anchor") end
+</span><span class="keyword">function</span> Ship:isAnchorRaised()
+    <span class="keyword">return</span> self._anchorRaised <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is docked.
+</span><a id="259"></a><span class="comment">-- @treturn bool True, if ship is docked.
+</span><span class="keyword">function</span> Ship:isDocked()
+
+    <span class="keyword">local</span> _error = self:getError()
+
+    <span class="keyword">if</span> (_error &gt;= <span class="number">1</span>) <span class="keyword">or</span> (_error &lt;= -<span class="number">1</span>) <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> _error == <span class="number">0</span> <span class="keyword">then</span>
+        <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">ipairs</span>(uacs:getWaypointTable()) <span class="keyword">do</span>
+            <span class="keyword">if</span> (v.<span class="global">type</span> == <span class="string">"H"</span>) <span class="keyword">and</span> (uacs:getEasting() == v.easting) <span class="keyword">and</span> (uacs:getSouthing() == v.southing) <span class="keyword">then</span>
+                <span class="keyword">return</span> <span class="keyword">true</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Retrieves gangplank state.
+</span><span class="comment">-- @treturn bool True if gangplank raised, false if gangplank lowered.
+</span><a id="280"></a><span class="comment">-- @usage if not thisShip:isGangplankRaised() then send("ship raise gangplank") end
+</span><span class="keyword">function</span> Ship:isGangplankRaised()
+    <span class="keyword">return</span> self._gangplankRaised <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is grappled.
+</span><span class="comment">-- @treturn bool True, if ship is grappled.
+</span><span class="comment">-- @treturn table Key/value table containing grapplers and hooks per.
+</span><a id="288"></a><span class="comment">-- @todo Add functionality.
+</span><span class="keyword">function</span> Ship:isGrappled()
+    <span class="keyword">return</span> <span class="keyword">false</span>, {[<span class="string">"nope"</span>] = <span class="number">0</span>, }
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is leaking.
+</span><span class="comment">-- @treturn bool True, if ship is leaking.
+</span><a id="295"></a><span class="comment">-- @todo Add functionality.
+</span><span class="keyword">function</span> Ship:isLeaking()
+    <span class="keyword">return</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is on fire.
+</span><a id="301"></a><span class="comment">-- @treturn int|bool false = no fire, 1 = deck fire, 2 = sails fire, 3 = deck and sails on fire.
+</span><span class="keyword">function</span> Ship:isOnFire()
+    <span class="keyword">local</span> _fireLevel = <span class="keyword">false</span>
+    <span class="keyword">if</span> self._deckFire <span class="keyword">then</span> _fireLevel = (_fireLevel + <span class="number">1</span>) <span class="keyword">or</span> <span class="number">1</span> <span class="keyword">end</span>
+    <span class="keyword">if</span> self._sailFire <span class="keyword">then</span> _fireLevel = (_fireLevel + <span class="number">2</span>) <span class="keyword">or</span> <span class="number">2</span> <span class="keyword">end</span>
+    <span class="keyword">return</span> _fireLevel
+<span class="keyword">end</span>
+
+<span class="comment">--- True if ship is rowing.
+</span><a id="310"></a><span class="comment">-- @return bool
+</span><span class="keyword">function</span> Ship:isRowing()
+    <span class="keyword">return</span> self._isRowing
+<span class="keyword">end</span>
+
+<span class="comment">--- True if ship is sailing.
+</span><span class="comment">-- "Sailing" is defined as any sail setter beyond furled.
+</span><a id="317"></a><span class="comment">-- @return bool
+</span><span class="keyword">function</span> Ship:isSailing()
+    <span class="keyword">return</span> (self._sailSetting &gt; <span class="number">0</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is sinking.
+</span><span class="comment">-- @treturn bool True, if ship is sinking.
+</span><a id="324"></a><span class="comment">-- @todo Add functionality.
+</span><span class="keyword">function</span> Ship:isSinking()
+    <span class="keyword">return</span>(<span class="keyword">false</span>)
+<span class="keyword">end</span>
+
+<span class="comment">--- Returns if ship is turning.
+</span><a id="330"></a><span class="comment">-- @treturn bool|string False, if not turning. Ordered course as string, otherwise.
+</span><span class="keyword">function</span> Ship:isTurning()
+    <span class="keyword">return</span> self_.requestedCourse
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Get methods.
+</span><span class="comment">-- Methods to retrieve various points of information about the ship.
+</span><span class="comment">-- @section get
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Gets the current course of the ship.
+</span><a id="346"></a><span class="comment">-- @treturn string Course as compass direction
+</span><span class="keyword">function</span> Ship:getCourse()
+    <span class="keyword">return</span> self._course
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the crew balance for the ship.
+</span><a id="352"></a><span class="comment">-- @treturn bool True, if have crew balance.
+</span><span class="keyword">function</span> Ship:getCrewBalance()
+    <span class="keyword">return</span> self._crewBalance
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current hull health for the ship.
+</span><a id="358"></a><span class="comment">-- @treturn int Hull health, 1-100.
+</span><span class="keyword">function</span> Ship:getHullHealth()
+    <span class="keyword">return</span> self._hullHealth
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current sail health for the ship.
+</span><a id="364"></a><span class="comment">-- @treturn int Sail health, 1-100.
+</span><span class="keyword">function</span> Ship:getSailHealth()
+    <span class="keyword">return</span> self._sailHealth
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current sail setting for the ship.
+</span><a id="370"></a><span class="comment">-- @treturn int Sail setting, 0-100.
+</span><span class="keyword">function</span> Ship:getSailSetting()
+    <span class="keyword">return</span> self._sailSetting
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current sea state around the ship.
+</span><a id="376"></a><span class="comment">-- @treturn int Sea state, 1-9.
+</span><span class="keyword">function</span> Ship:getSeaState()
+    <span class="keyword">return</span> self._seaState
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current speed of the ship.
+</span><a id="382"></a><span class="comment">-- @treturn int Ship's current speed, in knots.
+</span><span class="keyword">function</span> Ship:getSpeed()
+    <span class="keyword">return</span> self._speed
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current sea state around the ship.
+</span><a id="388"></a><span class="comment">-- @treturn int Sea state, 1-9.
+</span><span class="keyword">function</span> Ship:getWindSpeed()
+    <span class="keyword">return</span> self._windSpeed
+<span class="keyword">end</span>
+
+<span class="comment">--- Gets the current speed of the ship.
+</span><a id="394"></a><span class="comment">-- @treturn int Ship's current speed, in knots.
+</span><span class="keyword">function</span> Ship:getWindDirection()
+    <span class="keyword">return</span> self._windDirection
+<span class="keyword">end</span>
+
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Set methods.
+</span><span class="comment">-- Methods to retrieve various points of information about the ship.
+</span><span class="comment">-- @section set
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Sets whether the anchor is currently raised.
+</span><span class="comment">-- @tparam bool _isRaised True if anchor raised, false if anchor lowered.
+</span><a id="412"></a><span class="comment">-- @usage thisShip:setAnchorRaised(true)
+</span><span class="keyword">function</span> Ship:setAnchorRaised(_isRaised)
+    self._anchorRaised = _isRaised <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets whether the crew is on balance.
+</span><span class="comment">-- @tparam bool _onBalance True, if crew on balance.
+</span><a id="419"></a><span class="comment">-- @usage thisShip:setCrewBalance(false)
+</span><span class="keyword">function</span> Ship:setCrewBalance(_onBalance)
+    self._crewBalance = _onBalance <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current course of the Ship object.
+</span><span class="comment">-- Intended to simply document, after the prompt is processed.
+</span><span class="comment">-- @tparam string _captureGroup Direction as short compass heading.
+</span><a id="427"></a><span class="comment">-- @treturn bool True if successful.
+</span><span class="keyword">function</span> Ship:setCourse(_captureGroup)
+
+    _captureGroup = <span class="global">string</span>.lower(_captureGroup)
+
+    <span class="keyword">local</span> _validDirs = {
+        [<span class="string">"n"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"nne"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"ne"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"ene"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"e"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"ese"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"se"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"sse"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"s"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"ssw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"sw"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"wsw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"w"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"wnw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"nw"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"nnw"</span>] = <span class="keyword">true</span>,
+    }
+
+    <span class="global">assert</span>(_validDirs[_captureGroup], <span class="string">"Ship:setCourse() - _captureGroup ("</span>.._captureGroup..<span class="string">") not in _validDirs!"</span>)
+
+    self._course = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets whether the gangplank is currently raised.
+</span><span class="comment">-- @tparam bool _isRaised True if gangplank raised, false if gangplank lowered.
+</span><a id="461"></a><span class="comment">-- @usage thisShip:setGangplankRaised(false)
+</span><span class="keyword">function</span> Ship:setGangplankRaised(_isRaised) <span class="comment">-- True if gangplank raised.
+</span>    self._gangplankRaised = _isRaised <span class="keyword">or</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Internal functions.
+</span><span class="comment">-- Internal stuff. Not for external stuff.
+</span><span class="comment">-- @section ifunctions
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">--- Sets the current hull health of the Ship object.
+</span><span class="comment">-- Can accept prompt symbols, integer percenage strings, and raw numbers.
+</span><span class="comment">-- @tparam string|int _captureGroup The argument to pass into the function. Strings such as ++ okay.
+</span><span class="comment">-- @treturn bool True, if successful
+</span><a id="480"></a><span class="comment">-- @treturn string The capture group passed into the function.
+</span><span class="keyword">function</span> Ship:setHullHealth(_captureGroup)
+
+    <span class="keyword">local</span> _captureGroup_type = <span class="global">type</span>(_captureGroup)
+
+    <span class="keyword">if</span> _captureGroup_type == <span class="string">"string"</span> <span class="keyword">then</span>
+        <span class="keyword">local</span> _stringValues = {
+            [<span class="string">"full"</span>] = <span class="number">100</span>,
+            [<span class="string">"++"</span>] = <span class="number">100</span>,
+            [<span class="string">"--"</span>] = <span class="number">0</span>,
+        }
+        <span class="comment">-- Try to match _captureGroup to a _stringValues entry,
+</span>        _captureGroup = _stringValues[_captureGroup] <span class="keyword">or</span> <span class="global">tonumber</span>(<span class="global">string</span>.match(_captureGroup, <span class="string">"(%d+)%%"</span>)) <span class="keyword">or</span> <span class="global">tonumber</span>(_captureGroup)
+        _captureGroup_type = <span class="global">type</span>(_captureGroup)
+    <span class="keyword">end</span>
+
+    <span class="comment">-- Should darn well be a number between 0 and 100 at this point.
+</span>    <span class="global">assert</span>((_captureGroup_type == <span class="string">"number"</span>), <span class="string">"Ship:setHullHealth() - _captureGroup ("</span>.._captureGroup..<span class="string">") failed to return number!"</span>)
+    <span class="global">assert</span>((_captureGroup &lt;= <span class="number">100</span>) <span class="keyword">and</span> (_captureGroup &gt;= <span class="number">0</span>), <span class="string">"Ship:setHullHealth() - _captureGroup ("</span>.._captureGroup..<span class="string">") is type number, but out of bounds!"</span>)
+
+    self._hullHealth = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>, <span class="global">tostring</span>(_captureGroup)
+
+<span class="keyword">end</span>
+
+
+<span class="comment">--- Sets the current rowing state of the Ship object.
+</span><a id="508"></a><span class="comment">-- @tparam string _captureGroup Capture Either full ship prompt line, or substring that would contain rowing flag.
+</span><span class="keyword">function</span> Ship:setRequestedCourse(_captureGroup)
+    <span class="keyword">if</span> <span class="global">type</span>(_captureGroup) == <span class="string">"string"</span> <span class="keyword">then</span>
+        self._isRowing = <span class="global">string</span>.find(_captureGroup, <span class="string">"Row"</span>) <span class="keyword">or</span> <span class="global">string</span>.find(_captureGroup, <span class="string">"Rw"</span>) <span class="keyword">or</span> <span class="keyword">false</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">--- Sets the current rowing state of the Ship object.
+</span><a id="519"></a><span class="comment">-- @tparam string _captureGroup Capture Either full ship prompt line, or substring that would contain rowing flag.
+</span><span class="keyword">function</span> Ship:setRowing(_captureGroup)
+    <span class="keyword">if</span> <span class="global">type</span>(_captureGroup) == <span class="string">"boolean"</span> <span class="keyword">then</span>
+        self._isRowing = _captureGroup
+    <span class="keyword">elseif</span> <span class="global">type</span>(_captureGroup) == <span class="string">"string"</span> <span class="keyword">then</span>
+        self._isRowing = <span class="global">string</span>.find(_captureGroup, <span class="string">"Row"</span>) <span class="keyword">or</span> <span class="global">string</span>.find(_captureGroup, <span class="string">"Rw"</span>) <span class="keyword">or</span> <span class="keyword">false</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current sail health of the Ship object.
+</span><span class="comment">-- Can accept prompt symbols, integer percenage strings, and raw numbers.
+</span><span class="comment">-- Possible input examples: <code>++</code>, <code>--</code>, <code>or </code>int`.
+</span><span class="comment">-- @tparam string|int _captureGroup The argument to pass into the function. Strings such as ++ okay.
+</span><span class="comment">-- @treturn bool True, if successful
+</span><a id="535"></a><span class="comment">-- @treturn string The capture group passed into the function.
+</span><span class="keyword">function</span> Ship:setSailHealth(_captureGroup)
+
+    <span class="keyword">local</span> _captureGroup_type = <span class="global">type</span>(_captureGroup)
+
+    <span class="keyword">if</span> _captureGroup_type == <span class="string">"string"</span> <span class="keyword">then</span>
+        _captureGroup = <span class="global">string</span>.lower(_captureGroup)
+        <span class="keyword">local</span> _stringValues = {
+            [<span class="string">"full"</span>] = <span class="number">100</span>,
+            [<span class="string">"++"</span>] = <span class="number">100</span>,
+            [<span class="string">"--"</span>] = <span class="number">0</span>,
+        }
+        <span class="comment">-- Try to match _captureGroup to a _stringValues entry,
+</span>        _captureGroup = _stringValues[_captureGroup] <span class="keyword">or</span> <span class="global">tonumber</span>(<span class="global">string</span>.match(_captureGroup, <span class="string">"(%d+)"</span>)) <span class="keyword">or</span> <span class="global">tonumber</span>(_captureGroup)
+        _captureGroup_type = <span class="global">type</span>(_captureGroup)
+        <span class="keyword">end</span>
+
+    <span class="comment">-- Should darn well be a number between 0 and 100 at this point.
+</span>    <span class="global">assert</span>((_captureGroup_type == <span class="string">"number"</span>), <span class="string">"Ship:setSailHealth() - _captureGroup ("</span>.._captureGroup..<span class="string">") failed to return number!"</span>)
+    <span class="global">assert</span>((_captureGroup &lt;= <span class="number">100</span>) <span class="keyword">and</span> (_captureGroup &gt;= <span class="number">0</span>), <span class="string">"Ship:setSailHealth() - _captureGroup ("</span>.._captureGroup..<span class="string">") is type number, but out of bounds!"</span>)
+
+    self._sailHealth = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>, _captureGroup
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current sail setting of the Ship object.
+</span><span class="comment">-- Can accept prompt symbols, integer percenage strings, and raw numbers.
+</span><span class="comment">-- Possible input examples: <code>++</code>, <code>--</code>, <code>or </code>int`.
+</span><span class="comment">-- @tparam string|int _captureGroup The argument to pass into the function. Strings such as ++ okay.
+</span><span class="comment">-- @treturn bool True, if successful
+</span><a id="567"></a><span class="comment">-- @treturn string The capture group passed into the function.
+</span><span class="keyword">function</span> Ship:setSailSetting(_captureGroup)
+
+    <span class="keyword">local</span> _captureGroup = <span class="global">string</span>.lower( _captureGroup )
+    <span class="keyword">local</span> _captureGroup_type = <span class="global">type</span>(_captureGroup)
+
+    <span class="keyword">if</span> _captureGroup_type == <span class="string">"string"</span> <span class="keyword">then</span>
+        <span class="keyword">local</span> _stringValues = {
+            [<span class="string">"full"</span>] = <span class="number">100</span>,
+            [<span class="string">"furl"</span>] = <span class="number">0</span>,
+            [<span class="string">"++"</span>] = <span class="number">100</span>,
+            [<span class="string">"--"</span>] = <span class="number">0</span>,
+        }
+        <span class="comment">-- Try to match _captureGroup to a _stringValues entry,
+</span>        _captureGroup = _stringValues[_captureGroup] <span class="keyword">or</span> <span class="global">tonumber</span>(<span class="global">string</span>.match(_captureGroup, <span class="string">"(%d+)%%"</span>)) <span class="keyword">or</span> <span class="global">tonumber</span>(_captureGroup)
+        _captureGroup_type = <span class="global">type</span>(_captureGroup)
+    <span class="keyword">end</span>
+
+    <span class="comment">-- Should darn well be a number between 0 and 100 at this point.
+</span>    <span class="global">assert</span>((_captureGroup_type == <span class="string">"number"</span>), <span class="string">"Ship:setSailSetting() - _captureGroup ("</span>.._captureGroup..<span class="string">") failed to return number!"</span>)
+    <span class="global">assert</span>((_captureGroup &lt;= <span class="number">100</span>) <span class="keyword">and</span> (_captureGroup &gt;= <span class="number">0</span>), <span class="string">"Ship:setSailSetting() - _captureGroup ("</span>.._captureGroup..<span class="string">") is type number, but out of bounds!"</span>)
+
+    self._sailSetting = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>, _captureGroup
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current sea state of the Ship object.
+</span><span class="comment">-- @tparam string|int _captureGroup Sea state as either descriptor or Roman numerals as string, or raw number input.
+</span><span class="comment">-- @treturn bool True, if successful
+</span><a id="598"></a><span class="comment">-- @treturn string The capture group passed into the function.
+</span><span class="keyword">function</span> Ship:setSeaState(_captureGroup)
+
+    <span class="keyword">local</span> _seaStateChart = {
+        [<span class="string">"glassy"</span>]      = <span class="number">1</span>,
+        [<span class="string">"smooth"</span>]      = <span class="number">2</span>,
+        [<span class="string">"calm"</span>]        = <span class="number">3</span>,
+        [<span class="string">"choppy"</span>]      = <span class="number">4</span>,
+        [<span class="string">"whitecapped"</span>] = <span class="number">5</span>,
+        [<span class="string">"rough"</span>]       = <span class="number">6</span>,
+        [<span class="string">"stormy"</span>]      = <span class="number">7</span>,
+        [<span class="string">"tempestuous"</span>] = <span class="number">8</span>,
+        [<span class="string">"raging"</span>]      = <span class="number">9</span>,
+        [<span class="string">"i"</span>]    = <span class="number">1</span>,
+        [<span class="string">"ii"</span>]   = <span class="number">2</span>,
+        [<span class="string">"iii"</span>]  = <span class="number">3</span>,
+        [<span class="string">"iv"</span>]   = <span class="number">4</span>,
+        [<span class="string">"v"</span>]    = <span class="number">5</span>,
+        [<span class="string">"vi"</span>]   = <span class="number">6</span>,
+        [<span class="string">"vii"</span>]  = <span class="number">7</span>,
+        [<span class="string">"viii"</span>] = <span class="number">8</span>,
+        [<span class="string">"ix"</span>]   = <span class="number">9</span>,
+    }
+
+    _captureGroup = <span class="global">tonumber</span>(_captureGroup) <span class="keyword">or</span> _seaStateChart[<span class="global">string</span>.lower(_captureGroup)] <span class="keyword">or</span> - <span class="number">1</span>
+    <span class="global">assert</span>((<span class="global">type</span>(_captureGroup) == <span class="string">"number"</span>) <span class="keyword">and</span> (_captureGroup &lt;= <span class="number">100</span>) <span class="keyword">and</span> (_captureGroup &gt;= <span class="number">0</span>), <span class="string">"Ship:setSeaState() - _captureGroup ("</span>.._captureGroup..<span class="string">") not a real sea state!"</span>)
+    self._seaState = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>, _captureGroup
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current speed of the Ship object.
+</span><a id="631"></a><span class="comment">-- @tparam int|string _captureGroup
+</span><span class="keyword">function</span> Ship:setSpeed(_captureGroup)
+    _captureGroup = <span class="global">tonumber</span>(_captureGroup)
+    <span class="global">assert</span>((<span class="global">type</span>(_captureGroup) == <span class="string">"number"</span>) <span class="keyword">and</span> (_captureGroup &lt;= <span class="number">100</span>) <span class="keyword">and</span> (_captureGroup &gt;= <span class="number">0</span>), <span class="string">"Ship:setSpeed() - _captureGroup ("</span>.._captureGroup..<span class="string">") isn't a number, oops!"</span>)
+    self._speed = _captureGroup
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current wind direction of the Ship object.
+</span><span class="comment">-- @tparam string _captureGroup String direction to pass to the Navigator.
+</span><a id="640"></a><span class="comment">-- @return bool True if successful.
+</span><span class="keyword">function</span> Ship:setWindDirection(_captureGroup)
+
+    _captureGroup = <span class="global">string</span>.lower(_captureGroup)
+
+    <span class="keyword">local</span> _validDirs = {
+        [<span class="string">"n"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"nne"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"ne"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"ene"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"e"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"ese"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"se"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"sse"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"s"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"ssw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"sw"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"wsw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"w"</span>]   = <span class="keyword">true</span>,
+        [<span class="string">"wnw"</span>] = <span class="keyword">true</span>,
+        [<span class="string">"nw"</span>]  = <span class="keyword">true</span>,
+        [<span class="string">"nnw"</span>] = <span class="keyword">true</span>,
+    }
+
+    <span class="global">assert</span>(_validDirs[_captureGroup], <span class="string">"Ship:setWindDirection() - _captureGroup ("</span>.._captureGroup..<span class="string">") not in _validDirs!"</span>)
+
+    self._windDirection = _captureGroup
+
+    <span class="keyword">return</span> <span class="keyword">true</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Sets the current wind speed of the Ship object.
+</span><span class="comment">-- @tparam string _captureGroup
+</span><a id="674"></a><span class="comment">-- @todo Peek over a bit
+</span><span class="keyword">function</span> Ship:setWindSpeed (_captureGroup)
+    self._windSpeed = <span class="global">tonumber</span>(_captureGroup)
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><strong>bezel.lua</strong></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>bezel.lua</h2>
+<pre>
+<span class="comment">--- Base UI layer for 1080p Mudlet window.
+</span><span class="comment">-- @module Bezel
+</span>
+Bezel = {
+    [<span class="string">"top"</span>]       = Geyser.Label:new({ name = <span class="string">"Bezel.top"</span>,    x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="number">0</span>, height = <span class="number">0</span> }),
+    [<span class="string">"left"</span>]      = Geyser.Label:new({ name = <span class="string">"Bezel.left"</span>,   x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="number">0</span>, height = <span class="number">0</span> }),
+    [<span class="string">"right"</span>]     = Geyser.Label:new({ name = <span class="string">"Bezel.right"</span>,  x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="number">0</span>, height = <span class="number">0</span> }),
+    [<span class="string">"bottom"</span>]    = Geyser.Label:new({ name = <span class="string">"Bezel.bottom"</span>, x = <span class="number">0</span>, y = <span class="number">0</span>, width = <span class="number">0</span>, height = <span class="number">0</span> }),
+    [<span class="string">"displayed"</span>] = <span class="string">"none"</span>
+}
+
+
+
+
+<span class="comment">--------------------------------
+</span><span class="comment">--- Set Bezel PNG images.
+</span><span class="comment">-- Looks in \GUI\images\<code>_imageSet</code>\ within predeclared cloudDir.
+</span><span class="comment">-- @tparam string _imageSet PNG set to load.
+</span><a id="20"></a><span class="comment">-- @usage Bezel.set("shipCombat")
+</span><span class="keyword">function</span> Bezel.set(_imageSet)
+
+    <span class="keyword">local</span> setConfig = Bezel.parseSettings(_imageSet)
+
+    setBorderSizes( setConfig.border_top, setConfig.border_right, setConfig.border_bottom, setConfig.border_left )
+
+    Bezel.top    = Geyser.Label:new({ name = <span class="string">"Bezel.top"</span>,    x = setConfig.label_top.x,    y = setConfig.label_top.y,    width = setConfig.label_top.width,    height = setConfig.label_top.height    })
+    Bezel.left   = Geyser.Label:new({ name = <span class="string">"Bezel.left"</span>,   x = setConfig.label_left.x,   y = setConfig.label_left.y,   width = setConfig.label_left.width,   height = setConfig.label_left.height   })
+    Bezel.right  = Geyser.Label:new({ name = <span class="string">"Bezel.right"</span>,  x = setConfig.label_right.x,  y = setConfig.label_right.y,  width = setConfig.label_right.width,  height = setConfig.label_right.height  })
+    Bezel.bottom = Geyser.Label:new({ name = <span class="string">"Bezel.bottom"</span>, x = setConfig.label_bottom.x, y = setConfig.label_bottom.y, width = setConfig.label_bottom.width, height = setConfig.label_bottom.height })
+
+    Bezel.top:setStyleSheet(    <span class="string">[[background-color: #00000000;]]</span> )
+    Bezel.left:setStyleSheet(   <span class="string">[[background-color: #00000000;]]</span> )
+    Bezel.right:setStyleSheet(  <span class="string">[[background-color: #00000000;]]</span> )
+    Bezel.bottom:setStyleSheet( <span class="string">[[background-color: #00000000;]]</span> )
+
+    Bezel.top:setBackgroundImage(    cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\top.png]]</span>    )
+    Bezel.left:setBackgroundImage(   cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\left.png]]</span>   )
+    Bezel.right:setBackgroundImage(  cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\right.png]]</span>  )
+    Bezel.bottom:setBackgroundImage( cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\bottom.png]]</span> )
+
+    Bezel.top:lower()
+    Bezel.left:lower()
+    Bezel.right:lower()
+    Bezel.bottom:lower()
+
+    Bezel.displayed = _imageSet
+
+    raiseEvent(<span class="string">"bezel set"</span>, _imageSet)
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------
+</span><span class="comment">--- Yikes, this is a lot.
+</span><span class="comment">-- Like, a lot a lot.
+</span><span class="comment">-- @tparam string _imageSet PNG set to load.
+</span><a id="57"></a><span class="comment">-- @treturn table PNG set to load.
+</span><span class="keyword">function</span> Bezel.parseSettings(_imageSet)
+
+    <span class="keyword">local</span> _dimFilePath = cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\dim.list]]</span>
+    <span class="keyword">local</span> _dimIterator = <span class="global">io</span>.lines(cloudDir..<span class="string">[[GUI\images\]]</span>.._imageSet..<span class="string">[[\dim.list]]</span>)
+    <span class="keyword">local</span> _dimTable = {}
+    <span class="keyword">local</span> _fileReadTable = {}
+
+    <span class="keyword">for</span> _fileLine <span class="keyword">in</span> <span class="global">io</span>.lines(cloudDir..<span class="string">"GUI/images/"</span>.._imageSet..<span class="string">"/dim.list"</span>) <span class="keyword">do</span>
+        <span class="global">table</span>.insert(_fileReadTable,_fileLine)
+    <span class="keyword">end</span>
+
+    <span class="comment">-- Strip comments and whitespace
+</span>
+    <span class="keyword">local</span> _fileReadTableClean = <span class="global">table</span>.deepcopy(_fileReadTable)
+    <span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="global">ipairs</span>(_fileReadTableClean) <span class="keyword">do</span>
+        _fileReadTableClean[i] = <span class="global">string</span>.gsub(v,<span class="string">"#.*$"</span>,<span class="string">""</span>) <span class="comment">-- Strip comments
+</span>        _fileReadTableClean[i] = <span class="global">string</span>.trim( _fileReadTableClean[i]) <span class="comment">-- Strip trailing whitespace
+</span>    <span class="keyword">end</span>
+
+    <span class="keyword">for</span> i,v <span class="keyword">in</span> <span class="global">ipairs</span>(_fileReadTableClean) <span class="keyword">do</span>
+        <span class="keyword">if</span> <span class="global">string</span>.find( <span class="global">string</span>.lower(v), <span class="string">"^border"</span> ) <span class="keyword">then</span>
+            <span class="keyword">local</span> _type, _size = <span class="global">string</span>.match( <span class="global">string</span>.lower(v), <span class="string">"^(border_%w+)%s+(-?%d+)%s*$"</span> )
+            <span class="keyword">if</span> _type <span class="keyword">then</span>
+                _dimTable[<span class="global">string</span>.lower(_type)] = <span class="global">tonumber</span>(_size)
+            <span class="keyword">else</span>
+                error(<span class="string">"Malformed border definition at line "</span>.. i ..<span class="string">" in "</span>..cloudDir..<span class="string">"GUI/images/"</span>.._imageSet..<span class="string">"/dim.list - \""</span>.._fileReadTableClean[i]..<span class="string">"\""</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">elseif</span> <span class="global">string</span>.find( <span class="global">string</span>.lower(v), <span class="string">"^label"</span> ) <span class="keyword">then</span>
+            <span class="keyword">local</span> _type, _x, _y, _w, _h = <span class="global">string</span>.match( <span class="global">string</span>.lower(v), <span class="string">"^(label_%w+)%s+(-?%d+)%s+(-?%d+)%s+(-?%d+)%s+(-?%d+)%s*$"</span> )
+            <span class="keyword">if</span> _type <span class="keyword">then</span>
+                _dimTable[<span class="global">string</span>.lower(_type)] = {
+                    [<span class="string">"x"</span>]      = <span class="global">tonumber</span>(_x),
+                    [<span class="string">"y"</span>]      = <span class="global">tonumber</span>(_y),
+                    [<span class="string">"width"</span>]  = <span class="global">tonumber</span>(_w),
+                    [<span class="string">"height"</span>] = <span class="global">tonumber</span>(_h),
+                }
+            <span class="keyword">else</span>
+                error(<span class="string">"Malformed label definition at line "</span>.. i ..<span class="string">" in "</span>..cloudDir..<span class="string">"GUI/images/"</span>.._imageSet..<span class="string">"/dim.list - \""</span>.._fileReadTableClean[i]..<span class="string">"\""</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">elseif</span> v ~= <span class="string">""</span> <span class="keyword">then</span>
+            error(<span class="string">"Malformed definition at line "</span>.. i ..<span class="string">" in "</span>..cloudDir..<span class="string">"GUI/images/"</span>.._imageSet..<span class="string">"/dim.list - \""</span>.._fileReadTableClean[i]..<span class="string">"\""</span>)
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> _dimTable
+
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

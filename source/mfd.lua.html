@@ -1,0 +1,439 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><strong>mfd.lua</strong></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>mfd.lua</h2>
+<pre>
+<span class="comment">--- Display for general shipboard use. Mimics a 16x52 DOS-esque terminal, because I like the aesthetic.
+</span><span class="comment">-- Yeah.
+</span><span class="comment">-- # That's **rad**.
+</span><span class="comment">--@classmod MFD
+</span>
+MFD = {}
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Initialisation methods.
+</span><span class="comment">-- For creating and Initialising MFD object.
+</span><span class="comment">-- @section Initialisation
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Creates a new intance of the MFD class.
+</span><span class="comment">-- @tparam string _instanceName Name for the consoles and such. Should be identical to object's unique name.
+</span><span class="comment">-- @tparam int _x X screen coordinate of MFD's top-left point.
+</span><span class="comment">-- @tparam int _y Y screen coordinate of MFD's top-left point.
+</span><span class="comment">-- @treturn table A new instance of the MFD class.
+</span><span class="comment">-- @usage myMFD = MFD:new("myMFD",423,406)
+</span><a id="26"></a><span class="comment">-- @todo Break off menu buttons and alert boxes into little objects.
+</span><span class="keyword">function</span> MFD:new( _instanceName, _x, _y )
+
+    MFD.__index = MFD
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, MFD)
+
+    self._instanceName = _instanceName
+
+    <span class="comment">----------------------------------
+</span>    <a id="35"></a><span class="comment">-- The container that holds all of the things
+</span>    self.container = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".container"</span>,
+        x = _x, y = _y,
+        width = <span class="number">527</span>, height = <span class="number">312</span>,
+        color = <span class="string">"green"</span>,
+    })
+
+    self.container:setStyleSheet(<span class="string">[[background-color: "near_black";]]</span>)
+
+    <span class="comment">----------------------------------
+</span>    <a id="46"></a><span class="comment">-- The console itself
+</span>    self.console = Geyser.MiniConsole:new({
+        name = self._instanceName..<span class="string">".console"</span>,
+        x = <span class="number">5</span>, y = <span class="number">4</span>,
+        width = <span class="number">520</span>, height = <span class="number">308</span>,
+        color = <span class="string">"black"</span>,
+    }, self.container)
+
+    self.console:setFontSize(<span class="number">12</span>)
+    self.console:clear()
+
+    <span class="comment">----------------------------------
+</span>
+    self.alertBox1 = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".alertBox1"</span>,
+        x = <span class="number">100</span>, y = <span class="number">100</span>,
+        width = <span class="number">200</span>, height = <span class="number">100</span>,
+        color = <span class="string">"cyan"</span>,
+    }, self.container)
+    <span class="comment">--self.alertBox1:setStyleSheet([[background-color: #EEEEEE;]])
+</span>
+    <span class="comment">----------------------------------
+</span>
+    self.scanlines = Geyser.Label:new({
+        name = self._instanceName..<span class="string">".scanlines"</span>,
+        x = <span class="number">0</span>, y = <span class="number">0</span>,
+        width = <span class="number">527</span>, height = <span class="number">312</span>,
+        color = <span class="string">"cyan"</span>,
+    }, self.container)
+    self.scanlines:setStyleSheet(<span class="string">[[background-color: #00000000;]]</span>)
+    self.scanlines:setBackgroundImage(cloudDir .. <span class="string">[[GUI\images\MFD_scanlines.png]]</span>)
+    self.scanlines:raise()
+    self.scanlines:hide()
+
+    <span class="comment">----------------------------------
+</span>    self.alertBox1:hide()
+
+    self:cls()
+    self:write(<span class="string">"Done!"</span>, <span class="number">24</span>, <span class="number">8</span>)
+    self:drawBorder()
+
+
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">------------------------------------------------------------------------------------------------
+</span><span class="comment">--- Notification methods.
+</span><span class="comment">-- For drawing notifications on-screen.
+</span><span class="comment">-- @section notification
+</span>
+<span class="comment">--- Raises an on-screen notification, with multiple options for styling.
+</span><span class="comment">-- Raises a notification on screen, centered in lower-middle.
+</span><span class="comment">-- @tparam string text string The notification text to display.
+</span><span class="comment">-- @tparam int|float displayTime int How many seconds to show the notification. 0 leaves notification indefinitely.
+</span><span class="comment">-- @tparam int fontSize int The font size to use (default 12).
+</span><span class="comment">-- @tparam[opt] string bgColour Colour to use for alert background. Defaults to MFD's current primary if not set.
+</span><span class="comment">-- @tparam[opt] string fgColour Colour to use for foreground text.
+</span><span class="comment">-- @usage myMFD:notify("Testing...", 160, 50, 2, 12, "#004400", "yellow")
+</span><span class="comment">-- @todo Reduce external dependencies
+</span><a id="110"></a><span class="comment">--       MFD:notify(text,width,height,displayTime,fontSize,bgColour,fgColour)
+</span><span class="keyword">function</span> MFD:notify(text, displayTime, fontSize, bgColour, fgColour)
+
+    <span class="keyword">if</span> alertTimer <span class="keyword">then</span>
+        killTimer(alertTimer)
+    <span class="keyword">end</span>
+
+    <span class="comment">-- ! This is bad! Burn this global!
+</span>    <span class="keyword">if</span> isNight <span class="keyword">and</span> <span class="keyword">not</span> bgColour <span class="keyword">then</span>
+        bgColour = bgColour <span class="keyword">or</span> <span class="string">"#bd7a00"</span>
+    <span class="keyword">elseif</span> <span class="keyword">not</span> bgColour <span class="keyword">then</span>
+        bgColour = bgColour <span class="keyword">or</span> <span class="string">"#00ff00"</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">local</span> fontChoice = <span class="string">"Arial Rounded MT Bold"</span>
+
+    <span class="keyword">local</span> MFD_width = <span class="global">tonumber</span>(<span class="global">string</span>.match(self.container.width, <span class="string">"%d+"</span>))
+    <span class="keyword">local</span> MFD_height = <span class="global">tonumber</span>(<span class="global">string</span>.match(self.container.height, <span class="string">"%d+"</span>))
+
+    <span class="keyword">local</span> alertCSS = <span class="string">[[
+        background-color: ]]</span>..bgColour..<span class="string">[[;
+        font-size: ]]</span>..<span class="global">tonumber</span>(fontSize) .. <span class="string">[[px;
+        font-family: "]]</span>..fontChoice..<span class="string">[[", monospace;
+        qproperty-alignment: 'AlignHCenter | AlignVCenter';
+    ]]</span>
+
+    <span class="comment">----------------------------------
+</span>
+    <span class="comment">-- Let's calculate how big we need the backing fill to be.
+</span>    <span class="comment">-- We're going to do this by calculating the average dimensions of each character, at our font/size.
+</span>    <span class="keyword">local</span> fontWidth, fontHeight = calcFontSize(fontSize, fontChoice)
+
+    <span class="comment">-- We'll then see how many linebreaks we have, and what the longest line is.
+</span>    <span class="keyword">local</span> splitTable = <span class="global">string</span>.split(<span class="global">string</span>.gsub(text, <span class="string">"%&lt;BR%&gt;"</span>, <span class="string">"&lt;br&gt;"</span>), <span class="string">"&lt;br&gt;"</span>) <span class="comment">-- Make a little table out of the input line, split by linebreaks.
+</span>    <span class="keyword">local</span> numColumns = <span class="number">0</span> <span class="comment">-- Number of columns in display text
+</span>    <span class="keyword">local</span> numRows = <span class="number">0</span> <span class="comment">-- Number of rows in display text
+</span>    <span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="global">ipairs</span>(splitTable) <span class="keyword">do</span>
+        numColumns = <span class="global">math</span>.max(<span class="global">string</span>.len(v), numColumns) <span class="comment">-- numColumns is set to the larger of the two values.
+</span>        numRows = k <span class="comment">-- We're starting at index 1 because Lua is silly, so we can get away with this.
+</span>    <span class="keyword">end</span>
+
+    <span class="comment">-- Multiply the number of rows and the number columns each by their respective character dimension.
+</span>    <span class="comment">-- Then we have a box near-enough shaped to fit the text.
+</span>    <span class="comment">-- Then, add some padding for ease of reading.
+</span>    <span class="keyword">local</span> boxWidth = (fontWidth * numColumns) + <span class="number">60</span> <span class="comment">-- About 10px padding per side.
+</span>    <span class="keyword">local</span> boxHeight = (fontHeight * numRows) + <span class="number">20</span> <span class="comment">-- About 10px padding per side.
+</span>
+    <span class="comment">-- You did it! Gold star! ♥★
+</span>
+    <span class="comment">----------------------------------
+</span>
+    self.alertBox1:setStyleSheet(alertCSS)
+
+    self.alertBox1:resize(boxWidth, boxHeight)
+    self.alertBox1:move((MFD_width / <span class="number">2</span>) - (boxWidth / <span class="number">2</span>), ((MFD_height / <span class="number">2</span>) + (MFD_height / <span class="number">4</span>)) - (boxHeight / <span class="number">2</span>))
+
+    self.alertBox1:raise()
+    self.scanlines:raise()
+
+    self.alertBox1:clear()
+    self.alertBox1:show()
+    self.alertBox1:echo(text, fgColour, <span class="global">tostring</span>(fontSize))
+
+    <span class="keyword">if</span> displayTime &gt; <span class="number">0</span> <span class="keyword">then</span>
+        alertTimer = tempTimer(displayTime, <span class="keyword">function</span>() self.alertBox1:hide() alertTimer = <span class="keyword">nil</span> <span class="keyword">end</span>)
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">------------------------------------------------------------------------------------------------
+</span><span class="comment">--- Page methods.
+</span><span class="comment">-- Stuff for drawing full pages of text to the MFD screen in a single routine.
+</span><span class="comment">-- @section page
+</span>
+<span class="comment">--- Writes UACS and related data to the screen.
+</span><span class="comment">-- @usage myMFD:writeNavPage()
+</span><span class="comment">-- @todo Make this thing useful at all.
+</span><span class="keyword">function</span> MFD:writeNavPage()
+
+    self:cls()
+
+    self:write(<span class="string">"POSITION"</span>, <span class="number">9</span>, <span class="number">1</span>)<a id="190"></a>
+    self:write(<span class="string">"Current easting:  "</span>, <span class="number">2</span>, <span class="number">3</span>)
+    self:write(<span class="global">string</span>.format(<span class="string">"%4d"</span>, uacs.easting), <span class="number">20</span>, <span class="number">3</span>, <span class="string">"turquoise"</span>)
+    self:write(<span class="string">"Current southing: "</span>, <span class="number">2</span>, <span class="number">4</span>)
+    self:write(<span class="global">string</span>.format(<span class="string">"%4d"</span>, uacs.southing), <span class="number">20</span>, <span class="number">4</span>, <span class="string">"turquoise"</span>)
+    self:write(<span class="string">"CEP: "</span>, <span class="number">2</span>, <span class="number">6</span>)
+    self:write(uacs.error, <span class="number">7</span>, <span class="number">6</span>, <span class="string">"turquoise"</span>)
+
+    self:write(<span class="string">"DESTINATION"</span>, <span class="number">34</span>, <span class="number">1</span>)
+    self:write(<span class="string">"Name: "</span>, <span class="number">28</span>, <span class="number">3</span>)
+    self:write(<span class="string">"----------"</span>, <span class="number">34</span>, <span class="number">3</span>, <span class="string">"turquoise"</span>)
+    self:write(<span class="string">"Location: "</span>, <span class="number">28</span>, <span class="number">4</span>)
+    self:write(uacs.easting..<span class="string">","</span>..uacs.southing, <span class="number">38</span>, <span class="number">4</span>, <span class="string">"turquoise"</span>)
+    self:write(<span class="string">"Distance: "</span>, <span class="number">28</span>, <span class="number">6</span>)
+    self:write(uacs.error, <span class="number">7</span>, <span class="number">6</span>, <span class="string">"turquoise"</span>)
+    self:write(<span class="string">"Bearing: "</span>, <span class="number">28</span>, <span class="number">6</span>)
+    self:write(uacs.error, <span class="number">7</span>, <span class="number">6</span>, <span class="string">"turquoise"</span>)
+
+    <span class="comment">--self:write("Current easting:  "..string.format("%4d",uacs.easting).." |", 1, 1)
+</span>    <span class="keyword">if</span> <span class="keyword">not</span> navUpdateResult <span class="keyword">then</span> navUpdateResult = <span class="string">"..."</span> <span class="keyword">end</span>
+    self:write(<span class="string">"Calibration: "</span>..navUpdateResult, <span class="number">2</span>, <span class="number">12</span>)
+
+    self:drawBorderNav()
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">------------------------------------------------------------------------------------------------
+</span><span class="comment">--- Query methods.
+</span><span class="comment">-- Stuff for retrieving data to help us draw to the screen.
+</span><span class="comment">-- @section query
+</span>
+<span class="comment">--- Retrieves current time of day from Time object, if present.
+</span><span class="comment">--  Defaults to green if no Time object.
+</span><span class="comment">-- @return HTML colour string, depending on Time:isNight().
+</span><span class="comment">-- @usage html_colour = MFD:getColour()
+</span><span class="comment">-- @todo Redirect to new clock object, this is stupid!
+</span><span class="keyword">function</span> MFD:getColour()
+
+    <span class="keyword">if</span> isNight <span class="keyword">then</span>
+        <span class="keyword">if</span> isNight <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="string">"orange"</span><a id="234"></a>
+        <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="string">"green"</span>
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="string">"green"</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">------------------------------------------------------------------------------------------------
+</span><span class="comment">--- Output methods.
+</span><span class="comment">-- Stuff for outputting to the MFD screen.
+</span><span class="comment">-- @section drawing
+</span>
+<span class="comment">--- Resets and erases the entire screen, and readies for writing.
+</span><span class="comment">-- Clears the entirety of the consoles, and fills it with spaces so write functions can successfully locate.
+</span><span class="comment">-- @usage myMFD:cls() myMFD:drawBorder()
+</span><span class="keyword">function</span> MFD:cls()
+    self.console:clear()
+    cecho(self._instanceName..<span class="string">".console"</span>, <span class="string">"&lt;grey:near_black&gt;"</span>..<span class="global">string</span>.rep(<span class="global">string</span>.rep(<span class="string">" "</span>, <span class="number">52</span>) .. <span class="string">"\n"</span>, <span class="number">16</span>))
+<span class="keyword">end</span><a id="260"></a>
+
+<span class="comment">-- Will overwrite any text beneath the border!
+</span><span class="comment">-- @tparam string colour *[optional]* Colour to draw border in, as HTML colour name.
+</span><span class="comment">-- @usage myMFD:drawBorder("cyan")
+</span><span class="keyword">function</span> MFD:drawBorder(colour)
+
+    <span class="keyword">if</span> <span class="keyword">not</span> colour <span class="keyword">then</span> colour = MFD.getColour() <span class="keyword">end</span>
+
+    self:write(<span class="string">"╔══════════════════════════════════════════════════╗"</span>, <span class="number">0</span>, <span class="number">0</span>, colour)
+
+    <span class="keyword">for</span> i = <span class="number">1</span>, <span class="number">14</span> <span class="keyword">do</span>
+        self:write(<span class="string">"║"</span>, <span class="number">0</span>, i, colour)
+        self:write(<span class="string">"║"</span>, <span class="number">51</span>, i, colour)
+    <span class="keyword">end</span>
+
+    self:write(<span class="string">"╚══════════════════════════════════════════════════╝"</span>, <span class="number">0</span>, <span class="number">15</span>, colour)
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Draws a basic border around the edges of the screen, arranged for Nav page.
+</span><span class="comment">-- Will overwrite any text beneath the border!
+</span><span class="comment">-- @tparam string colour *[optional]* Colour to draw border in, as HTML colour name.
+</span><span class="comment">-- @usage myMFD:drawBorderNav("forest_green")
+</span><span class="keyword">function</span> MFD:drawBorderNav(colour)
+
+    self:write(<span class="string">"╔════════════════════════╦╦════════════════════════╗"</span>, <span class="number">0</span>, <span class="number">0</span>, colour)
+
+    self:write(<span class="string">"║"</span>, <span class="number">0</span>, <span class="number">1</span>, colour)<a id="287"></a>
+    self:write(<span class="string">"║"</span>, <span class="number">25</span>, <span class="number">1</span>, colour)
+    self:write(<span class="string">"║"</span>, <span class="number">26</span>, <span class="number">1</span>, colour)
+    self:write(<span class="string">"║"</span>, <span class="number">51</span>, <span class="number">1</span>, colour)
+
+    self:write(<span class="string">"╠════════════════════════╣╠════════════════════════╣"</span>, <span class="number">0</span>, <span class="number">2</span>, colour)
+
+    <span class="keyword">for</span> i = <span class="number">3</span>, <span class="number">9</span> <span class="keyword">do</span>
+        self:write(<span class="string">"║"</span>, <span class="number">0</span>, i, colour)
+        self:write(<span class="string">"║"</span>, <span class="number">25</span>, i, colour)
+        self:write(<span class="string">"║"</span>, <span class="number">26</span>, i, colour)
+        self:write(<span class="string">"║"</span>, <span class="number">51</span>, i, colour)
+    <span class="keyword">end</span>
+
+    self:write(<span class="string">"╠════════════════════════╩╩════════════════════════╣"</span>, <span class="number">0</span>, <span class="number">10</span>, colour)
+
+    <span class="keyword">for</span> i = <span class="number">11</span>, <span class="number">14</span> <span class="keyword">do</span>
+        self:write(<span class="string">"║"</span>, <span class="number">0</span>, i, colour)
+        self:write(<span class="string">"║"</span>, <span class="number">51</span>, i, colour)
+    <span class="keyword">end</span>
+
+    self:write(<span class="string">"╚══════════════════════════════════════════════════╝"</span>, <span class="number">0</span>, <span class="number">15</span>, colour)
+
+<span class="keyword">end</span>
+
+<span class="comment">--- Places an underscore at the given X,Y with optional blinking.
+</span><span class="comment">-- Purely aesthetic, serves no functional purpose.
+</span><span class="comment">-- @param inputX* ***num*** X coordinate of cursor position.
+</span><span class="comment">-- @param inputY* ***num*** Y coordinate of cursor position.
+</span><span class="comment">-- @param doBlink* ***bool*** Blink cursor at the rate of cursorRate if true.
+</span><span class="comment">-- @todo Actually make this do anything...
+</span><span class="comment">-- @usage myMFD:setCursor(25,12,true)
+</span><span class="keyword">function</span> MFD:setCursor(inputX, inputY, doBlink)
+
+    <span class="comment">--moveCursor("")
+</span>
+<span class="keyword">end</span>
+
+<span class="comment">--- Writes text to the MFD.
+</span><span class="comment">--
+</span><span class="comment">-- Writes text of arbitrary length, position, and colour to the MFD. Overwrites existing text for the length of the string.
+</span><span class="comment">-- @tparam string writeText The text to be written to the MFD.
+</span><span class="comment">-- @tparam int writeX X position of cursor, where text will be inserted. 0-51
+</span><span class="comment">-- @tparam int writeY Y position of cursor, where text will be inserted. 0-15
+</span><span class="comment">-- @tparam[opt = "aaa"] string fgColour Colour to be used for the text foreground colour, as HTML colour name.
+</span><span class="comment">-- @tparam[opt = "aaa"] string bgColour Colour to be used for the text background colour, as HTML colour name.
+</span><span class="comment">-- @treturn bool True, if write successful.
+</span><span class="comment">-- @usage myMFD:write("Beginning Δcal routine...", 2, 2, "green", "dim_grey")
+</span><span class="keyword">function</span> MFD:write(writeText, writeX, writeY, fgColour, bgColour)
+
+    <span class="keyword">local</span> fgColour = fgColour <span class="keyword">or</span> self:getColour()
+    <span class="keyword">local</span> bgColour = bgColour <span class="keyword">or</span> <span class="string">"near_black"</span>
+    <span class="keyword">local</span> printColour = <span class="string">"&lt;"</span>..fgColour..<span class="string">":"</span>..bgColour..<span class="string">"&gt;"</span>
+    <span class="keyword">local</span> writeTextLength = utf8.len(writeText)
+
+    writeTextLength = <span class="global">math</span>.max(writeTextLength, <span class="number">0</span>)
+
+    <span class="keyword">if</span> moveCursor(self._instanceName..<span class="string">".console"</span>, writeX, writeY) <span class="keyword">then</span>
+        selectSection(self._instanceName..<span class="string">".console"</span>, writeX, writeTextLength)
+        creplace(self._instanceName..<span class="string">".console"</span>, printColour..writeText)
+        <span class="keyword">return</span> <span class="keyword">true</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> <span class="keyword">false</span>
+
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

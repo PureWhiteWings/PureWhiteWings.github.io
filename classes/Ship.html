@@ -43,10 +43,9 @@
 
 
 <h2>Classes</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
-  <li><a href="../classes/Navigator.html">Navigator</a></li>
   <li><strong>Ship</strong></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
@@ -55,8 +54,11 @@
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
 <h2>Modules</h2>
-<ul class="nowrap">
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
   <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
 </ul>
 
 </div>
@@ -108,11 +110,11 @@
 	<td class="summary">Enable or disable autorepair cooldown.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Ship:setRepairingHull">Ship:setRepairingHull (_isRepairing)</a></td>
+	<td class="name" nowrap><a href="#Ship:repairHull">Ship:repairHull (_keepRepairing)</a></td>
 	<td class="summary">Set if crew is repairing hull.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Ship:setRepairingSails">Ship:setRepairingSails (_isRepairing)</a></td>
+	<td class="name" nowrap><a href="#Ship:repairSails">Ship:repairSails (_keepRepairing)</a></td>
 	<td class="summary">Set if crew is repairing sails.</td>
 	</tr>
 </table>
@@ -196,6 +198,14 @@
 	<td class="name" nowrap><a href="#Ship:getSpeed">Ship:getSpeed ()</a></td>
 	<td class="summary">Gets the current speed of the ship.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:getWindSpeed">Ship:getWindSpeed ()</a></td>
+	<td class="summary">Gets the current sea state around the ship.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Ship:getWindDirection">Ship:getWindDirection ()</a></td>
+	<td class="summary">Gets the current speed of the ship.</td>
+	</tr>
 </table>
 <h2><a href="#Set_methods">Set methods </a></h2>
 <table class="function_list">
@@ -260,12 +270,15 @@
 <br/>
 
 
-    <h2 class="section-header "><a name="Initialisation"></a>Initialisation </h2>
+    <h2><a name="Initialisation"></a>Initialisation </h2>
 
+
+ For creating and Initialising ShipCompass object.
     <dl class="function">
     <dt>
     <a name = "Ship:new"></a>
     <strong>Ship:new (_instanceName)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#20">line 20</a>
     </dt>
     <dd>
     Creates a new intance of the Ship class.
@@ -274,7 +287,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_instanceName</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         , should be identical to variable instance is assigned to.
         </li>
     </ul>
@@ -282,7 +295,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         A new instance of the Ship class.
     </ol>
 
@@ -295,15 +308,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Repair_methods"></a>Repair methods </h2>
+    <h2><a name="Repair_methods"></a>Repair methods </h2>
 
-          <div class="section-description">
-           Methods to handle repairing.
-          </div>
+
+ Methods to handle repairing.
     <dl class="function">
     <dt>
     <a name = "Ship:runAutorepair"></a>
     <strong>Ship:runAutorepair ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#75">line 75</a>
     </dt>
     <dd>
     Runs autorepair routine, and issues repair orders if necessary.
@@ -324,6 +337,7 @@
     <dt>
     <a name = "Ship:getAutorepairType"></a>
     <strong>Ship:getAutorepairType ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#113">line 113</a>
     </dt>
     <dd>
     Gets the current autorepair type for the ship.
@@ -348,6 +362,7 @@
     <dt>
     <a name = "Ship:getRepairCooldown"></a>
     <strong>Ship:getRepairCooldown ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#120">line 120</a>
     </dt>
     <dd>
     True if on cooldown between repair attempts.
@@ -372,6 +387,7 @@
     <dt>
     <a name = "Ship:isRepairingHull"></a>
     <strong>Ship:isRepairingHull ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#127">line 127</a>
     </dt>
     <dd>
     True if crew is repairing hull.
@@ -396,6 +412,7 @@
     <dt>
     <a name = "Ship:isRepairingSails"></a>
     <strong>Ship:isRepairingSails ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#134">line 134</a>
     </dt>
     <dd>
     True if crew is repairing sails.
@@ -420,6 +437,7 @@
     <dt>
     <a name = "Ship:setAutorepairType"></a>
     <strong>Ship:setAutorepairType (autorepairType)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#141">line 141</a>
     </dt>
     <dd>
     Sets the autorepair type for the ship.
@@ -445,6 +463,7 @@
     <dt>
     <a name = "Ship:setRepairCooldown"></a>
     <strong>Ship:setRepairCooldown (_cooldown)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#149">line 149</a>
     </dt>
     <dd>
     Enable or disable autorepair cooldown.
@@ -465,8 +484,9 @@
 
 </dd>
     <dt>
-    <a name = "Ship:setRepairingHull"></a>
-    <strong>Ship:setRepairingHull (_isRepairing)</strong>
+    <a name = "Ship:repairHull"></a>
+    <strong>Ship:repairHull (_keepRepairing)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#156">line 156</a>
     </dt>
     <dd>
     Set if crew is repairing hull.
@@ -474,7 +494,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_isRepairing</span>
+        <li><span class="parameter">_keepRepairing</span>
             <span class="types"><span class="type">bool</span></span>
          True, if repairing hull.
         </li>
@@ -486,8 +506,9 @@
 
 </dd>
     <dt>
-    <a name = "Ship:setRepairingSails"></a>
-    <strong>Ship:setRepairingSails (_isRepairing)</strong>
+    <a name = "Ship:repairSails"></a>
+    <strong>Ship:repairSails (_keepRepairing)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#162">line 162</a>
     </dt>
     <dd>
     Set if crew is repairing sails.
@@ -495,7 +516,7 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">_isRepairing</span>
+        <li><span class="parameter">_keepRepairing</span>
             <span class="types"><span class="type">bool</span></span>
          True, if repairing sails.
         </li>
@@ -507,15 +528,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Prompt_methods"></a>Prompt methods </h2>
+    <h2><a name="Prompt_methods"></a>Prompt methods </h2>
 
-          <div class="section-description">
-           Methods to handle the various ship prompts.
-          </div>
+
+ Methods to handle the various ship prompts.
     <dl class="function">
     <dt>
     <a name = "Ship:processPrompt"></a>
     <strong>Ship:processPrompt (_promptString)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#181">line 181</a>
     </dt>
     <dd>
     Processes a ship prompt line in-object, instead of using complex triggers.
@@ -526,26 +547,32 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_promptString</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The full ship prompt line from the game.
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">event,table</span></span>
+        Raises <code>ship prompt processed</code> event. Prompt data passed along as a table.
+    </ol>
 
 
 
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Queries"></a>Queries </h2>
+    <h2><a name="Queries"></a>Queries </h2>
 
-          <div class="section-description">
-           Methods to query about various states within the ship.
-          </div>
+
+ Methods to query about various states within the ship.
     <dl class="function">
     <dt>
     <a name = "Ship:isAnchorRaised"></a>
     <strong>Ship:isAnchorRaised ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#253">line 253</a>
     </dt>
     <dd>
     Retrieves anchor state.
@@ -570,6 +597,7 @@
     <dt>
     <a name = "Ship:isDocked"></a>
     <strong>Ship:isDocked ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#259">line 259</a>
     </dt>
     <dd>
     Returns if ship is docked.
@@ -590,6 +618,7 @@
     <dt>
     <a name = "Ship:isGangplankRaised"></a>
     <strong>Ship:isGangplankRaised ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#280">line 280</a>
     </dt>
     <dd>
     Retrieves gangplank state.
@@ -614,6 +643,7 @@
     <dt>
     <a name = "Ship:isGrappled"></a>
     <strong>Ship:isGrappled ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#288">line 288</a>
     </dt>
     <dd>
     Returns if ship is grappled.
@@ -626,7 +656,7 @@
            <span class="types"><span class="type">bool</span></span>
         True, if ship is grappled.</li>
         <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         Key/value table containing grapplers and hooks per.</li>
     </ol>
 
@@ -637,6 +667,7 @@
     <dt>
     <a name = "Ship:isLeaking"></a>
     <strong>Ship:isLeaking ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#295">line 295</a>
     </dt>
     <dd>
     Returns if ship is leaking.
@@ -657,6 +688,7 @@
     <dt>
     <a name = "Ship:isOnFire"></a>
     <strong>Ship:isOnFire ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#301">line 301</a>
     </dt>
     <dd>
     Returns if ship is on fire.
@@ -677,6 +709,7 @@
     <dt>
     <a name = "Ship:isRowing"></a>
     <strong>Ship:isRowing ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#310">line 310</a>
     </dt>
     <dd>
     True if ship is rowing.
@@ -696,6 +729,7 @@
     <dt>
     <a name = "Ship:isSailing"></a>
     <strong>Ship:isSailing ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#317">line 317</a>
     </dt>
     <dd>
     True if ship is sailing.
@@ -716,6 +750,7 @@
     <dt>
     <a name = "Ship:isSinking"></a>
     <strong>Ship:isSinking ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#324">line 324</a>
     </dt>
     <dd>
     Returns if ship is sinking.
@@ -736,6 +771,7 @@
     <dt>
     <a name = "Ship:isTurning"></a>
     <strong>Ship:isTurning ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#330">line 330</a>
     </dt>
     <dd>
     Returns if ship is turning.
@@ -745,7 +781,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">bool</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><span class="type">bool</span> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         False, if not turning. Ordered course as string, otherwise.
     </ol>
 
@@ -754,15 +790,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Get_methods"></a>Get methods </h2>
+    <h2><a name="Get_methods"></a>Get methods </h2>
 
-          <div class="section-description">
-           Methods to retrieve various points of information about the ship.
-          </div>
+
+ Methods to retrieve various points of information about the ship.
     <dl class="function">
     <dt>
     <a name = "Ship:getCourse"></a>
     <strong>Ship:getCourse ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#346">line 346</a>
     </dt>
     <dd>
     Gets the current course of the ship.
@@ -772,7 +808,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         Course as compass direction
     </ol>
 
@@ -783,6 +819,7 @@
     <dt>
     <a name = "Ship:getCrewBalance"></a>
     <strong>Ship:getCrewBalance ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#352">line 352</a>
     </dt>
     <dd>
     Gets the crew balance for the ship.
@@ -803,6 +840,7 @@
     <dt>
     <a name = "Ship:getHullHealth"></a>
     <strong>Ship:getHullHealth ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#358">line 358</a>
     </dt>
     <dd>
     Gets the current hull health for the ship.
@@ -823,6 +861,7 @@
     <dt>
     <a name = "Ship:getSailHealth"></a>
     <strong>Ship:getSailHealth ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#364">line 364</a>
     </dt>
     <dd>
     Gets the current sail health for the ship.
@@ -843,6 +882,7 @@
     <dt>
     <a name = "Ship:getSailSetting"></a>
     <strong>Ship:getSailSetting ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#370">line 370</a>
     </dt>
     <dd>
     Gets the current sail setting for the ship.
@@ -863,6 +903,7 @@
     <dt>
     <a name = "Ship:getSeaState"></a>
     <strong>Ship:getSeaState ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#376">line 376</a>
     </dt>
     <dd>
     Gets the current sea state around the ship.
@@ -883,6 +924,49 @@
     <dt>
     <a name = "Ship:getSpeed"></a>
     <strong>Ship:getSpeed ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#382">line 382</a>
+    </dt>
+    <dd>
+    Gets the current speed of the ship.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Ship's current speed, in knots.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:getWindSpeed"></a>
+    <strong>Ship:getWindSpeed ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#388">line 388</a>
+    </dt>
+    <dd>
+    Gets the current sea state around the ship.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        Sea state, 1-9.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Ship:getWindDirection"></a>
+    <strong>Ship:getWindDirection ()</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#394">line 394</a>
     </dt>
     <dd>
     Gets the current speed of the ship.
@@ -901,15 +985,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Set_methods"></a>Set methods </h2>
+    <h2><a name="Set_methods"></a>Set methods </h2>
 
-          <div class="section-description">
-           Methods to retrieve various points of information about the ship.
-          </div>
+
+ Methods to retrieve various points of information about the ship.
     <dl class="function">
     <dt>
     <a name = "Ship:setAnchorRaised"></a>
     <strong>Ship:setAnchorRaised (_isRaised)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#412">line 412</a>
     </dt>
     <dd>
     Sets whether the anchor is currently raised.
@@ -935,6 +1019,7 @@
     <dt>
     <a name = "Ship:setCrewBalance"></a>
     <strong>Ship:setCrewBalance (_onBalance)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#419">line 419</a>
     </dt>
     <dd>
     Sets whether the crew is on balance.
@@ -960,6 +1045,7 @@
     <dt>
     <a name = "Ship:setCourse"></a>
     <strong>Ship:setCourse (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#427">line 427</a>
     </dt>
     <dd>
     Sets the current course of the Ship object.
@@ -969,7 +1055,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Direction as short compass heading.
         </li>
     </ul>
@@ -988,6 +1074,7 @@
     <dt>
     <a name = "Ship:setGangplankRaised"></a>
     <strong>Ship:setGangplankRaised (_isRaised)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#461">line 461</a>
     </dt>
     <dd>
     Sets whether the gangplank is currently raised.
@@ -1011,15 +1098,15 @@
 
 </dd>
 </dl>
-    <h2 class="section-header has-description"><a name="Internal_functions"></a>Internal functions </h2>
+    <h2><a name="Internal_functions"></a>Internal functions </h2>
 
-          <div class="section-description">
-           Internal stuff. Not for external stuff.
-          </div>
+
+ Internal stuff. Not for external stuff.
     <dl class="function">
     <dt>
     <a name = "Ship:setHullHealth"></a>
     <strong>Ship:setHullHealth (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#480">line 480</a>
     </dt>
     <dd>
     Sets the current hull health of the Ship object.
@@ -1029,7 +1116,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
          The argument to pass into the function. Strings such as ++ okay.
         </li>
     </ul>
@@ -1040,7 +1127,7 @@
            <span class="types"><span class="type">bool</span></span>
         True, if successful</li>
         <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         The capture group passed into the function.</li>
     </ol>
 
@@ -1051,6 +1138,7 @@
     <dt>
     <a name = "Ship:setRequestedCourse"></a>
     <strong>Ship:setRequestedCourse (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#508">line 508</a>
     </dt>
     <dd>
     Sets the current rowing state of the Ship object.
@@ -1059,7 +1147,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Capture Either full ship prompt line, or substring that would contain rowing flag.
         </li>
     </ul>
@@ -1072,6 +1160,7 @@
     <dt>
     <a name = "Ship:setRowing"></a>
     <strong>Ship:setRowing (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#519">line 519</a>
     </dt>
     <dd>
     Sets the current rowing state of the Ship object.
@@ -1080,7 +1169,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Capture Either full ship prompt line, or substring that would contain rowing flag.
         </li>
     </ul>
@@ -1093,6 +1182,7 @@
     <dt>
     <a name = "Ship:setSailHealth"></a>
     <strong>Ship:setSailHealth (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#535">line 535</a>
     </dt>
     <dd>
     Sets the current sail health of the Ship object.
@@ -1103,7 +1193,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
          The argument to pass into the function. Strings such as ++ okay.
         </li>
     </ul>
@@ -1114,7 +1204,7 @@
            <span class="types"><span class="type">bool</span></span>
         True, if successful</li>
         <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         The capture group passed into the function.</li>
     </ol>
 
@@ -1125,6 +1215,7 @@
     <dt>
     <a name = "Ship:setSailSetting"></a>
     <strong>Ship:setSailSetting (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#567">line 567</a>
     </dt>
     <dd>
     Sets the current sail setting of the Ship object.
@@ -1135,7 +1226,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
          The argument to pass into the function. Strings such as ++ okay.
         </li>
     </ul>
@@ -1146,7 +1237,7 @@
            <span class="types"><span class="type">bool</span></span>
         True, if successful</li>
         <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         The capture group passed into the function.</li>
     </ol>
 
@@ -1157,6 +1248,7 @@
     <dt>
     <a name = "Ship:setSeaState"></a>
     <strong>Ship:setSeaState (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#598">line 598</a>
     </dt>
     <dd>
     Sets the current sea state of the Ship object.
@@ -1165,7 +1257,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a> or <span class="type">int</span></span>
          Sea state as either descriptor or Roman numerals as string, or raw number input.
         </li>
     </ul>
@@ -1176,7 +1268,7 @@
            <span class="types"><span class="type">bool</span></span>
         True, if successful</li>
         <li>
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+           <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         The capture group passed into the function.</li>
     </ol>
 
@@ -1187,6 +1279,7 @@
     <dt>
     <a name = "Ship:setSpeed"></a>
     <strong>Ship:setSpeed (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#631">line 631</a>
     </dt>
     <dd>
     Sets the current speed of the Ship object.
@@ -1195,7 +1288,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><span class="type">int</span> or <a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><span class="type">int</span> or <a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
 
 
 
@@ -1210,6 +1303,7 @@
     <dt>
     <a name = "Ship:setWindDirection"></a>
     <strong>Ship:setWindDirection (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#640">line 640</a>
     </dt>
     <dd>
     Sets the current wind direction of the Ship object.
@@ -1218,7 +1312,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          String direction to pass to the Navigator.
         </li>
     </ul>
@@ -1236,16 +1330,16 @@
     <dt>
     <a name = "Ship:setWindSpeed"></a>
     <strong>Ship:setWindSpeed (_captureGroup)</strong>
+    <a style="float:right;" href="../source/Ship.lua.html#674">line 674</a>
     </dt>
     <dd>
     Sets the current wind speed of the Ship object.
- Possible inputs: <code>++</code>, <code>--</code>, or <code>int</code>.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">_captureGroup</span>
-            <span class="types"><span class="type">number</span></span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
 
 
 
@@ -1263,8 +1357,8 @@
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
-<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2021-01-13 13:03:58 </i>
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

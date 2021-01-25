@@ -1,0 +1,1414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><strong>navigator.lua</strong></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><a href="../source/shipvitalsbox.lua.html">shipvitalsbox.lua</a></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>navigator.lua</h2>
+<pre>
+<span class="comment">--- Utilities and data relating to wilderness map navigation, both on land and sea.
+</span><span class="comment">--@module Navigator
+</span>
+Navigator = {
+
+    _error     = -<span class="number">1</span>,  <span class="comment">-- The
+</span>    _lineInMap =  <span class="number">0</span>,  <span class="comment">-- Ship's last seen line in Navigator.maps.current
+</span>    _easting   = -<span class="number">1</span>,  <span class="comment">-- User's current easting
+</span>    _southing  = -<span class="number">1</span>,  <span class="comment">-- User's current southing
+</span>
+    _autoCalibrateDisabled = <span class="keyword">false</span>,
+
+}
+
+Navigator.sailplans = {}
+Navigator.cachedSailplan = {}
+
+Navigator.maps = {}
+Navigator.maps.full = {}
+
+Navigator.harbourNames = {}
+Navigator.lastKnownBearings = {}
+Navigator.waypoints = {}
+
+<span class="global">table</span>.<span class="global">load</span>(cloudDir..<span class="string">[[tables\Navigator_fullMap.lua]]</span>, Navigator.maps.full)
+<span class="global">table</span>.<span class="global">load</span>(cloudDir..<span class="string">[[tables\waypoints.lua]]</span>, Navigator.waypoints)
+<span class="global">table</span>.<span class="global">load</span>(cloudDir..<span class="string">[[tables\Navigator_harbourNames.lua]]</span>, Navigator.harbourNames)
+
+
+
+
+
+<span class="comment">-----------------------------------------------
+</span><span class="comment">--- Basic navigation
+</span><span class="comment">-- @section basicnav
+</span><span class="comment">-----------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Finds bearing and distance to waypoint from current location.
+</span><span class="comment">-- @tparam string targetWaypoint Shortname of the waypoint to located.
+</span><span class="comment">-- @treturn float Bearing to waypoint in degrees.
+</span><a id="43"></a><span class="comment">-- @treturn int Chebyshev distance to waypoint.
+</span><span class="keyword">function</span> Navigator.findWaypoint(targetWaypoint)
+
+    targetWaypoint = <span class="global">string</span>.lower(targetWaypoint)
+
+    <span class="keyword">if</span> Navigator.waypoints[targetWaypoint] <span class="keyword">then</span>
+        <span class="keyword">local</span> toWPbearing = Navigator.getBearing( Navigator.easting, Navigator.southing, Navigator.waypoints[targetWaypoint].easting, Navigator.waypoints[targetWaypoint].southing )
+        <span class="keyword">local</span> toWPdistance = Navigator.getChebyshevDistance( Navigator.easting, Navigator.southing, Navigator.waypoints[targetWaypoint].easting, Navigator.waypoints[targetWaypoint].southing )
+        <span class="keyword">return</span> toWPbearing, toWPdistance
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>, <span class="keyword">false</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns the bearing to target coordinates from origin coordinates.
+</span><span class="comment">-- @tparam int _originX Origin point X-coordinate.
+</span><span class="comment">-- @tparam int _originY Origin point Y-coordinate.
+</span><span class="comment">-- @tparam int _targetX Target point X-coordinate.
+</span><span class="comment">-- @tparam int _targetY Target point Y-coordinate.
+</span><span class="comment">-- @treturn float Bearing to target coordinate in degrees.
+</span><span class="comment">-- @usage local bearing = myNavigator.getPointBearings(  418,443 , 553,221 )
+</span><a id="66"></a><span class="comment">-- @todo Rebuild this whole thing. It's a wreck.
+</span><span class="keyword">function</span> Navigator.getPointBearings(_originX,_originY,_targetX,_targetY)
+
+    <span class="comment">--Predeclarations
+</span>
+    <span class="keyword">local</span> _quadrant = <span class="number">0</span>     <span class="comment">-- What grid quadrant we're in, for converting to
+</span>    <span class="keyword">local</span> _polarAngle = <span class="number">0</span>   <span class="comment">--
+</span>
+    <span class="comment">--Inverting the Y coordinate. UTM to screen coordinates, effectively.
+</span>    <span class="keyword">local</span> _originY = <span class="global">math</span>.abs(_originY) * -<span class="number">1</span>
+    <span class="keyword">local</span> _targetY =  <span class="global">math</span>.abs(_targetY) * -<span class="number">1</span>
+
+    <span class="comment">--Find the target's coordinate relative to us, and we can assume we're at 0,0 to make this easy.
+</span>    <span class="keyword">local</span> _relativeX = (_targetX - _originX)
+    <span class="keyword">local</span> _relativeY = (_targetY - _originY)
+
+    <span class="keyword">if</span> _relativeX == <span class="number">0</span> <span class="keyword">and</span> _relativeY == <span class="number">0</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> <span class="number">0</span>
+    <span class="keyword">else</span>
+        <span class="comment">--Get the arctangent of the relative coordinates.
+</span>        <span class="keyword">local</span> _arctanResult = <span class="global">math</span>.deg(<span class="global">math</span>.atan(_relativeY/_relativeX))
+        <span class="comment">--Find what quadrant our target point is in, and adjust the conversion accordingly.
+</span>
+        <span class="keyword">if</span> _relativeX &gt;= <span class="number">0</span> <span class="keyword">then</span>
+            <span class="keyword">if</span> _relativeY &gt;= <span class="number">0</span>  <span class="keyword">then</span>
+                _quadrant = <span class="number">1</span>
+                _polarAngle = _arctanResult
+            <span class="keyword">elseif</span> _relativeY &lt; <span class="number">0</span> <span class="keyword">then</span>
+                _quadrant = <span class="number">4</span>
+                _polarAngle = _arctanResult + <span class="number">360</span>
+            <span class="keyword">end</span>
+        <span class="keyword">elseif</span> _relativeX &lt; <span class="number">0</span> <span class="keyword">then</span>
+            <span class="keyword">if</span> _relativeY &gt;= <span class="number">0</span>  <span class="keyword">then</span>
+                _quadrant = <span class="number">2</span>
+                _polarAngle = _arctanResult + <span class="number">180</span>
+            <span class="keyword">elseif</span> _relativeY &lt; <span class="number">0</span> <span class="keyword">then</span>
+                _quadrant = <span class="number">3</span>
+                _polarAngle = _arctanResult + <span class="number">180</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-- Derive compass heading from polarAngle
+</span>        <span class="keyword">local</span> _bearing = ((<span class="number">360</span> - _polarAngle) + <span class="number">90</span>)
+        <span class="keyword">if</span> _bearing &gt; <span class="number">360</span> <span class="keyword">then</span>     <span class="comment">--But if the polar angle is too small, we'll blow past 360!
+</span>            _bearing = _bearing - <span class="number">360</span> <span class="comment">--We'll subtract 360 if it does, that brings it back to correct.
+</span>        <span class="keyword">end</span>
+
+        <span class="keyword">return</span> _bearing
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns the Chebyshev distance between two points.
+</span><span class="comment">-- Does not account for impassable seas or obstacles.
+</span><span class="comment">-- @tparam int originX Origin point X-coordinate.
+</span><span class="comment">-- @tparam int originY Origin point Y-coordinate.
+</span><span class="comment">-- @tparam int targetX Target point X-coordinate.
+</span><span class="comment">-- @tparam int targetY Target point Y-coordinate.
+</span><span class="comment">-- @treturn int Chebyshev distance to target point.
+</span><a id="127"></a><span class="comment">-- @usage local distance = myNavigator.getChebyshevDistance(374,804,447,878)
+</span><span class="keyword">function</span> Navigator.getChebyshevDistance(originX,originY,targetX,targetY)
+
+    <span class="keyword">local</span> cDist =  <span class="global">math</span>.max( <span class="global">math</span>.abs( targetX - originX ), <span class="global">math</span>.abs( targetY - originY ) )
+
+    <span class="keyword">return</span> cDist
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Locates an arbitrary number of the nearest harbours.
+</span><span class="comment">-- Gathers the name, distance, and bearings of the nearest harbours, and organises them for further processing.
+</span><span class="comment">-- Limited in number of returns by **numReturns**.
+</span><span class="comment">-- @tparam int numReturns The number of nearest harbours to return results for, after sorting.
+</span><span class="comment">-- @treturn table Indexed table containing information for the **numReturns** nearest harbours, sorted by ascending distance..
+</span><a id="142"></a><span class="comment">-- @usage local nearestHarbour = myNavigator.getNearestHarbours(1)[1]
+</span><span class="keyword">function</span> Navigator.getNearestHarbours(numReturns)
+
+    numReturns = numReturns <span class="keyword">or</span> <span class="number">9999</span>
+
+    <span class="keyword">local</span> distanceSortedHarbours = {}
+
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(Navigator.waypoints) <span class="keyword">do</span>
+
+        <span class="keyword">if</span> v.<span class="global">type</span> == <span class="string">"H"</span> <span class="keyword">then</span>
+            <span class="global">table</span>.insert(distanceSortedHarbours, {[<span class="string">"name"</span>] = v.shortName, [<span class="string">"distance"</span>] = v.distance, [<span class="string">"bearing"</span>] = v.bearing } )
+        <span class="keyword">end</span>
+
+        <span class="global">table</span>.sort(distanceSortedHarbours, <span class="keyword">function</span>(a,b) <span class="keyword">return</span> (a.distance &lt; b.distance) <span class="keyword">end</span>)
+
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(distanceSortedHarbours) <span class="keyword">do</span>
+            <span class="keyword">if</span> k &gt; numReturns <span class="keyword">then</span>
+                distanceSortedHarbours[k] = <span class="keyword">nil</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> distanceSortedHarbours
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns a copy of the full waypoint table.
+</span><span class="comment">-- @treturn table A full copy of the master **Navigator.waypoints** table.
+</span><a id="172"></a><span class="comment">-- @usage for k,v in pairs(myNavigator.getWaypointTable()) do echo(v.name.."\n") end
+</span><span class="keyword">function</span> Navigator.getWaypointTable()
+    <span class="keyword">return</span> <span class="global">table</span>.deepcopy(Navigator.waypoints)
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><a id="178"></a><span class="comment">--- Something to do with movement speed.
+</span><span class="keyword">function</span> Navigator.calculateMovementSpeed()
+
+    <span class="keyword">local</span> lastMetronTime  = <span class="number">0</span> <span class="comment">--stopStopWatch(tempShipStopwatch)
+</span>    <span class="keyword">local</span> roundedBearing  = <span class="string">"error"</span>
+    <span class="keyword">local</span> roundedDistance = <span class="string">"error"</span>
+
+    Navigator.updateINS()
+
+    <span class="keyword">if</span> Navigator.WPheading <span class="keyword">then</span>
+        roundedBearing = <span class="global">string</span>.format(<span class="string">"%.1f"</span>,Navigator.WPheading)
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> Navigator.WPdistance <span class="keyword">then</span>
+        roundedDistance = Navigator.getChebyshevDistance(Navigator.easting,Navigator.southing,Navigator.WPeasting,Navigator.WPsouthing)
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> roundedBearing == <span class="string">"225.0"</span> <span class="keyword">or</span> roundedBearing == <span class="string">"45.0"</span> <span class="keyword">or</span> roundedBearing == <span class="string">"315.0"</span> <span class="keyword">or</span> roundedBearing == <span class="string">"135.0"</span> <span class="keyword">then</span>
+        <span class="comment">--roundedDistance = round((roundedDistance/1.414))
+</span>    <span class="keyword">end</span>
+
+    <span class="comment">--local timeToTarget = tonumber(round(roundedDistance*lastMetronTime))
+</span>    <span class="keyword">local</span> timeToTarget = (roundedDistance*lastMetronTime)
+    <span class="keyword">local</span> timeToTargetHr,timeToTargetMn,timeToTargetSc = shms(timeToTarget,<span class="keyword">false</span>)
+
+    <span class="comment">--moveCursor(70,getLineNumber())
+</span>    <span class="comment">--cinsertText("&lt;light_sky_blue&gt;S/M: &lt;white&gt;"..lastMetronTime.."&lt;light_sky_blue&gt;s")
+</span>
+    <span class="comment">--moveCursor(85,getLineNumber())
+</span>    <span class="comment">--cinsertText("&lt;light_sky_blue&gt;TTT: &lt;white&gt;"..timeToTargetMn..":"..timeToTargetSc.."&lt;light_sky_blue&gt;s")
+</span>
+    resetStopWatch(tempShipStopwatch)
+    startStopWatch(tempShipStopwatch)
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Getters/setters.
+</span><span class="comment">-- For creating and initialising Navigator object.
+</span><span class="comment">-- @section getterssetters
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns the player's current easting.
+</span><a id="226"></a><span class="comment">-- @treturn int Current Navigator easting.
+</span><span class="keyword">function</span> Navigator.getEasting()
+    <span class="keyword">return</span> Navigator._easting
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns the player's current southing.
+</span><a id="233"></a><span class="comment">-- @treturn int Current Navigator southing.
+</span><span class="keyword">function</span> Navigator.getSouthing()
+    <span class="keyword">return</span> Navigator._southing
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns the player's current CEP.
+</span><a id="240"></a><span class="comment">-- @treturn int Current Navigator CEP.
+</span><span class="keyword">function</span> Navigator.getError()
+    <span class="keyword">return</span> Navigator._error
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets the player's current easting.
+</span><span class="comment">-- @tparam int input New Navigator easting.
+</span><a id="248"></a><span class="comment">-- @usage myNavigator.setEasting(261)
+</span><span class="keyword">function</span> Navigator.setEasting(input)
+    input = <span class="global">tonumber</span>(input)
+    Navigator._easting = input
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets the player's current southing.
+</span><span class="comment">-- @tparam int input New Navigator southing.
+</span><a id="257"></a><span class="comment">-- @usage myNavigator.setSouthing(729)
+</span><span class="keyword">function</span> Navigator.setSouthing(input)
+    input = <span class="global">tonumber</span>(input)
+    Navigator._southing = input
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets the player's current CEP.
+</span><span class="comment">-- @tparam int input New Navigator CEP.
+</span><a id="266"></a><span class="comment">-- @usage myNavigator.setError(2)
+</span><span class="keyword">function</span> Navigator.setError(input)
+    input = <span class="global">tonumber</span>(input)
+    Navigator._error = input
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Location status
+</span><span class="comment">-- @section location
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if user is aboard a ship.
+</span><span class="comment">-- Does its best to avoid false positives, such as ferries, using a table of failure states as its metric.
+</span><span class="comment">-- @treturn bool Whether user is aboard a ship.
+</span><span class="comment">-- @usage if myNavigator.aboardShip() then...
+</span><a id="286"></a><span class="comment">-- @see Navigator.onSeafloor
+</span><span class="keyword">function</span> Navigator.aboardShip()
+
+    <span class="keyword">local</span> failStates = {
+        <span class="comment">-- If gmcp.Room isn't yet populatoed.
+</span>        (<span class="keyword">not</span> gmcp.Room),
+        <span class="comment">-- If gmcp.Room.Info isn't yet populatoed.
+</span>        (<span class="keyword">not</span> gmcp.Room.Info),
+        <span class="comment">-- If we're not even aboard a Vessel-type room.
+</span>        gmcp.Room.Info.environment ~= <span class="string">"Vessel"</span>,
+        <span class="comment">-- If we're on a Vessel, but there's no exits, and we're not in the crow's nest or bell... must be a ferry.
+</span>        (<span class="global">table</span>.size(gmcp.Room.Info.exits) == <span class="number">0</span>) <span class="keyword">and</span> (<span class="keyword">not</span> <span class="global">string</span>.find(<span class="global">string</span>.lower(gmcp.Room.Info.name),<span class="string">"row's nest"</span>)) <span class="keyword">and</span> (<span class="keyword">not</span> <span class="global">string</span>.find(<span class="global">string</span>.lower(gmcp.Room.Info.name),<span class="string">"within a diving bell"</span>)),
+        <span class="comment">-- ??????????? Why this?????
+</span>        <span class="comment">--string.find(gmcp.Room.Info.name,"crow's nest"),
+</span>        <span class="comment">-- Well, being aboard the Margam doesn't help us much.
+</span>        <span class="global">string</span>.find(gmcp.Room.Info.name,<span class="string">"Margam"</span>),
+    }
+
+    <span class="keyword">return</span> <span class="keyword">not</span> <span class="global">table</span>.contains(failStates,<span class="keyword">true</span>)
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if Navigator has a valid position set.
+</span><span class="comment">-- @treturn bool True, if valid position set.
+</span><a id="311"></a><span class="comment">-- @usage if myNavigator.havePosition() then...
+</span><span class="keyword">function</span> Navigator.havePosition()
+
+    <span class="keyword">return</span> ((Navigator._easting &gt;= <span class="number">0</span>) <span class="keyword">and</span> (Navigator._southing &gt;= <span class="number">0</span>))
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if user is in a subdivision.
+</span><span class="comment">-- @treturn bool True, if in subdivision.
+</span><a id="321"></a><span class="comment">-- @usage if myNavigator.inSubdivision() then...
+</span><span class="keyword">function</span> Navigator.inSubdivision()
+
+    <span class="keyword">if</span> <span class="keyword">not</span> Navigator.inWildernessMap() <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">false</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> atpGrid, _, _ = <span class="global">string</span>.match(gmcp.Room.Info.num,<span class="string">"^(%d+)(%d%d%d)(%d%d%d)$"</span>)
+
+    <span class="keyword">return</span> (<span class="global">tonumber</span>(atpGrid) &gt;= <span class="number">17</span> <span class="keyword">and</span> <span class="global">tonumber</span>(atpGrid) &lt;= <span class="number">30</span>)
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if user is in the wilderness map.
+</span><span class="comment">-- Does not count being aboard a vessel as being in the wilderness map.
+</span><span class="comment">-- @treturn bool True, if in subdivision.
+</span><span class="comment">-- @usage if myNavigator.aboardShip() then...
+</span><span class="comment">-- @see Navigator.aboardShip
+</span><a id="338"></a><span class="comment">-- @see Navigator.onSeafloor
+</span><span class="keyword">function</span> Navigator.inWildernessMap()
+
+    <span class="keyword">return</span> (utf8.len(gmcp.Room.Info.num) &gt;= <span class="number">7</span>)
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if user is in in a seafloor area.
+</span><span class="comment">-- Useful to keep us from zeroing out data when we don't actually want to.
+</span><span class="comment">-- @treturn bool True, if in seafloor area.
+</span><span class="comment">-- @usage if myNavigator.onSeafloor() then...
+</span><span class="comment">-- @see Navigator.aboardShip
+</span><a id="351"></a><span class="comment">-- @see Navigator.inWildernessMap
+</span><span class="keyword">function</span> Navigator.onSeafloor()
+
+    <span class="keyword">return</span> (gmcp.Room.Info.area == <span class="string">"deep below the sea"</span>)
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Conversions.
+</span><span class="comment">-- @section conversions
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Converts a cardinal-direction string to heading in degrees.
+</span><span class="comment">-- @tparam string _cardinalDirection Direction (e.g. "north", "e", "south-southwest", "ene")
+</span><a id="380"></a><span class="comment">-- @treturn float Heading in degrees
+</span><span class="keyword">function</span> Navigator.cardinalToHeading(_cardinalDirection)
+
+    <span class="keyword">local</span> _cardinalDirection = <span class="global">string</span>.lower(<span class="global">string</span>.trim(_cardinalDirection))
+
+    <span class="keyword">local</span> _lookupTable = {
+        [<span class="string">"north"</span>]           = <span class="number">360</span>,      [<span class="string">"n"</span>]   = <span class="number">360</span>,
+        [<span class="string">"north-northeast"</span>] = <span class="number">22.5</span>,     [<span class="string">"nne"</span>] = <span class="number">22.5</span>,
+        [<span class="string">"northeast"</span>]       = <span class="number">45</span>,       [<span class="string">"ne"</span>]  = <span class="number">45</span>,
+        [<span class="string">"east-northeast"</span>]  = <span class="number">67.5</span>,     [<span class="string">"ene"</span>] = <span class="number">67.5</span>,
+        [<span class="string">"east"</span>]            = <span class="number">90</span>,       [<span class="string">"e"</span>]   = <span class="number">90</span>,
+        [<span class="string">"east-southeast"</span>]  = <span class="number">112.5</span>,    [<span class="string">"ese"</span>] = <span class="number">112.5</span>,
+        [<span class="string">"southeast"</span>]       = <span class="number">135</span>,      [<span class="string">"se"</span>]  = <span class="number">135</span>,
+        [<span class="string">"south-southeast"</span>] = <span class="number">157.5</span>,    [<span class="string">"sse"</span>] = <span class="number">157.5</span>,
+        [<span class="string">"south"</span>]           = <span class="number">180</span>,      [<span class="string">"s"</span>]   = <span class="number">180</span>,
+        [<span class="string">"south-southwest"</span>] = <span class="number">202.5</span>,    [<span class="string">"ssw"</span>] = <span class="number">202.5</span>,
+        [<span class="string">"southwest"</span>]       = <span class="number">225</span>,      [<span class="string">"sw"</span>]  = <span class="number">225</span>,
+        [<span class="string">"west-southwest"</span>]  = <span class="number">247.5</span>,    [<span class="string">"wsw"</span>] = <span class="number">247.5</span>,
+        [<span class="string">"west"</span>]            = <span class="number">270</span>,      [<span class="string">"w"</span>]   = <span class="number">270</span>,
+        [<span class="string">"west-northwest"</span>]  = <span class="number">292.5</span>,    [<span class="string">"wnw"</span>] = <span class="number">292.5</span>,
+        [<span class="string">"northwest"</span>]       = <span class="number">315</span>,      [<span class="string">"nw"</span>]  = <span class="number">315</span>,
+        [<span class="string">"north-northwest"</span>] = <span class="number">337.5</span>,    [<span class="string">"nnw"</span>] = <span class="number">337.5</span>,
+    }
+
+    <span class="keyword">return</span> _lookupTable[_cardinalDirection] <span class="keyword">or</span> -<span class="number">1</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Converts standard three-parameter ATP coordinates to screen coordinates.
+</span><span class="comment">-- Used in setting our position when we have a wilderness room number.
+</span><span class="comment">-- @tparam int _roomNum The room number we wish to convert.
+</span><span class="comment">-- @treturn int Easting in screen coordinates.
+</span><a id="413"></a><span class="comment">-- @treturn int Southing in screen coordinates.
+</span><span class="keyword">function</span> Navigator.roomNumToCoords(_roomNum)
+
+    <span class="keyword">local</span> _roomNum_square, _roomNum_easting, _roomNum_southing = <span class="global">string</span>.match(<span class="global">tostring</span>(_roomNum), <span class="string">"^(%d+)(%d%d%d)(%d%d%d)$"</span>)
+    _roomNum_square   = <span class="global">tonumber</span>(_roomNum_square)
+    _roomNum_easting  = <span class="global">tonumber</span>(_roomNum_easting)
+    _roomNum_southing = <span class="global">tonumber</span>(_roomNum_southing)
+
+    <span class="keyword">local</span> _adjustmentMatrix = {
+        [<span class="number">1</span>]  = {   <span class="number">0</span>,    <span class="number">0</span> },
+        [<span class="number">2</span>]  = { <span class="number">250</span>,    <span class="number">0</span> },
+        [<span class="number">3</span>]  = { <span class="number">500</span>,    <span class="number">0</span> },
+        [<span class="number">4</span>]  = { <span class="number">750</span>,    <span class="number">0</span> },
+        [<span class="number">5</span>]  = {   <span class="number">0</span>,  <span class="number">250</span> },
+        [<span class="number">6</span>]  = { <span class="number">250</span>,  <span class="number">250</span> },
+        [<span class="number">7</span>]  = { <span class="number">500</span>,  <span class="number">250</span> },
+        [<span class="number">8</span>]  = { <span class="number">750</span>,  <span class="number">250</span> },
+        [<span class="number">9</span>]  = {   <span class="number">0</span>,  <span class="number">500</span> },
+        [<span class="number">10</span>] = { <span class="number">250</span>,  <span class="number">500</span> },
+        [<span class="number">11</span>] = { <span class="number">500</span>,  <span class="number">500</span> },
+        [<span class="number">12</span>] = { <span class="number">750</span>,  <span class="number">500</span> },
+        [<span class="number">13</span>] = {   <span class="number">0</span>,  <span class="number">750</span> },
+        [<span class="number">14</span>] = { <span class="number">250</span>,  <span class="number">750</span> },
+        [<span class="number">15</span>] = { <span class="number">500</span>,  <span class="number">750</span> },
+        [<span class="number">16</span>] = { <span class="number">750</span>,  <span class="number">750</span> },
+        [<span class="number">31</span>] = {   <span class="number">0</span>, <span class="number">1000</span> },
+        [<span class="number">32</span>] = { <span class="number">250</span>, <span class="number">1000</span> },
+        [<span class="number">33</span>] = { <span class="number">500</span>, <span class="number">1000</span> },
+        [<span class="number">34</span>] = { <span class="number">750</span>, <span class="number">1000</span> },
+        [<span class="number">35</span>] = {   <span class="number">0</span>, <span class="number">1250</span> },
+        [<span class="number">36</span>] = { <span class="number">250</span>, <span class="number">1250</span> },
+        [<span class="number">37</span>] = { <span class="number">500</span>, <span class="number">1250</span> },
+        [<span class="number">38</span>] = { <span class="number">750</span>, <span class="number">1250</span> },
+        [<span class="number">39</span>] = {   <span class="number">0</span>, <span class="number">1500</span> },
+        [<span class="number">40</span>] = { <span class="number">250</span>, <span class="number">1500</span> },
+        [<span class="number">41</span>] = { <span class="number">500</span>, <span class="number">1500</span> },
+        [<span class="number">42</span>] = { <span class="number">750</span>, <span class="number">1500</span> },
+    }
+
+    <span class="keyword">local</span> _return1 = (_roomNum_easting  + _adjustmentMatrix[_roomNum_square][<span class="number">1</span>]) <span class="keyword">or</span> -<span class="number">1</span>
+    <span class="keyword">local</span> _return2 = (_roomNum_southing + _adjustmentMatrix[_roomNum_square][<span class="number">2</span>]) <span class="keyword">or</span> -<span class="number">1</span>
+
+    <span class="keyword">return</span> _return1, _return2
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Auto-calibration.
+</span><span class="comment">-- @section autocal
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns current coordinates adjusted for input direction.
+</span><span class="comment">--  Also invoked by Figurehead for wavecall.
+</span><span class="comment">-- @tparam string _dirMoved Short-form direction string.
+</span><span class="comment">-- @tparam int _inputEasting Current Navigator easting.
+</span><span class="comment">-- @tparam int _inputSouthing Current Navigator southing.
+</span><span class="comment">-- @treturn int Adjusted easting.
+</span><span class="comment">-- @treturn int Adjusted southing.
+</span><a id="476"></a><span class="comment">-- @usage myNavigator.adjustCoords("n",625,715)
+</span><span class="keyword">function</span> Navigator.adjustCoords(_dirMoved,_inputEasting,_inputSouthing)
+
+    <span class="keyword">local</span> _errorString = <span class="string">"meep"</span>
+    <span class="keyword">local</span> _cleanDirMoved = <span class="string">"uwu"</span>
+
+    _inputEasting = <span class="global">tonumber</span>(_inputEasting)
+    _inputSouthing = <span class="global">tonumber</span>(_inputSouthing)
+
+    <span class="keyword">local</span> _adjustmentMatrix = {
+        [<span class="string">"n"</span>]  =  {  <span class="number">0</span>, -<span class="number">1</span> },
+        [<span class="string">"ne"</span>] =  {  <span class="number">1</span>, -<span class="number">1</span> },
+        [<span class="string">"e"</span>]  =  {  <span class="number">1</span>,  <span class="number">0</span> },
+        [<span class="string">"se"</span>] =  {  <span class="number">1</span>,  <span class="number">1</span> },
+        [<span class="string">"s"</span>]  =  {  <span class="number">0</span>,  <span class="number">1</span> },
+        [<span class="string">"sw"</span>] =  { -<span class="number">1</span>,  <span class="number">1</span> },
+        [<span class="string">"w"</span>]  =  { -<span class="number">1</span>,  <span class="number">0</span> },
+        [<span class="string">"nw"</span>] =  { -<span class="number">1</span>, -<span class="number">1</span> }
+    }
+
+    <span class="comment">---------------
+</span>
+    <span class="keyword">if</span> <span class="global">type</span>(_dirMoved) == <span class="string">"string"</span> <span class="keyword">then</span>
+        _cleanDirMoved = <span class="global">string</span>.lower( <span class="global">string</span>.trim(_dirMoved) )
+        _errorString = <span class="string">"\""</span>.._cleanDirMoved..<span class="string">"\""</span>
+    <span class="keyword">else</span>
+        _cleanDirMoved = _dirMoved
+        _errorString = <span class="global">tostring</span>(_dirMoved)
+    <span class="keyword">end</span>
+
+    <span class="global">assert</span>(_adjustmentMatrix[_cleanDirMoved], <span class="string">"Method Navigator.adjustCoords() - _adjustmentMatrix["</span>..<span class="global">tostring</span>(_errorString)..<span class="string">"] does not exist!"</span>)
+
+    <span class="comment">---------------
+</span>
+    echo(<span class="string">"Old coords: "</span>..<span class="global">tostring</span>(_inputEasting)..<span class="string">", "</span>..<span class="global">tostring</span>(_inputSouthing)..<span class="string">"\n"</span>)
+    echo(<span class="string">"New coords: "</span> .. <span class="global">tostring</span>(_inputEasting  + _adjustmentMatrix[_cleanDirMoved][<span class="number">1</span>]) .. <span class="string">", "</span> .. <span class="global">tostring</span>(_inputSouthing + _adjustmentMatrix[_cleanDirMoved][<span class="number">2</span>]) .. <span class="string">"\n\n"</span> )
+
+    <span class="comment">---------------
+</span>
+    <span class="keyword">return</span> (_inputEasting  + _adjustmentMatrix[_cleanDirMoved][<span class="number">1</span>]), (_inputSouthing + _adjustmentMatrix[_cleanDirMoved][<span class="number">2</span>])
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Doesn't actually autocalibrate, just takes in stuff to pass to self variables.
+</span><span class="comment">-- @todo Probably just throw it out tbh
+</span><span class="comment">-- @tparam int inputEasting New easting to set.
+</span><a id="523"></a><span class="comment">-- @tparam int inputSouthing New southing to set.
+</span><span class="keyword">function</span> Navigator.autoCal(inputEasting, inputSouthing)
+
+    <span class="keyword">if</span> <span class="keyword">not</span> Navigator.autoCalibrateDisabled <span class="keyword">then</span>
+
+        <span class="keyword">if</span> Navigator.easting ~= inputEasting <span class="keyword">or</span> Navigator.southing ~= inputSouthing <span class="keyword">then</span>
+            oldEasting = Navigator.easting
+            oldSouthing = Navigator.southing
+            Navigator.easting = inputEasting
+            Navigator.southing = inputSouthing
+            Navigator.error = <span class="number">0</span>
+            Navigator.movedNonCardinal = <span class="keyword">false</span>
+            <span class="comment">--svo.prompttrigger("new calibration set", function() cecho("&lt;green&gt;INS auto-calibrated: &lt;grey&gt;"..oldEasting..","..oldSouthing.." &gt; "..Navigator.easting..","..Navigator.southing.."") end )
+</span>            raiseEvent(<span class="string">"ship position updated"</span>)
+        <span class="keyword">elseif</span> Navigator.easting == inputEasting <span class="keyword">and</span> Navigator.southing == inputSouthing <span class="keyword">then</span>
+            Navigator.error = <span class="number">0</span>
+            raiseEvent(<span class="string">"ship position updated"</span>)
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Populates searchTable with the relevant rows of text, before we begin finding candidates.
+</span><a id="548"></a><span class="comment">-- @tparam bool doFullSearch True, to search the entire map for candidates. False if building a limited array to search through.
+</span><span class="keyword">function</span> Navigator.buildSearchTable(doFullSearch)
+
+    <span class="keyword">if</span> doFullSearch <span class="keyword">then</span>
+
+        Navigator.searchTable = Navigator.fullMap
+        Navigator.searchRow = <span class="number">1</span>
+        Navigator.searchY = Navigator.searchRow - <span class="number">1</span>
+
+    <span class="keyword">else</span> <span class="comment">-- Not implemented yet, full search is okay for now
+</span>
+        <span class="comment">--[[local mapHeight = #Navigator.currentMap
+        local numberOfRowsToSearch = (mapHeight + (Navigator.error * 10) + 10)
+
+
+        for i=1,searchHeight do table.insert(Navigator.searchRows,Navigator.fullMap[i+])
+
+        end
+        (#Navigator.currentMap-1)/2
+        Navigator.searchRow = ]]</span><span class="comment">--
+</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><a id="574"></a><span class="comment">--- It checks candidates?
+</span><span class="keyword">function</span> Navigator.checkCandidates(locationCandidates,shipColumn)
+
+    <span class="keyword">local</span> inLoop = <span class="keyword">true</span>
+    <span class="keyword">local</span> reverseSearch = <span class="keyword">false</span>
+    <span class="keyword">local</span> searchWidthPullback = <span class="number">0</span>
+
+    <span class="keyword">while</span> inLoop <span class="keyword">do</span>
+
+        inLoop = <span class="keyword">false</span>
+
+        <span class="comment">-- Check if tile above is ocean before continuing!
+</span>
+        <span class="comment">-- Run a comparative check on each entry
+</span>        <span class="keyword">if</span> <span class="global">table</span>.size(locationCandidates) &gt;= <span class="number">2</span> <span class="keyword">then</span>
+            <span class="keyword">if</span> reverseSearch <span class="keyword">then</span>
+                <span class="keyword">local</span> tempTable = {}
+                <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+                    <span class="global">table</span>.insert(tempTable,{[<span class="string">"x_pos"</span>] = v.x_pos, [<span class="string">"y_pos"</span>] = v.y_pos})
+                <span class="keyword">end</span>
+                locationCandidates = <span class="global">table</span>.deepcopy(tempTable)
+            <span class="keyword">end</span>
+            <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(locationCandidates) <span class="keyword">do</span>
+                <span class="keyword">local</span> confidence = <span class="number">0</span>
+                <span class="keyword">for</span> i=<span class="number">1</span>,Navigator.lineInMap-<span class="number">1</span>+searchWidthPullback <span class="keyword">do</span>
+                    <span class="keyword">local</span> delta = i
+                    <span class="keyword">if</span> reverseSearch <span class="keyword">then</span> delta = i*-<span class="number">1</span> <span class="keyword">end</span>
+                    <span class="keyword">local</span> searchTerm = <span class="global">string</span>.sub( Navigator.fullMap[v.y_pos+<span class="number">1</span>+delta], v.x_pos-#<span class="global">string</span>.gsub(westString,<span class="string">"%%"</span>,<span class="string">""</span>)+<span class="number">1</span>, v.x_pos+#<span class="global">string</span>.gsub(eastString,<span class="string">"%%"</span>,<span class="string">""</span>)+<span class="number">1</span>)
+                    <span class="keyword">if</span> <span class="global">string</span>.find(searchTerm, Navigator.currentMap[Navigator.lineInMap+delta]) <span class="keyword">then</span>
+                        confidence = confidence + <span class="number">1</span>
+                    <span class="keyword">else</span>
+                        locationCandidates[k] = <span class="keyword">nil</span>
+                        <span class="keyword">break</span>
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> confidence &gt;= Navigator.lineInMap-<span class="number">1</span>-searchWidthPullback-<span class="number">2</span> <span class="keyword">then</span>
+                        <span class="keyword">break</span>
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-- Stop if we have no entries in locationCandidates
+</span>        <span class="keyword">if</span> <span class="global">table</span>.size(locationCandidates) == <span class="number">0</span> <span class="keyword">then</span>
+            navUpdateResult = <span class="number">0</span>
+            inLoop = <span class="keyword">nil</span>
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-- Stop if we have only one entry in locationCandidates
+</span>        <span class="keyword">if</span> <span class="global">table</span>.size(locationCandidates) == <span class="number">1</span> <span class="keyword">then</span>
+            <span class="keyword">local</span> final_x = -<span class="number">1</span>
+            <span class="keyword">local</span> final_y = -<span class="number">1</span>
+            <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+                final_x = v.x_pos final_y = v.y_pos
+            <span class="keyword">end</span>
+            navUpdateResult = <span class="number">1</span>
+            Navigator.autoCal(final_x, final_y)
+            inLoop = <span class="keyword">nil</span>
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> <span class="global">table</span>.size(locationCandidates) &gt;= <span class="number">2</span> <span class="keyword">and</span> <span class="keyword">not</span> reverseSearch <span class="keyword">then</span>
+            inLoop = <span class="keyword">true</span>
+            reverseSearch = <span class="keyword">true</span>
+            <span class="comment">--echo("DOING REVERSE SEARCH\n")
+</span>        <span class="keyword">else</span>
+            inLoop = <span class="keyword">nil</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">--if reverseSearch then
+</span>        <span class="comment">--    echo("DOING FULL SEARCH\n")
+</span>        <span class="comment">--    --inLoop = true
+</span>        <span class="comment">--    reverseSearch = true
+</span>        <span class="comment">--    searchWidthPullback = -1
+</span>        <span class="comment">--end
+</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">--echo("a")
+</span>
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><a id="657"></a><span class="comment">--- Old autocal
+</span><span class="keyword">function</span> Navigator.doShipAutocal()
+
+    <span class="comment">-- CASES --
+</span>    <span class="comment">-- 1 - In open sea, use INS
+</span>    <span class="comment">-- 2 - Open sea line (ship is wildcard), delta located
+</span>    <span class="comment">-- 3 - Landmarked line, unique match
+</span>    <span class="comment">-- 4 - Landmarked line, multiple matches
+</span>
+
+    <span class="comment">--echo("debugWindow","\n")
+</span>
+    <span class="comment">-- Get the line we want to use as the basis of our search, and the delta of said line.
+</span>    <span class="comment">-- Remember that we have to assume anything could be beneath =, so we have to treat "  =  " as open sea!
+</span>    <span class="keyword">local</span> searchLine, searchLineDelta = Navigator.findFirstNonBlankLine()
+    Navigator.lineDelta = searchLineDelta <span class="keyword">or</span> <span class="number">0</span>
+
+    <span class="comment">-- If we're in blank everything, we're in open sea and have no ability to calibrate.
+</span>    <span class="comment">-- However, we should ignore this if we're docked. We can only be docked in so many spots!
+</span>    <span class="keyword">if</span> Navigator.isInOpenSeas() <span class="keyword">and</span> <span class="keyword">not</span> Navigator.docked <span class="keyword">then</span>
+        navUpdateResult = <span class="string">"Open sea, in inertial mode"</span>
+        mfd.writeNavPage()
+        blinkShipMovedIndicator(<span class="string">"yellow"</span>)
+        <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">-- Get the strings west and east of us, to help size things later
+</span>    westString = <span class="global">string</span>.sub(searchLine,<span class="number">1</span>,(#searchLine-<span class="number">1</span>)/<span class="number">2</span>)
+    eastString = <span class="global">string</span>.sub(searchLine,(#searchLine-<span class="number">1</span>)/<span class="number">2</span>+<span class="number">2</span>)
+
+    <span class="comment">-- Any sort of landmark? Cool, go get our locationCandidates table built
+</span>    locationCandidates = Navigator.gatherCandidates(mapLineToPattern(searchLine),Navigator.fullMap,Navigator.lineDelta)
+
+    <span class="comment">-------
+</span>
+    <span class="comment">-- If we only found one location candidate...
+</span>    <span class="keyword">if</span> #locationCandidates &gt; <span class="number">1</span> <span class="keyword">then</span>
+
+        <span class="comment">-- Delete entries that're more than a certain distance away.
+</span>        <span class="keyword">local</span> entriesDeleted = <span class="number">0</span>
+        <span class="keyword">local</span> distanceLimit = <span class="number">50</span>
+
+        <span class="comment">-----------
+</span>
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+            <span class="comment">-- If it's reasonably close, delete it from the table. Don't do this if
+</span>            <span class="keyword">local</span> candidateDistance = Navigator.getChebyshevDistance(Navigator.easting,Navigator.southing,v.x_pos,v.y_pos)
+            <span class="keyword">if</span> candidateDistance &gt; distanceLimit <span class="keyword">and</span> Navigator.easting &gt;= <span class="number">0</span> <span class="keyword">and</span> Navigator.southing &gt;= <span class="number">0</span> <span class="keyword">and</span> Navigator.error &lt; <span class="number">5</span> <span class="keyword">then</span>
+                locationCandidates[k] = <span class="keyword">nil</span>
+                entriesDeleted = entriesDeleted + <span class="number">1</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-----------
+</span>
+        <span class="comment">-- Go through the remaining candidates and evaluate them.
+</span>        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+
+            <span class="comment">-- We have a location pair candidate
+</span>            <span class="comment">--echo("\nLocation candidate "..k.." ("..v.x_pos..","..v.y_pos.."):\n")
+</span>            <span class="keyword">local</span> totalMatch = <span class="keyword">false</span>
+            <span class="keyword">local</span> candidateString = <span class="global">string</span>.sub( Navigator.fullMap[v.y_pos+<span class="number">1</span>], v.x_pos-#westString+<span class="number">1</span>, v.x_pos+#eastString+<span class="number">1</span> )
+
+            <span class="comment">-- Search down from the northmost row (most negative delta)
+</span>            <span class="keyword">for</span> i=(Navigator.lineInMap-<span class="number">1</span>)*-<span class="number">1</span>,Navigator.lineInMap-<span class="number">1</span> <span class="keyword">do</span>
+            <span class="keyword">local</span> candidateString = <span class="global">string</span>.sub( Navigator.fullMap[v.y_pos+<span class="number">1</span>+i], v.x_pos-#westString+<span class="number">1</span>, v.x_pos+#eastString+<span class="number">1</span> )
+            <span class="keyword">local</span> searchPatternString = Navigator.currentMapPatterns[Navigator.lineInMap+i]
+            <span class="comment">--echo("\""..Navigator.currentMap[Navigator.lineInMap+i].."\"")
+</span>            <span class="keyword">if</span> <span class="global">string</span>.find(candidateString,searchPatternString) <span class="keyword">then</span>
+                <span class="comment">--echo("Match: Δ"..i.."\n")
+</span>            <span class="keyword">else</span>
+                <span class="comment">--echo("Break: Δ"..i.."\n")
+</span>                locationCandidates[k] = <span class="keyword">nil</span>
+                <span class="keyword">break</span>
+            <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+        <span class="comment">-----------
+</span>
+        <span class="keyword">if</span> <span class="global">table</span>.size(locationCandidates) == <span class="number">1</span> <span class="keyword">then</span>
+            <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+                Navigator.easting = v.x_pos
+                Navigator.southing = v.y_pos
+                Navigator.error = <span class="number">0</span>
+                navUpdateResult = <span class="string">"One candidate left ("</span>..Navigator.easting..<span class="string">","</span>..Navigator.southing..<span class="string">")"</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+    <span class="comment">--checkCandidates(locationCandidates, inputColumn)
+</span>    <span class="keyword">elseif</span> <span class="global">table</span>.size(locationCandidates) == <span class="number">1</span> <span class="keyword">then</span>
+        <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+            Navigator.easting = v.x_pos
+            Navigator.southing = v.y_pos-Navigator.lineDelta
+            Navigator.error = <span class="number">0</span>
+            navUpdateResult = <span class="string">"Single candidate found ("</span>..Navigator.easting..<span class="string">","</span>..Navigator.southing..<span class="string">" Δ"</span>..Navigator.lineDelta..<span class="string">")"</span>
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        navUpdateResult = <span class="string">"Uhhhh"</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">-------------------------------
+</span>
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Finds nearest Δ candidate in <code>Navigator.currentMap</code>.
+</span><span class="comment">-- @treturn string Contents of the line containing the located reference. Used in later steps to verify location candidates, before heading into confidence calculations.
+</span><span class="comment">-- @treturn int Latitudinal distance from the central calibration point, Δ. Negative values are north.
+</span><a id="767"></a><span class="comment">-- @usage local locatorString, lineDelta = myNavigator.findLineDelta()
+</span><span class="keyword">function</span> Navigator.findLineDelta()
+
+    <span class="comment">-- If we're on an open ocean line
+</span>    <span class="keyword">if</span> <span class="global">string</span>.find(<span class="global">string</span>.gsub(Navigator.currentMap[Navigator.lineInMap],<span class="string">"="</span>,<span class="string">" "</span>), <span class="string">"^ +$"</span>) <span class="keyword">then</span>
+
+        <span class="keyword">local</span> landFound = <span class="keyword">false</span>
+        Navigator.lineDelta = <span class="keyword">false</span>
+
+        <span class="comment">-- Search southwards
+</span>        <span class="keyword">for</span> i=<span class="number">1</span>,Navigator.lineInMap-<span class="number">1</span> <span class="keyword">do</span>
+            <span class="keyword">local</span> lineIsOcean = <span class="keyword">false</span>
+            <span class="keyword">if</span> <span class="global">string</span>.find(<span class="global">string</span>.gsub(Navigator.currentMap[Navigator.lineInMap+i],<span class="string">"="</span>,<span class="string">" "</span>), <span class="string">"^ +$"</span>) <span class="keyword">then</span>
+                lineIsOcean = <span class="keyword">true</span>
+            <span class="keyword">else</span>
+                lineIsOcean = <span class="keyword">false</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> <span class="keyword">not</span> lineIsOcean <span class="keyword">then</span>
+                landFound = Navigator.currentMap[Navigator.lineInMap+i]
+                Navigator.lineDelta = i
+                <span class="keyword">break</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">-- Search northwards
+</span>        <span class="keyword">for</span> i=-<span class="number">1</span>,(Navigator.lineInMap-<span class="number">1</span>)*-<span class="number">1</span>,-<span class="number">1</span> <span class="keyword">do</span>
+            <span class="keyword">local</span> lineIsOcean = <span class="keyword">false</span>
+            <span class="keyword">if</span> <span class="global">string</span>.find(<span class="global">string</span>.gsub(Navigator.currentMap[Navigator.lineInMap+i],<span class="string">"="</span>,<span class="string">" "</span>), <span class="string">"^ +$"</span>) <span class="keyword">then</span>
+                lineIsOcean = <span class="keyword">true</span>
+            <span class="keyword">else</span>
+                lineIsOcean = <span class="keyword">false</span>
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> <span class="keyword">not</span> lineIsOcean <span class="keyword">then</span>
+                landFound = Navigator.currentMap[Navigator.lineInMap+i]
+                Navigator.lineDelta = i
+                <span class="keyword">break</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">return</span> landFound, Navigator.lineDelta
+
+    <span class="keyword">else</span>
+
+        <span class="comment">-- If not, just send back the line with delta 0.
+</span>        <span class="keyword">return</span> Navigator.currentMap[Navigator.lineInMap], <span class="number">0</span>
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Gathers the candidates for our line.
+</span><span class="comment">-- @todo Add optional latitude/longitude limiting, for performance.
+</span><a id="820"></a><span class="comment">-- @tparam string searchString Map line to gather candidates for.
+</span><span class="keyword">function</span> Navigator.gatherCandidates(searchString)
+
+
+    <span class="keyword">local</span> candidateTable = {}
+    <span class="comment">--if Navigator.isInOpenSeas() then return {} end
+</span>
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(Navigator.fullMap) <span class="keyword">do</span>
+        <span class="keyword">local</span> searchResult = <span class="global">string</span>.find(Navigator.fullMap[k],searchString)
+        <span class="keyword">if</span> searchResult <span class="keyword">then</span>
+            <span class="global">table</span>.insert(candidateTable, {
+                [<span class="string">"x_pos"</span>] = <span class="global">tonumber</span>(searchResult + #westString - <span class="number">1</span>),
+                [<span class="string">"y_pos"</span>] = <span class="global">tonumber</span>(k-<span class="number">1</span>),
+            })
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">return</span> candidateTable
+
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="843"></a><span class="comment">-- Gets search height.
+</span><span class="keyword">function</span> Navigator.getSearchHeight()
+
+    <span class="keyword">return</span> #Navigator.currentMap
+
+<span class="keyword">end</span>
+
+
+
+
+<span class="comment">----------------------------------------
+</span><a id="854"></a><span class="comment">--- Feed our last movement direction to the INS routine. Adjusts current Navigator coords acordingly.
+</span><span class="keyword">function</span> Navigator.doINSmove()
+    <span class="comment">-- Feed our last movement direction to the INS routine. Adjusts current Navigator coords acordingly.
+</span>    <span class="keyword">local</span> a = <span class="number">1</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="862"></a><span class="comment">--- See if all the lines of our map are blank spaces, to see if we even have any sort of landmarks.
+</span><span class="keyword">function</span> Navigator.isInOpenSeas()
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">ipairs</span>(Navigator.currentMap) <span class="keyword">do</span>
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="global">string</span>.find(<span class="global">string</span>.gsub(v,<span class="string">"="</span>,<span class="string">" "</span>),<span class="string">"^ +$"</span>) <span class="keyword">then</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">return</span> <span class="keyword">true</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- This finds things.
+</span><span class="comment">-- allegedly, not great though
+</span><span class="comment">-- @param inputTable what.
+</span><a id="877"></a><span class="comment">-- @param distanceLimit what.
+</span><span class="keyword">function</span> Navigator.trimLocationCandidates(inputTable, distanceLimit)
+
+    <span class="keyword">local</span> entriesDeleted = <span class="number">0</span>
+
+    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="global">pairs</span>(locationCandidates) <span class="keyword">do</span>
+
+        <span class="comment">-- If it's reasonably close, delete it from the table. Don't do this if
+</span>        <span class="keyword">local</span> candidateDistance = Navigator.getChebyshevDistance(Navigator.easting,Navigator.southing,v.x_pos,v.y_pos)
+
+        <span class="keyword">if</span> candidateDistance &gt; distanceLimit <span class="keyword">and</span> Navigator.easting &gt;= <span class="number">0</span> <span class="keyword">and</span> Navigator.southing &gt;= <span class="number">0</span> <span class="keyword">and</span> Navigator.error &lt; <span class="number">5</span> <span class="keyword">then</span>
+            locationCandidates[k] = <span class="keyword">nil</span>
+            cecho(<span class="string">"&lt;medium_spring_green:black&gt;Deleted candidate: &lt;white:black&gt;"</span>..v.x_pos..<span class="string">"&lt;medium_spring_green:black&gt;,&lt;white:black&gt;"</span>..v.y_pos..<span class="string">" &lt;medium_spring_green:black&gt;(&lt;white:black&gt;"</span>..candidateDistance..<span class="string">"&lt;medium_spring_green:black&gt; Chebyshev distance)\n"</span>)
+            entriesDeleted = entriesDeleted + <span class="number">1</span>
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+  cecho(<span class="string">"&lt;cyan:black&gt;Deleted &lt;white:black&gt;"</span>..entriesDeleted..<span class="string">" &lt;cyan:black&gt;candidates. Distance limit &lt;white:black&gt;"</span>..distanceLimit..<span class="string">"&lt;cyan:black&gt;. CEP &lt;white:black&gt;"</span>..Navigator.error..<span class="string">".\n"</span>)
+
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="901"></a><span class="comment">--- Old INS stuff.
+</span><span class="keyword">function</span> Navigator.updateINS()
+
+    <span class="keyword">if</span> insDebug <span class="keyword">then</span>
+          <span class="keyword">if</span> insStopWatch <span class="keyword">then</span>
+              stopStopWatch(insStopWatch)
+              deleteStopWatch(insStopWatch)
+          <span class="keyword">end</span>
+          insStopWatch = createStopWatch()
+          startStopWatch(insStopWatch)
+    <span class="keyword">end</span>
+
+    <span class="comment">---------------------
+</span>
+    <span class="comment">--If no sailplan exists
+</span>    <span class="keyword">if</span> <span class="keyword">not</span> Navigator.sailplan[<span class="number">1</span>] <span class="keyword">then</span>
+
+          Navigator.WPeasting  = -<span class="number">1</span>       <span class="comment">-- Easting of current target waypoint
+</span>          Navigator.WPsouthing = -<span class="number">1</span>       <span class="comment">-- Southing of current target waypoint
+</span>          Navigator.WPheading  = -<span class="number">1</span>       <span class="comment">-- Heading from current position to current waypoint
+</span>          Navigator.WPdistance = -<span class="number">1</span>       <span class="comment">-- Distance from current poisition to current waypoint
+</span>
+          Navigator.nextWPeasting  = -<span class="number">1</span>   <span class="comment">-- Easting of waypoint after current
+</span>          Navigator.nextWPsouthing = -<span class="number">1</span>   <span class="comment">-- Southing of waypoint after current
+</span>          Navigator.nextWPheading  = -<span class="number">1</span>   <span class="comment">-- Heading from current position to next waypoint
+</span>          Navigator.nextWPdistance = -<span class="number">1</span>   <span class="comment">-- Distance from current poisition to next waypoint
+</span>
+          Navigator.nextHeading  = -<span class="number">1</span>     <span class="comment">-- Heading between current and next waypoints
+</span>          Navigator.nextDistance = -<span class="number">1</span>     <span class="comment">-- Distance between current and next waypoints
+</span>
+    <span class="comment">--If a sailplan exists
+</span>    <span class="keyword">elseif</span> Navigator.sailplan[<span class="number">1</span>] <span class="keyword">and</span> Navigator.sailplan[(Navigator.sailplanIndex+<span class="number">1</span>)] <span class="keyword">then</span>
+
+        <span class="keyword">local</span> wp1 = Navigator.sailplan[Navigator.sailplanIndex]
+        <span class="keyword">local</span> wp2 = Navigator.sailplan[(Navigator.sailplanIndex+<span class="number">1</span>)]
+
+        <span class="keyword">local</span> toWPheading = Navigator.getBearing( Navigator.easting, Navigator.southing, wp1.easting, wp1.southing )
+        <span class="keyword">local</span> toNextWPheading = Navigator.getBearing( Navigator.easting, Navigator.southing, wp2.easting, wp2.southing )
+        <span class="keyword">local</span> currentToNextWPheading = Navigator.getBearing( wp1.easting, wp1.southing, wp2.easting, wp2.southing )
+
+        <span class="keyword">local</span> toWPdistance = Navigator.getChebyshevDistance(Navigator.easting, Navigator.southing, wp1.easting, wp1.southing)
+        <span class="keyword">local</span> toNextWPdistance = Navigator.getChebyshevDistance(Navigator.easting, Navigator.southing, wp2.easting, wp2.southing)
+        <span class="keyword">local</span> currentToNextWPdistance = Navigator.getChebyshevDistance(wp1.easting, wp1.southing, wp2.easting, wp2.southing)
+
+        <span class="keyword">local</span> turnToWaypoint = <span class="keyword">false</span>
+
+        <span class="comment">-- Assign to globals --
+</span>
+        Navigator.WPeasting  = wp1.easting        <span class="comment">-- Easting of current target waypoint
+</span>        Navigator.WPsouthing = wp1.southing    <span class="comment">-- Southing of current target waypoint
+</span>        Navigator.WPheading  = toWPheading        <span class="comment">-- Heading from current position to current waypoint
+</span>        Navigator.WPdistance = toWPdistance    <span class="comment">-- Distance from current poisition to current waypoint
+</span>
+        Navigator.nextWPeasting  = wp2.easting            <span class="comment">-- Easting of waypoint after current
+</span>        Navigator.nextWPsouthing = wp2.southing        <span class="comment">-- Southing of waypoint after current
+</span>        Navigator.nextWPheading  = toNextWPheading        <span class="comment">-- Heading from current position to next waypoint
+</span>        Navigator.nextWPdistance = toNextWPdistance    <span class="comment">-- Distance from current poisition to next waypoint
+</span>
+        Navigator.nextHeading  = currentToNextWPheading    <span class="comment">-- Heading between current and next waypoints
+</span>        Navigator.nextDistance = currentToNextWPdistance    <span class="comment">-- Distance between current and next waypoints
+</span>
+        <span class="keyword">if</span> Navigator.isAtDestination() <span class="keyword">then</span>
+            cecho(<span class="string">"\n&lt;green&gt;At destination\n\n"</span>)
+            playSoundFile(cloudDir..<span class="string">[[Sounds\arriveDestination.wav]]</span>)
+            turnToWaypoint = <span class="keyword">true</span>
+        <span class="keyword">elseif</span>  Navigator.nextWPheading == Navigator.nextHeading   <span class="keyword">and</span>   gmcp.Room.Info.environment == <span class="string">"Vessel"</span>   <span class="keyword">and</span>   Navigator.heading ~= Navigator.nextHeading   <span class="keyword">and</span>   Navigator.easting ~= -<span class="number">1</span>   <span class="keyword">and</span>   Navigator.WPeasting ~= -<span class="number">1</span> <span class="keyword">then</span>
+            cecho(<span class="string">"\n&lt;green&gt;Intercepted course\n\n"</span>)
+            playSoundFile(cloudDir..<span class="string">[[Sounds\arriveDestination.wav]]</span>)
+            turnToWaypoint = <span class="keyword">true</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> turnToWaypoint <span class="keyword">then</span>
+
+            Navigator.ap.waypointTurn()
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">elseif</span> Navigator.sailplan[<span class="number">1</span>] <span class="keyword">and</span> <span class="keyword">not</span> Navigator.sailplan[<span class="number">2</span>] <span class="keyword">then</span>
+
+        <span class="keyword">local</span> wp1 = Navigator.sailplan[Navigator.sailplanIndex]
+        <span class="keyword">local</span> toWPheading, toWPdistance = Navigator.getBearing( Navigator.easting, Navigator.southing, wp1.easting, wp1.southing )
+
+        Navigator.WPeasting  = wp1.easting           <span class="comment">-- Easting of current target waypoint
+</span>        Navigator.WPsouthing = wp1.southing          <span class="comment">-- Southing of current target waypoint
+</span>        Navigator.WPheading  = toWPheading           <span class="comment">-- Heading from current position to current waypoint
+</span>        <span class="comment">--Navigator.WPdistance = toWPdistance          -- Distance from current poisition to current waypoint
+</span>        Navigator.WPdistance = <span class="global">math</span>.abs(Navigator.easting - wp1.easting) + <span class="global">math</span>.abs(Navigator.southing - wp1.southing)
+
+        Navigator.nextWPeasting  = -<span class="number">1</span>                <span class="comment">-- Easting of waypoint after current
+</span>        Navigator.nextWPsouthing = -<span class="number">1</span>                <span class="comment">-- Southing of waypoint after current
+</span>        Navigator.nextWPheading  = -<span class="number">1</span>                <span class="comment">-- Heading from current position to next waypoint
+</span>        Navigator.nextWPdistance = -<span class="number">1</span>                <span class="comment">-- Distance from current poisition to next waypoint
+</span>
+        Navigator.nextHeading  = -<span class="number">1</span>                  <span class="comment">-- Heading between current and next waypoints
+</span>        Navigator.nextDistance = -<span class="number">1</span>                  <span class="comment">-- Distance between current and next waypoints
+</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> insStopWatch <span class="keyword">then</span>
+        <span class="keyword">local</span> insElapsedTime = stopStopWatch(insStopWatch)
+        display(<span class="string">"INS routine time: "</span>..insElapsedTime..<span class="string">"s"</span>)
+        deleteStopWatch(insStopWatch)
+        insStopWatch = <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> Navigator.autopilotEnabled <span class="keyword">and</span> Navigator.WPdistance &lt; <span class="number">10</span> <span class="keyword">and</span> Navigator.speed &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> Navigator.nextWpFlag <span class="keyword">then</span>
+        Navigator.nextWpFlag = <span class="keyword">true</span>
+        playSoundFile(cloudDir..<span class="string">[[Sounds\selfChord.wav]]</span>)
+    <span class="keyword">elseif</span> Navigator.autopilotEnabled <span class="keyword">and</span> Navigator.WPdistance &lt; <span class="number">10</span> <span class="keyword">and</span> Navigator.speed &gt; <span class="number">0</span> <span class="keyword">then</span>
+        Navigator.nextWpFlag = <span class="keyword">true</span>
+    <span class="keyword">else</span>
+        Navigator.nextWpFlag = <span class="keyword">nil</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="comment">-----------------------------------------------
+</span><span class="comment">--- Sailplan stuff
+</span><span class="comment">-- @section sailplan
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Returns true if current position matches destination position.
+</span><a id="1037"></a><span class="comment">-- @treturn bool True if at destination position.
+</span><span class="keyword">function</span> Navigator.isAtDestination()
+
+    <span class="comment">--if Navigator.easting ~= Navigator.WPeasting then
+</span>    <span class="comment">--    return false
+</span>    <span class="comment">--elseif Navigator.southing ~= Navigator.WPsouthing then
+</span>    <span class="comment">--    return false
+</span>    <span class="comment">--elseif gmcp.Room.Info.environment ~= "Vessel" then
+</span>    <span class="comment">--    return false
+</span>    <span class="comment">--elseif Navigator.easting == -1 then
+</span>    <span class="comment">--    return false
+</span>    <span class="comment">--else
+</span>    <span class="comment">--    return true
+</span>    <span class="comment">--end
+</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="1056"></a><span class="comment">--- Next steerpoint.
+</span><span class="keyword">function</span> Navigator.steerpointNext()
+
+    <span class="keyword">if</span> Navigator.sailplan[(Navigator.sailplanIndex+<span class="number">1</span>)] <span class="keyword">then</span>
+
+        Navigator.sailplanIndex = Navigator.sailplanIndex + <span class="number">1</span>  <span class="comment">-- Increment the index from 5 to 6, as WP6 (CITTN) is the next steerpoint
+</span>
+        Navigator.WPeasting  = Navigator.sailplan[Navigator.sailplanIndex].easting  <span class="comment">-- Get the easting of CITTN
+</span>        Navigator.WPsouthing = Navigator.sailplan[Navigator.sailplanIndex].southing <span class="comment">-- Get the southing of CITTN
+</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><a id="1071"></a><span class="comment">--- Previous steerpoint.
+</span><span class="keyword">function</span> Navigator.steerpointPrevious()
+
+    <span class="keyword">if</span> Navigator.sailplan[(Navigator.sailplanIndex-<span class="number">1</span>)] <span class="keyword">then</span>
+
+        Navigator.sailplanIndex = Navigator.sailplanIndex - <span class="number">1</span>
+
+        Navigator.WPeasting  = Navigator.sailplan[Navigator.sailplanIndex].easting
+        Navigator.WPsouthing = Navigator.sailplan[Navigator.sailplanIndex].southing
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="comment">-----------------------------------------------
+</span><span class="comment">--- Autopilot
+</span><span class="comment">-- @section autopilot
+</span>
+
+<span class="comment">------------------------------------------------
+</span><a id="1142"></a><span class="comment">--- Container for autopilot functionality
+</span>Navigator.autopilot = {
+    _autopilotEnabled = <span class="string">""</span>,  <span class="comment">-- If autopilot is enabled
+</span>    _stoppedToTurn = <span class="string">""</span>,  <span class="comment">-- If autopilot is stopped for purposes of turning
+</span>}
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- These do things, I guess.
+</span><a id="1150"></a><span class="comment">-- Yep. I guess.
+</span><span class="keyword">function</span> Navigator.checkAlignment()      <span class="comment">--
+</span>
+    <span class="comment">--local WPheading, _ = Navigator.getBearing( Navigator.easting, Navigator.southing, Navigator.WPeasting, Navigator.WPsouthing )
+</span>
+    <span class="comment">--if WPheading % 22.5 == 0 then
+</span>    <span class="comment">--    return true
+</span>    <span class="comment">--else
+</span>    <span class="comment">--    return false
+</span>    <span class="comment">--end
+</span>
+<span class="keyword">end</span>
+
+
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- These do things, I guess.
+</span><a id="1167"></a><span class="comment">-- Yep. I guess.
+</span><span class="keyword">function</span> Navigator.waypointTurn()
+
+    <span class="keyword">if</span> <span class="keyword">not</span> Navigator.sailplan[(Navigator.sailplanIndex+<span class="number">1</span>)] <span class="keyword">and</span> <span class="keyword">not</span> Navigator.state == <span class="number">0</span> <span class="keyword">and</span> gmcp.Room.Info.environment == <span class="string">"Vessel"</span> <span class="keyword">then</span>
+
+        cecho(<span class="string">"&lt;green&gt;\nDestination reached - autopilot disabled\n\n"</span>)
+        Navigator.autopilotEnabled = <span class="keyword">false</span>
+
+    <span class="keyword">elseif</span> Navigator.sailplan[Navigator.sailplanIndex] <span class="keyword">then</span>
+
+        Navigator.sailplanIndex = Navigator.sailplanIndex + <span class="number">1</span>  <span class="comment">-- Increment the index from 5 to 6, as WP6 (CITTN) is the next steerpoint
+</span>
+        Navigator.WPeasting  = Navigator.sailplan[Navigator.sailplanIndex].easting  <span class="comment">-- Get the easting of CITTN
+</span>        Navigator.WPsouthing = Navigator.sailplan[Navigator.sailplanIndex].southing <span class="comment">-- Get the southing of CITTN
+</span>
+        <span class="keyword">if</span> Navigator.autopilotEnabled <span class="keyword">then</span>
+
+            <span class="keyword">local</span> postTurnHeading, postTurnDistance = Navigator.getBearing(Navigator.easting,Navigator.southing,Navigator.WPeasting,Navigator.WPsouthing)
+
+            <span class="keyword">if</span> Navigator.<span class="global">type</span> ~= <span class="number">1</span> <span class="keyword">then</span>
+                send(<span class="string">"ship all stop"</span>)
+                Navigator.stoppedToTurn = <span class="keyword">true</span>
+            <span class="keyword">end</span>
+
+            <span class="keyword">if</span> postTurnHeading % <span class="number">45</span> == <span class="number">0</span> <span class="keyword">then</span>
+                send(<span class="string">"queue add ship ship turn "</span>..Navigator.longToNumeric())
+            <span class="keyword">else</span>
+                cecho(<span class="string">"&lt;orange&gt;\nSteerpoint error! - Navigator.updateINS()\n\n"</span>)
+                playSoundFile(soundDir..<span class="string">"masterCaution.wav"</span>)
+            <span class="keyword">end</span>
+
+        <span class="keyword">end</span>
+
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="comment">-----------------------------------------------
+</span><span class="comment">--- Maps and map readers
+</span><span class="comment">-- @section mapobject
+</span>
+
+<span class="comment">------------------------------------------------
+</span><a id="1261"></a><span class="comment">--- Container for maps
+</span>Navigator.maps = {}
+
+<span class="comment">----------------------------------------
+</span><a id="1265"></a><span class="comment">--- Full world map as a table. Table indices are 1 higher than their actual coordinate value!
+</span>Navigator.maps.full = {}
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- The last map sent to us by the game.
+</span><span class="comment">-- @usage
+</span><span class="comment">-- {
+</span><span class="comment">--   "nnnnnnnnnn....wwwwww     ",
+</span><span class="comment">--   "nnnnnnnnn.....wwwwwww    ",
+</span><span class="comment">--   "nnnnnnnn.......wwwwww    ",
+</span><span class="comment">--   "++++++++++++++.w.www     ",
+</span><span class="comment">--   "nnnnnn.........wwwww     ",
+</span><span class="comment">--   "nnnnnn..........ww       ",
+</span><span class="comment">--   "nnnnn..........ww        ",
+</span><span class="comment">--   "nnnnn.........ww         ",
+</span><span class="comment">--   "nnnnn.......=            ",
+</span><span class="comment">--   "nnnnn.........ww         ",
+</span><span class="comment">--   "nnnnn..........www       ",
+</span><span class="comment">--   "nnnnn.......wwwwww       ",
+</span><span class="comment">--   "nnnnn......wwwwww        ",
+</span><span class="comment">--   "nnnnnn.....www;www       ",
+</span><span class="comment">--   "nnnnnnn...wwwwwwwww      ",
+</span><span class="comment">--   "nnnnnnnn..wwwwwwwww      ",
+</span><span class="comment">--   "nnnnnnnn..wwwwwwww       "
+</span><a id="1289"></a><span class="comment">-- }
+</span>Navigator.maps.current = {}
+
+
+<span class="comment">----------------------------------------
+</span><a id="1294"></a><span class="comment">--- True if = under the cursor is our ship, as determined by text colour.
+</span><span class="keyword">function</span> Navigator.isOurShip()
+
+    <span class="keyword">if</span> <span class="global">string</span>.find(matches[<span class="number">1</span>],<span class="string">"C/S"</span>) <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">false</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> fg_r,fg_g,fg_b = getFgColor()
+    <span class="keyword">local</span> bg_r,bg_g,bg_b = getBgColor()
+
+    <span class="keyword">return</span> (fg_r..<span class="string">","</span>..fg_g..<span class="string">","</span>..fg_b == <span class="string">"255,255,255"</span>) <span class="keyword">and</span> (bg_r..<span class="string">","</span>..bg_g..<span class="string">","</span>..bg_b == <span class="string">"0,0,0"</span>)
+
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="1308"></a><span class="comment">--- True if M under cursor is a seamonster, as determined by the text colour.
+</span><span class="keyword">function</span> Navigator.isSeamonster()
+
+    <span class="keyword">if</span> <span class="global">string</span>.find(matches[<span class="number">1</span>],<span class="string">"C/S"</span>) <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">false</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> fg_r,fg_g,fg_b = getFgColor()
+    <span class="keyword">local</span> bg_r,bg_g,bg_b = getBgColor()
+
+    <span class="keyword">return</span> (fg_r..<span class="string">","</span>..fg_g..<span class="string">","</span>..fg_b == <span class="string">"255,22,255"</span>) <span class="keyword">and</span> (bg_r..<span class="string">","</span>..bg_g..<span class="string">","</span>..bg_b == <span class="string">"0,0,0"</span>)
+
+<span class="keyword">end</span>
+
+
+<span class="comment">----------------------------------------
+</span><a id="1322"></a><span class="comment">--- True if = under the cursor is our ship, as determined by text colour.
+</span><span class="keyword">function</span> Navigator.isTargetShip()
+
+    <span class="keyword">if</span> <span class="global">string</span>.find(matches[<span class="number">1</span>],<span class="string">"C/S"</span>) <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">false</span> <span class="keyword">end</span>
+
+    <span class="keyword">local</span> fg_r,fg_g,fg_b = getFgColor()
+    <span class="keyword">local</span> bg_r,bg_g,bg_b = getBgColor()
+
+    <span class="keyword">return</span> (fg_r..<span class="string">","</span>..fg_g..<span class="string">","</span>..fg_b == <span class="string">"255,22,255"</span>) <span class="keyword">and</span> (bg_r..<span class="string">","</span>..bg_g..<span class="string">","</span>..bg_b == <span class="string">"0,0,0"</span>)
+
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

@@ -43,11 +43,16 @@
 </ul>
 
 
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><strong>Navigator</strong></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
 <h2>Classes</h2>
 <ul class="$(kind=='Topics' and '' or 'nowrap'">
   <li><a href="../classes/Gunner.html">Gunner</a></li>
   <li><a href="../classes/MFD.html">MFD</a></li>
-  <li><strong>Navigator</strong></li>
   <li><a href="../classes/Ship.html">Ship</a></li>
   <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
   <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
@@ -55,18 +60,13 @@
   <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
   <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
 </ul>
-<h2>Modules</h2>
-<ul class="$(kind=='Topics' and '' or 'nowrap'">
-  <li><a href="../modules/Bezel.html">Bezel</a></li>
-  <li><a href="../modules/Utilities.html">Utilities</a></li>
-</ul>
 </ul>
 
 </div>
 
 <div id="content">
 
-<h1>Class <code>Navigator</code></h1>
+<h1>Module <code>Navigator</code></h1>
 <p>Utilities and data relating to wilderness map navigation, both on land and sea.</p>
 <p>
 
@@ -76,176 +76,176 @@
 <h2><a href="#Basic_navigation">Basic navigation </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:findWaypoint">Navigator:findWaypoint (targetWaypoint)</a></td>
+	<td class="name" nowrap><a href="#findWaypoint">findWaypoint (targetWaypoint)</a></td>
 	<td class="summary">Finds bearing and distance to waypoint from current location.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getPointBearings">Navigator:getPointBearings (_originX, _originY, _targetX, _targetY)</a></td>
+	<td class="name" nowrap><a href="#getPointBearings">getPointBearings (_originX, _originY, _targetX, _targetY)</a></td>
 	<td class="summary">Returns the bearing to target coordinates from origin coordinates.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getChebyshevDistance">Navigator:getChebyshevDistance (originX, originY, targetX, targetY)</a></td>
+	<td class="name" nowrap><a href="#getChebyshevDistance">getChebyshevDistance (originX, originY, targetX, targetY)</a></td>
 	<td class="summary">Returns the Chebyshev distance between two points.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getNearestHarbours">Navigator:getNearestHarbours (numReturns)</a></td>
+	<td class="name" nowrap><a href="#getNearestHarbours">getNearestHarbours (numReturns)</a></td>
 	<td class="summary">Locates an arbitrary number of the nearest harbours.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getWaypointTable">Navigator:getWaypointTable ()</a></td>
+	<td class="name" nowrap><a href="#getWaypointTable">getWaypointTable ()</a></td>
 	<td class="summary">Returns a copy of the full waypoint table.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:calculateMovementSpeed">Navigator:calculateMovementSpeed ()</a></td>
+	<td class="name" nowrap><a href="#calculateMovementSpeed">calculateMovementSpeed ()</a></td>
 	<td class="summary">Something to do with movement speed.</td>
 	</tr>
 </table>
 <h2><a href="#Getters_setters">Getters/setters </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getEasting">Navigator:getEasting ()</a></td>
+	<td class="name" nowrap><a href="#getEasting">getEasting ()</a></td>
 	<td class="summary">Returns the player's current easting.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getSouthing">Navigator:getSouthing ()</a></td>
+	<td class="name" nowrap><a href="#getSouthing">getSouthing ()</a></td>
 	<td class="summary">Returns the player's current southing.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getError">Navigator:getError ()</a></td>
+	<td class="name" nowrap><a href="#getError">getError ()</a></td>
 	<td class="summary">Returns the player's current CEP.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:setEasting">Navigator:setEasting (input)</a></td>
+	<td class="name" nowrap><a href="#setEasting">setEasting (input)</a></td>
 	<td class="summary">Sets the player's current easting.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:setSouthing">Navigator:setSouthing (input)</a></td>
+	<td class="name" nowrap><a href="#setSouthing">setSouthing (input)</a></td>
 	<td class="summary">Sets the player's current southing.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:setError">Navigator:setError (input)</a></td>
+	<td class="name" nowrap><a href="#setError">setError (input)</a></td>
 	<td class="summary">Sets the player's current CEP.</td>
 	</tr>
 </table>
 <h2><a href="#Location_status">Location status </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:aboardShip">Navigator:aboardShip ()</a></td>
+	<td class="name" nowrap><a href="#aboardShip">aboardShip ()</a></td>
 	<td class="summary">Returns true if user is aboard a ship.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:havePosition">Navigator:havePosition ()</a></td>
+	<td class="name" nowrap><a href="#havePosition">havePosition ()</a></td>
 	<td class="summary">Returns true if Navigator has a valid position set.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:inSubdivision">Navigator:inSubdivision ()</a></td>
+	<td class="name" nowrap><a href="#inSubdivision">inSubdivision ()</a></td>
 	<td class="summary">Returns true if user is in a subdivision.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:inWildernessMap">Navigator:inWildernessMap ()</a></td>
+	<td class="name" nowrap><a href="#inWildernessMap">inWildernessMap ()</a></td>
 	<td class="summary">Returns true if user is in the wilderness map.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:onSeafloor">Navigator:onSeafloor ()</a></td>
+	<td class="name" nowrap><a href="#onSeafloor">onSeafloor ()</a></td>
 	<td class="summary">Returns true if user is in in a seafloor area.</td>
 	</tr>
 </table>
 <h2><a href="#Conversions">Conversions </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:cardinalToHeading">Navigator:cardinalToHeading (_cardinalDirection)</a></td>
+	<td class="name" nowrap><a href="#cardinalToHeading">cardinalToHeading (_cardinalDirection)</a></td>
 	<td class="summary">Converts a cardinal-direction string to heading in degrees.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:roomNumToCoords">Navigator:roomNumToCoords (_roomNum)</a></td>
+	<td class="name" nowrap><a href="#roomNumToCoords">roomNumToCoords (_roomNum)</a></td>
 	<td class="summary">Converts standard three-parameter ATP coordinates to screen coordinates.</td>
 	</tr>
 </table>
 <h2><a href="#Auto_calibration">Auto-calibration </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:adjustCoords">Navigator:adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</a></td>
+	<td class="name" nowrap><a href="#adjustCoords">adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</a></td>
 	<td class="summary">Returns current coordinates adjusted for input direction.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:autoCal">Navigator:autoCal (inputEasting, inputSouthing)</a></td>
+	<td class="name" nowrap><a href="#autoCal">autoCal (inputEasting, inputSouthing)</a></td>
 	<td class="summary">Doesn't actually autocalibrate, just takes in stuff to pass to self variables.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:buildSearchTable">Navigator:buildSearchTable (doFullSearch)</a></td>
+	<td class="name" nowrap><a href="#buildSearchTable">buildSearchTable (doFullSearch)</a></td>
 	<td class="summary">Populates searchTable with the relevant rows of text, before we begin finding candidates.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:checkCandidates">Navigator:checkCandidates (locationCandidates, shipColumn)</a></td>
+	<td class="name" nowrap><a href="#checkCandidates">checkCandidates (locationCandidates, shipColumn)</a></td>
 	<td class="summary">It checks candidates?</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:doShipAutocal">Navigator:doShipAutocal ()</a></td>
+	<td class="name" nowrap><a href="#doShipAutocal">doShipAutocal ()</a></td>
 	<td class="summary">Old autocal</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:findLineDelta">Navigator:findLineDelta ()</a></td>
-	<td class="summary">Finds nearest Δ in <code>Navigator.currentMap</code>.</td>
+	<td class="name" nowrap><a href="#findLineDelta">findLineDelta ()</a></td>
+	<td class="summary">Finds nearest Δ candidate in <code>Navigator.currentMap</code>.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:gatherCandidates">Navigator:gatherCandidates (searchString)</a></td>
-	<td class="summary">Gathers the candidates for our line within searchHeight.</td>
+	<td class="name" nowrap><a href="#gatherCandidates">gatherCandidates (searchString)</a></td>
+	<td class="summary">Gathers the candidates for our line.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:getSearchHeight">Navigator:getSearchHeight ()</a></td>
+	<td class="name" nowrap><a href="#getSearchHeight">getSearchHeight ()</a></td>
 	<td class="summary">Gets search height.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:doINSmove">Navigator:doINSmove ()</a></td>
+	<td class="name" nowrap><a href="#doINSmove">doINSmove ()</a></td>
 	<td class="summary">Feed our last movement direction to the INS routine.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:isInOpenSeas">Navigator:isInOpenSeas ()</a></td>
+	<td class="name" nowrap><a href="#isInOpenSeas">isInOpenSeas ()</a></td>
 	<td class="summary">See if all the lines of our map are blank spaces, to see if we even have any sort of landmarks.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:trimLocationCandidates">Navigator:trimLocationCandidates (inputTable, distanceLimit)</a></td>
+	<td class="name" nowrap><a href="#trimLocationCandidates">trimLocationCandidates (inputTable, distanceLimit)</a></td>
 	<td class="summary">This finds things.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:updateINS">Navigator:updateINS ()</a></td>
+	<td class="name" nowrap><a href="#updateINS">updateINS ()</a></td>
 	<td class="summary">Old INS stuff.</td>
 	</tr>
 </table>
 <h2><a href="#Sailplan_stuff">Sailplan stuff </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:isAtDestination">Navigator:isAtDestination ()</a></td>
+	<td class="name" nowrap><a href="#isAtDestination">isAtDestination ()</a></td>
 	<td class="summary">Returns true if current position matches destination position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:steerpointNext">Navigator:steerpointNext ()</a></td>
+	<td class="name" nowrap><a href="#steerpointNext">steerpointNext ()</a></td>
 	<td class="summary">Next steerpoint.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:steerpointPrevious">Navigator:steerpointPrevious ()</a></td>
+	<td class="name" nowrap><a href="#steerpointPrevious">steerpointPrevious ()</a></td>
 	<td class="summary">Previous steerpoint.</td>
 	</tr>
 </table>
 <h2><a href="#Autopilot">Autopilot </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator.autopilot">Navigator.autopilot</a></td>
+	<td class="name" nowrap><a href="#autopilot">autopilot</a></td>
 	<td class="summary">Container for autopilot functionality</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:checkAlignment">Navigator:checkAlignment ()</a></td>
+	<td class="name" nowrap><a href="#checkAlignment">checkAlignment ()</a></td>
 	<td class="summary">These do things, I guess.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:waypointTurn">Navigator:waypointTurn ()</a></td>
+	<td class="name" nowrap><a href="#waypointTurn">waypointTurn ()</a></td>
 	<td class="summary">These do things, I guess.</td>
 	</tr>
 </table>
 <h2><a href="#Maps_and_map_readers">Maps and map readers </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#Navigator.maps">Navigator.maps</a></td>
+	<td class="name" nowrap><a href="#maps">maps</a></td>
 	<td class="summary">Container for maps</td>
 	</tr>
 	<tr>
@@ -257,15 +257,15 @@
 	<td class="summary">The last map sent to us by the game.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:isOurShip">Navigator:isOurShip ()</a></td>
+	<td class="name" nowrap><a href="#isOurShip">isOurShip ()</a></td>
 	<td class="summary">True if = under the cursor is our ship, as determined by text colour.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:isSeamonster">Navigator:isSeamonster ()</a></td>
+	<td class="name" nowrap><a href="#isSeamonster">isSeamonster ()</a></td>
 	<td class="summary">True if M under cursor is a seamonster, as determined by the text colour.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#Navigator:isTargetShip">Navigator:isTargetShip ()</a></td>
+	<td class="name" nowrap><a href="#isTargetShip">isTargetShip ()</a></td>
 	<td class="summary">True if = under the cursor is our ship, as determined by text colour.</td>
 	</tr>
 </table>
@@ -279,8 +279,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator:findWaypoint"></a>
-    <strong>Navigator:findWaypoint (targetWaypoint)</strong>
+    <a name = "findWaypoint"></a>
+    <strong>findWaypoint (targetWaypoint)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#43">line 43</a>
     </dt>
     <dd>
@@ -310,8 +310,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getPointBearings"></a>
-    <strong>Navigator:getPointBearings (_originX, _originY, _targetX, _targetY)</strong>
+    <a name = "getPointBearings"></a>
+    <strong>getPointBearings (_originX, _originY, _targetX, _targetY)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#66">line 66</a>
     </dt>
     <dd>
@@ -354,8 +354,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getChebyshevDistance"></a>
-    <strong>Navigator:getChebyshevDistance (originX, originY, targetX, targetY)</strong>
+    <a name = "getChebyshevDistance"></a>
+    <strong>getChebyshevDistance (originX, originY, targetX, targetY)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#127">line 127</a>
     </dt>
     <dd>
@@ -399,8 +399,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getNearestHarbours"></a>
-    <strong>Navigator:getNearestHarbours (numReturns)</strong>
+    <a name = "getNearestHarbours"></a>
+    <strong>getNearestHarbours (numReturns)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#142">line 142</a>
     </dt>
     <dd>
@@ -433,8 +433,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getWaypointTable"></a>
-    <strong>Navigator:getWaypointTable ()</strong>
+    <a name = "getWaypointTable"></a>
+    <strong>getWaypointTable ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#172">line 172</a>
     </dt>
     <dd>
@@ -458,8 +458,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:calculateMovementSpeed"></a>
-    <strong>Navigator:calculateMovementSpeed ()</strong>
+    <a name = "calculateMovementSpeed"></a>
+    <strong>calculateMovementSpeed ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#178">line 178</a>
     </dt>
     <dd>
@@ -479,8 +479,8 @@
  For creating and initialising Navigator object.
     <dl class="function">
     <dt>
-    <a name = "Navigator:getEasting"></a>
-    <strong>Navigator:getEasting ()</strong>
+    <a name = "getEasting"></a>
+    <strong>getEasting ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#226">line 226</a>
     </dt>
     <dd>
@@ -500,8 +500,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getSouthing"></a>
-    <strong>Navigator:getSouthing ()</strong>
+    <a name = "getSouthing"></a>
+    <strong>getSouthing ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#233">line 233</a>
     </dt>
     <dd>
@@ -521,8 +521,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getError"></a>
-    <strong>Navigator:getError ()</strong>
+    <a name = "getError"></a>
+    <strong>getError ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#240">line 240</a>
     </dt>
     <dd>
@@ -542,8 +542,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:setEasting"></a>
-    <strong>Navigator:setEasting (input)</strong>
+    <a name = "setEasting"></a>
+    <strong>setEasting (input)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#248">line 248</a>
     </dt>
     <dd>
@@ -568,8 +568,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:setSouthing"></a>
-    <strong>Navigator:setSouthing (input)</strong>
+    <a name = "setSouthing"></a>
+    <strong>setSouthing (input)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#257">line 257</a>
     </dt>
     <dd>
@@ -594,8 +594,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:setError"></a>
-    <strong>Navigator:setError (input)</strong>
+    <a name = "setError"></a>
+    <strong>setError (input)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#266">line 266</a>
     </dt>
     <dd>
@@ -625,8 +625,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator:aboardShip"></a>
-    <strong>Navigator:aboardShip ()</strong>
+    <a name = "aboardShip"></a>
+    <strong>aboardShip ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#286">line 286</a>
     </dt>
     <dd>
@@ -645,7 +645,7 @@
 
     <h3>See also:</h3>
     <ul>
-         <a href="../classes/Navigator.html#Navigator:onSeafloor">Navigator.onSeafloor</a>
+         <a href="../modules/Navigator.html#onSeafloor">Navigator.onSeafloor</a>
     </ul>
 
     <h3>Usage:</h3>
@@ -655,8 +655,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:havePosition"></a>
-    <strong>Navigator:havePosition ()</strong>
+    <a name = "havePosition"></a>
+    <strong>havePosition ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#311">line 311</a>
     </dt>
     <dd>
@@ -680,8 +680,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:inSubdivision"></a>
-    <strong>Navigator:inSubdivision ()</strong>
+    <a name = "inSubdivision"></a>
+    <strong>inSubdivision ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#321">line 321</a>
     </dt>
     <dd>
@@ -705,8 +705,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:inWildernessMap"></a>
-    <strong>Navigator:inWildernessMap ()</strong>
+    <a name = "inWildernessMap"></a>
+    <strong>inWildernessMap ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#338">line 338</a>
     </dt>
     <dd>
@@ -725,8 +725,8 @@
 
     <h3>See also:</h3>
     <ul>
-         <li><a href="../classes/Navigator.html#Navigator:aboardShip">Navigator.aboardShip</a></li>
-         <li><a href="../classes/Navigator.html#Navigator:onSeafloor">Navigator.onSeafloor</a></li>
+         <li><a href="../modules/Navigator.html#aboardShip">Navigator.aboardShip</a></li>
+         <li><a href="../modules/Navigator.html#onSeafloor">Navigator.onSeafloor</a></li>
     </ul>
 
     <h3>Usage:</h3>
@@ -736,8 +736,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:onSeafloor"></a>
-    <strong>Navigator:onSeafloor ()</strong>
+    <a name = "onSeafloor"></a>
+    <strong>onSeafloor ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#351">line 351</a>
     </dt>
     <dd>
@@ -756,8 +756,8 @@
 
     <h3>See also:</h3>
     <ul>
-         <li><a href="../classes/Navigator.html#Navigator:aboardShip">Navigator.aboardShip</a></li>
-         <li><a href="../classes/Navigator.html#Navigator:inWildernessMap">Navigator.inWildernessMap</a></li>
+         <li><a href="../modules/Navigator.html#aboardShip">Navigator.aboardShip</a></li>
+         <li><a href="../modules/Navigator.html#inWildernessMap">Navigator.inWildernessMap</a></li>
     </ul>
 
     <h3>Usage:</h3>
@@ -772,8 +772,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator:cardinalToHeading"></a>
-    <strong>Navigator:cardinalToHeading (_cardinalDirection)</strong>
+    <a name = "cardinalToHeading"></a>
+    <strong>cardinalToHeading (_cardinalDirection)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#380">line 380</a>
     </dt>
     <dd>
@@ -800,8 +800,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:roomNumToCoords"></a>
-    <strong>Navigator:roomNumToCoords (_roomNum)</strong>
+    <a name = "roomNumToCoords"></a>
+    <strong>roomNumToCoords (_roomNum)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#413">line 413</a>
     </dt>
     <dd>
@@ -837,8 +837,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator:adjustCoords"></a>
-    <strong>Navigator:adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</strong>
+    <a name = "adjustCoords"></a>
+    <strong>adjustCoords (_dirMoved, _inputEasting, _inputSouthing)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#476">line 476</a>
     </dt>
     <dd>
@@ -881,8 +881,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:autoCal"></a>
-    <strong>Navigator:autoCal (inputEasting, inputSouthing)</strong>
+    <a name = "autoCal"></a>
+    <strong>autoCal (inputEasting, inputSouthing)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#523">line 523</a>
     </dt>
     <dd>
@@ -907,8 +907,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:buildSearchTable"></a>
-    <strong>Navigator:buildSearchTable (doFullSearch)</strong>
+    <a name = "buildSearchTable"></a>
+    <strong>buildSearchTable (doFullSearch)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#548">line 548</a>
     </dt>
     <dd>
@@ -929,8 +929,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:checkCandidates"></a>
-    <strong>Navigator:checkCandidates (locationCandidates, shipColumn)</strong>
+    <a name = "checkCandidates"></a>
+    <strong>checkCandidates (locationCandidates, shipColumn)</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#574">line 574</a>
     </dt>
     <dd>
@@ -957,8 +957,8 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:doShipAutocal"></a>
-    <strong>Navigator:doShipAutocal ()</strong>
+    <a name = "doShipAutocal"></a>
+    <strong>doShipAutocal ()</strong>
     <a style="float:right;" href="../source/Navigator.lua.html#657">line 657</a>
     </dt>
     <dd>
@@ -972,15 +972,12 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:findLineDelta"></a>
-    <strong>Navigator:findLineDelta ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#770">line 770</a>
+    <a name = "findLineDelta"></a>
+    <strong>findLineDelta ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#767">line 767</a>
     </dt>
     <dd>
-    Finds nearest Δ in <code>Navigator.currentMap</code>.
- Is our current line in open water? Don't even try to locate with that stuff, we'll just get infinite results.
- So let's set up the offsets that'll give us a positive visual landmark.
- Then return the locator we found, as well as as our Δ for the fixtaking section ahead.
+    Finds nearest Δ candidate in <code>Navigator.currentMap</code>.
 
 
 
@@ -991,7 +988,7 @@
         Contents of the line containing the located reference. Used in later steps to verify location candidates, before heading into confidence calculations.</li>
         <li>
            <span class="types"><span class="type">int</span></span>
-        Distance from the central calibration point as Δ. Negative values are north.</li>
+        Latitudinal distance from the central calibration point, Δ. Negative values are north.</li>
     </ol>
 
 
@@ -1003,18 +1000,19 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:gatherCandidates"></a>
-    <strong>Navigator:gatherCandidates (searchString)</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#821">line 821</a>
+    <a name = "gatherCandidates"></a>
+    <strong>gatherCandidates (searchString)</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#820">line 820</a>
     </dt>
     <dd>
-    Gathers the candidates for our line within searchHeight.
+    Gathers the candidates for our line.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">searchString</span>
-        if Navigator.isInOpenSeas() then return {} end
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Map line to gather candidates for.
         </li>
     </ul>
 
@@ -1024,9 +1022,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:getSearchHeight"></a>
-    <strong>Navigator:getSearchHeight ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#844">line 844</a>
+    <a name = "getSearchHeight"></a>
+    <strong>getSearchHeight ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#843">line 843</a>
     </dt>
     <dd>
     Gets search height.
@@ -1039,9 +1037,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:doINSmove"></a>
-    <strong>Navigator:doINSmove ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#855">line 855</a>
+    <a name = "doINSmove"></a>
+    <strong>doINSmove ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#854">line 854</a>
     </dt>
     <dd>
     Feed our last movement direction to the INS routine.  Adjusts current Navigator coords acordingly.
@@ -1054,9 +1052,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:isInOpenSeas"></a>
-    <strong>Navigator:isInOpenSeas ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#863">line 863</a>
+    <a name = "isInOpenSeas"></a>
+    <strong>isInOpenSeas ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#862">line 862</a>
     </dt>
     <dd>
     See if all the lines of our map are blank spaces, to see if we even have any sort of landmarks.
@@ -1069,9 +1067,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:trimLocationCandidates"></a>
-    <strong>Navigator:trimLocationCandidates (inputTable, distanceLimit)</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#878">line 878</a>
+    <a name = "trimLocationCandidates"></a>
+    <strong>trimLocationCandidates (inputTable, distanceLimit)</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#877">line 877</a>
     </dt>
     <dd>
     This finds things.
@@ -1094,9 +1092,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:updateINS"></a>
-    <strong>Navigator:updateINS ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#902">line 902</a>
+    <a name = "updateINS"></a>
+    <strong>updateINS ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#901">line 901</a>
     </dt>
     <dd>
     Old INS stuff.
@@ -1114,9 +1112,9 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator:isAtDestination"></a>
-    <strong>Navigator:isAtDestination ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1038">line 1038</a>
+    <a name = "isAtDestination"></a>
+    <strong>isAtDestination ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1037">line 1037</a>
     </dt>
     <dd>
     Returns true if current position matches destination position.
@@ -1135,9 +1133,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:steerpointNext"></a>
-    <strong>Navigator:steerpointNext ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1057">line 1057</a>
+    <a name = "steerpointNext"></a>
+    <strong>steerpointNext ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1056">line 1056</a>
     </dt>
     <dd>
     Next steerpoint.
@@ -1150,9 +1148,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:steerpointPrevious"></a>
-    <strong>Navigator:steerpointPrevious ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1072">line 1072</a>
+    <a name = "steerpointPrevious"></a>
+    <strong>steerpointPrevious ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1071">line 1071</a>
     </dt>
     <dd>
     Previous steerpoint.
@@ -1170,9 +1168,9 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator.autopilot"></a>
-    <strong>Navigator.autopilot</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1143">line 1143</a>
+    <a name = "autopilot"></a>
+    <strong>autopilot</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1142">line 1142</a>
     </dt>
     <dd>
     Container for autopilot functionality
@@ -1194,9 +1192,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:checkAlignment"></a>
-    <strong>Navigator:checkAlignment ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1151">line 1151</a>
+    <a name = "checkAlignment"></a>
+    <strong>checkAlignment ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1150">line 1150</a>
     </dt>
     <dd>
     These do things, I guess.
@@ -1210,9 +1208,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:waypointTurn"></a>
-    <strong>Navigator:waypointTurn ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1168">line 1168</a>
+    <a name = "waypointTurn"></a>
+    <strong>waypointTurn ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1167">line 1167</a>
     </dt>
     <dd>
     These do things, I guess.
@@ -1231,9 +1229,9 @@
 
     <dl class="function">
     <dt>
-    <a name = "Navigator.maps"></a>
-    <strong>Navigator.maps</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1262">line 1262</a>
+    <a name = "maps"></a>
+    <strong>maps</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1261">line 1261</a>
     </dt>
     <dd>
     Container for maps
@@ -1248,7 +1246,7 @@
     <dt>
     <a name = "Navigator.maps.full"></a>
     <strong>Navigator.maps.full</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1266">line 1266</a>
+    <a style="float:right;" href="../source/Navigator.lua.html#1265">line 1265</a>
     </dt>
     <dd>
     Full world map as a table.  Table indices are 1 higher than their actual coordinate value!
@@ -1263,7 +1261,7 @@
     <dt>
     <a name = "Navigator.maps.current"></a>
     <strong>Navigator.maps.current</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1290">line 1290</a>
+    <a style="float:right;" href="../source/Navigator.lua.html#1289">line 1289</a>
     </dt>
     <dd>
     The last map sent to us by the game.
@@ -1299,9 +1297,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:isOurShip"></a>
-    <strong>Navigator:isOurShip ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1295">line 1295</a>
+    <a name = "isOurShip"></a>
+    <strong>isOurShip ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1294">line 1294</a>
     </dt>
     <dd>
     True if = under the cursor is our ship, as determined by text colour.
@@ -1314,9 +1312,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:isSeamonster"></a>
-    <strong>Navigator:isSeamonster ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1309">line 1309</a>
+    <a name = "isSeamonster"></a>
+    <strong>isSeamonster ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1308">line 1308</a>
     </dt>
     <dd>
     True if M under cursor is a seamonster, as determined by the text colour.
@@ -1329,9 +1327,9 @@
 
 </dd>
     <dt>
-    <a name = "Navigator:isTargetShip"></a>
-    <strong>Navigator:isTargetShip ()</strong>
-    <a style="float:right;" href="../source/Navigator.lua.html#1323">line 1323</a>
+    <a name = "isTargetShip"></a>
+    <strong>isTargetShip ()</strong>
+    <a style="float:right;" href="../source/Navigator.lua.html#1322">line 1322</a>
     </dt>
     <dd>
     True if = under the cursor is our ship, as determined by text colour.
@@ -1350,7 +1348,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
-<i style="float:right;">Last updated 2021-01-24 19:45:37 </i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Achaea scripts documentation</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Source</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../source/bezel.lua.html">bezel.lua</a></li>
+  <li><a href="../source/gunner.lua.html">gunner.lua</a></li>
+  <li><a href="../source/mfd.lua.html">mfd.lua</a></li>
+  <li><a href="../source/navigator.lua.html">navigator.lua</a></li>
+  <li><a href="../source/ship.lua.html">ship.lua</a></li>
+  <li><a href="../source/shipannunciator.lua.html">shipannunciator.lua</a></li>
+  <li><a href="../source/shipcompass.lua.html">shipcompass.lua</a></li>
+  <li><a href="../source/shiplcdbox.lua.html">shiplcdbox.lua</a></li>
+  <li><strong>shipvitalsbox.lua</strong></li>
+  <li><a href="../source/utilities.lua.html">utilities.lua</a></li>
+  <li><a href="../source/vitalsbox.lua.html">vitalsbox.lua</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../modules/Bezel.html">Bezel</a></li>
+  <li><a href="../modules/Navigator.html">Navigator</a></li>
+  <li><a href="../modules/Utilities.html">Utilities</a></li>
+</ul>
+<h2>Classes</h2>
+<ul class="$(kind=='Topics' and '' or 'nowrap'">
+  <li><a href="../classes/Gunner.html">Gunner</a></li>
+  <li><a href="../classes/MFD.html">MFD</a></li>
+  <li><a href="../classes/Ship.html">Ship</a></li>
+  <li><a href="../classes/ShipAnnunciator.html">ShipAnnunciator</a></li>
+  <li><a href="../classes/ShipCompass.html">ShipCompass</a></li>
+  <li><a href="../classes/ShipLCDBox.html">ShipLCDBox</a></li>
+  <li><a href="../classes/ShipVitalsBox.html">ShipVitalsBox</a></li>
+  <li><a href="../classes/VitalsBox.html">VitalsBox</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>shipvitalsbox.lua</h2>
+<pre>
+<span class="comment">--- Gauges that sit at the bottom and do gauge things related to things to do on a ship.
+</span><span class="comment">--@classmod ShipVitalsBox
+</span>
+ShipVitalsBox = {}
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Initialisation.
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section initialisation
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Creates a new instance of the ShipVitalsBox class.
+</span><span class="comment">-- @tparam string _name Instance name, should be identical to variable instance is assigned to.
+</span><span class="comment">-- @tparam number _elementX X coordinate of ShipVitalsBox, in screen coordinates.
+</span><span class="comment">-- @tparam number _elementY Y coordinate of ShipVitalsBox, in screen coordinates.
+</span><span class="comment">-- @treturn table A new instance of the ShipVitalsBox class.
+</span><a id="23"></a><span class="comment">-- @usage vitals = ShipVitalsBox:new("shipVitals", 964, 955)
+</span><span class="keyword">function</span> ShipVitalsBox:new(_name, _elementX, _elementY)
+
+    <span class="keyword">local</span> _adjustmentFactor = -<span class="number">33</span>
+
+    cloudDir = cloudDir <span class="keyword">or</span> <span class="string">[[D:\Achaea\]]</span>
+    self.__index = ShipVitalsBox
+    <span class="keyword">local</span> self = <span class="global">setmetatable</span>({}, ShipVitalsBox)
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- BASIC ATTRIBUTES
+</span>
+    self._instanceName = _name
+
+    <span class="keyword">if</span> self._updateHandler <span class="keyword">then</span> killAnonymousEventHandler(self._updateHandler) self._updateHandler = <span class="keyword">false</span> <span class="keyword">end</span>
+    self._updateHandler = self._updateHandler <span class="keyword">or</span> registerAnonymousEventHandler(<span class="string">"svo done with prompt"</span>, self._instanceName..<span class="string">":update"</span>)
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- MAIN CONTAINER
+</span>
+    self._container = Geyser.Label:new({ name = self._instanceName..<span class="string">"._container"</span>, x = _elementX, y = _elementY, width = <span class="number">942</span>, height = <span class="number">32</span> })
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- LABELS
+</span>
+    <span class="comment">--self._labelBackground  = Geyser.Label:new({ name = self._instanceName.."._labelBackground",  x = 0,   y = 0, width  = 980, height = 26 }, self._container )
+</span>    self._labelBalance     = Geyser.Label:new({ name = self._instanceName..<span class="string">"._balance"</span>,          x = <span class="number">445</span> + _adjustmentFactor, y = <span class="number">0</span>, width  = <span class="number">26</span>,  height = <span class="number">32</span>, color = <span class="string">"#007700"</span> }, self._container )
+    self._labelCrewBalance = Geyser.Label:new({ name = self._instanceName..<span class="string">"._labelCrewBalance"</span>, x = <span class="number">511</span> + _adjustmentFactor, y = <span class="number">0</span>, width  = <span class="number">52</span>,  height = <span class="number">32</span>, color = <span class="string">"#007700"</span> }, self._container )
+    self._labelEquilibrium = Geyser.Label:new({ name = self._instanceName..<span class="string">"._equilibrium"</span>,      x = <span class="number">471</span> + _adjustmentFactor, y = <span class="number">0</span>, width  = <span class="number">26</span>,  height = <span class="number">32</span>, color = <span class="string">"#007700"</span> }, self._container )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- LABEL STYLESHEETS AND IMAGES
+</span>
+    <span class="comment">--self._labelBackground:setStyleSheet(  [[background-color: #0000FF;]]   )
+</span>    self._container:setStyleSheet(        <span class="string">[[background-color: #00000000;]]</span>   )
+    self._labelBalance:setStyleSheet(     gui.css.ship.balanceGreen        )
+    self._labelCrewBalance:setStyleSheet( gui.css.ship.balanceBlue         )
+    self._labelEquilibrium:setStyleSheet( gui.css.ship.balanceRed          )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- LABEL ECHOES
+</span>
+    self._labelBalance:echo(     <span class="string">"B"</span>, <span class="string">"white"</span>, <span class="string">"14"</span> )
+    self._labelCrewBalance:echo( <span class="string">"C"</span>, <span class="string">"white"</span>, <span class="string">"14"</span> )
+    self._labelEquilibrium:echo( <span class="string">"E"</span>, <span class="string">"white"</span>, <span class="string">"14"</span> )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- GAUGES
+</span>
+    self._gaugeEndurance  = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeEndurance"</span>,  x = <span class="number">239</span> + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">89</span>  }, self._container )
+    self._gaugeFigurehead = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeFigurehead"</span>, x = <span class="number">577</span> + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">192</span> }, self._container )
+    self._gaugeHealth     = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeHealth"</span>,     x = <span class="number">33</span>  + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">89</span>  }, self._container )
+    self._gaugeMana       = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeMana"</span>,       x = <span class="number">136</span> + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">89</span>  }, self._container )
+    self._gaugeSeamonster = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeSeamonster"</span>, x = <span class="number">783</span> + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">192</span> }, self._container )
+    self._gaugeWillpower  = Geyser.Gauge:new({ name = self._instanceName..<span class="string">"._gaugeWillpower"</span>,  x = <span class="number">342</span> + _adjustmentFactor, y = <span class="number">0</span>, height = <span class="number">32</span>, width = <span class="number">89</span>  }, self._container )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- GAUGE STYLESHEETS
+</span>
+    self._gaugeEndurance.back:setStyleSheet(   gui.css.ship.defaultGaugeBack    )
+    self._gaugeEndurance.front:setStyleSheet(  gui.css.ship.defaultGaugeYellow  )
+
+    self._gaugeFigurehead.back:setStyleSheet(  gui.css.ship.defaultGaugeBack    )
+    self._gaugeFigurehead.front:setStyleSheet( gui.css.ship.defaultGaugeSeafoam )
+
+    self._gaugeHealth.back:setStyleSheet(      gui.css.ship.defaultGaugeBack    )
+    self._gaugeHealth.front:setStyleSheet(     gui.css.ship.defaultGaugeYellow  )
+
+    self._gaugeMana.back:setStyleSheet(        gui.css.ship.defaultGaugeBack    )
+    self._gaugeMana.front:setStyleSheet(       gui.css.ship.defaultGaugeYellow  )
+
+    self._gaugeSeamonster.back:setStyleSheet(  gui.css.ship.defaultGaugeBack    )
+    self._gaugeSeamonster.front:setStyleSheet( gui.css.ship.defaultGaugeOrange  )
+
+    self._gaugeWillpower.back:setStyleSheet(   gui.css.ship.defaultGaugeBack    )
+    self._gaugeWillpower.front:setStyleSheet(  gui.css.ship.defaultGaugeYellow  )
+
+    <span class="comment">--===============================
+</span>    <span class="comment">-- GAUGE ECHOES AND SETVALUES
+</span>
+    self._gaugeEndurance:setValue(  <span class="number">50</span>,<span class="number">100</span> )
+    self._gaugeFigurehead:setValue( <span class="number">50</span>,<span class="number">100</span> )
+    self._gaugeSeamonster:setValue( <span class="number">50</span>,<span class="number">100</span> )
+    self._gaugeHealth:setValue(     <span class="number">50</span>,<span class="number">100</span> )
+    self._gaugeMana:setValue(       <span class="number">50</span>,<span class="number">100</span> )
+    self._gaugeWillpower:setValue(  <span class="number">50</span>,<span class="number">100</span> )
+
+    self._gaugeHealth.front:echo(    <span class="string">"&amp;nbsp;HP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeMana.front:echo(      <span class="string">"&amp;nbsp;MP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeEndurance.front:echo( <span class="string">"&amp;nbsp;EN: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeWillpower.front:echo( <span class="string">"&amp;nbsp;WP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+
+    self._gaugeHealth.back:echo(    <span class="string">"&amp;nbsp;HP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeMana.back:echo(      <span class="string">"&amp;nbsp;MP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeEndurance.back:echo( <span class="string">"&amp;nbsp;EN: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+    self._gaugeWillpower.back:echo( <span class="string">"&amp;nbsp;WP: ---%"</span>,<span class="string">"grey"</span>,<span class="string">"b10"</span> )
+
+    self._container:raiseAll()
+
+    <span class="keyword">return</span> self
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Gauge methods
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section gauge
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets endurance gauge and text.
+</span><span class="comment">-- @tparam int _currentEnd Current endurance
+</span><a id="139"></a><span class="comment">-- @tparam int _maxEnd Maximum endurance
+</span><span class="keyword">function</span> ShipVitalsBox:setEndurance(_currentEnd, _maxEnd)
+    self._gaugeEndurance:setValue(_currentEnd, _maxEnd)
+    self._gaugeEndurance.front:echo(<span class="string">"&amp;nbsp;EN: "</span> .. round((_currentEnd/_maxEnd)*<span class="number">100</span>)..<span class="string">"%"</span>, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+    self._gaugeEndurance.back:echo(<span class="string">"&amp;nbsp;EN: "</span> .. round((_currentEnd/_maxEnd)*<span class="number">100</span>)..<span class="string">"%"</span>, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- UNDOCUMENTED
+</span><a id="148"></a><span class="comment">-- @todo You should most *certainly* fix this!
+</span><span class="keyword">function</span> ShipVitalsBox:setFigurehead(_currentCharge)
+
+    <span class="keyword">if</span> <span class="keyword">not</span> thisFigurehead <span class="keyword">then</span>
+        self._gaugeFigurehead:setValue(<span class="number">0</span>,<span class="number">10000</span>)
+        self._gaugeFigurehead.front:echo(<span class="string">"(no tracker)"</span>, <span class="string">"red"</span>, <span class="string">"cb14"</span> )
+        self._gaugeFigurehead.back:echo(<span class="string">"(no tracker)"</span>, <span class="string">"red"</span>, <span class="string">"cb14"</span> )
+        <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> <span class="keyword">not</span> thisShip <span class="keyword">then</span>
+        self._gaugeFigurehead:setValue(_currentCharge,<span class="number">10000</span>)
+        self._gaugeFigurehead.front:echo(<span class="string">"&amp;nbsp;FH: "</span> .. _currentCharge, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+        self._gaugeFigurehead.back:echo(<span class="string">"&amp;nbsp;FH: "</span> .. _currentCharge, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+        <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> <span class="keyword">not</span> thisFigurehead:isMelded() <span class="keyword">and</span> thisShip:isDocked() <span class="keyword">then</span>
+        self._gaugeFigurehead:setValue(<span class="number">0</span>,<span class="number">10000</span>)
+        self._gaugeFigurehead.front:echo(<span class="string">"DOCKED"</span>, <span class="string">"SeaGreen"</span>, <span class="string">"c14"</span> )
+        self._gaugeFigurehead.back:echo(<span class="string">"DOCKED"</span>, <span class="string">"SeaGreen"</span>, <span class="string">"c14"</span> )
+    <span class="keyword">elseif</span> <span class="keyword">not</span> thisFigurehead:isMelded() <span class="keyword">then</span>
+        self._gaugeFigurehead:setValue(<span class="number">0</span>,<span class="number">10000</span>)
+        self._gaugeFigurehead.front:echo(<span class="string">"UNMELDED"</span>, <span class="string">"gold"</span>, <span class="string">"cb14"</span> )
+        self._gaugeFigurehead.back:echo(<span class="string">"UNMELDED"</span>, <span class="string">"gold"</span>, <span class="string">"cb14"</span> )
+    <span class="keyword">else</span>
+        _currentCharge = <span class="global">math</span>.min( <span class="number">10000</span>, _currentCharge )
+        self._gaugeFigurehead:setValue(_currentCharge,<span class="number">10000</span>)
+        self._gaugeFigurehead.front:echo(<span class="string">"&amp;nbsp;FH: "</span> .. _currentCharge, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+        self._gaugeFigurehead.back:echo(<span class="string">"&amp;nbsp;FH: "</span> .. _currentCharge, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets HP gauge and text.
+</span><span class="comment">-- @tparam string _currentHP Current HP
+</span><span class="comment">-- @tparam string _maxHP Maximum HP
+</span><a id="186"></a><span class="comment">-- @usage shipVitalsBox:setHealth(3723, 5200)
+</span><span class="keyword">function</span> ShipVitalsBox:setHealth(_currentHP, _maxHP)
+    self._gaugeHealth:setValue(_currentHP, _maxHP)
+    self._gaugeHealth.front:echo(<span class="string">"&amp;nbsp;HP: "</span> .. _currentHP .. <span class="string">" / "</span> .. _maxHP, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+    self._gaugeHealth.back:echo(<span class="string">"&amp;nbsp;HP: "</span> .. _currentHP .. <span class="string">" / "</span> .. _maxHP, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets MP gauge and text.
+</span><span class="comment">-- @tparam string _currentMP Current MP
+</span><span class="comment">-- @tparam string _maxMP Maximum MP
+</span><a id="197"></a><span class="comment">-- @usage shipVitalsBox:setMana(4158, 4700)
+</span><span class="keyword">function</span> ShipVitalsBox:setMana(_currentMP, _maxMP)
+    self._gaugeMana:setValue(_currentMP, _maxMP)
+    self._gaugeMana.front:echo(<span class="string">"&amp;nbsp;MP: "</span> .. _currentMP .. <span class="string">" / "</span> .. _maxMP, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+    self._gaugeMana.back:echo(<span class="string">"&amp;nbsp;MP: "</span> .. _currentMP .. <span class="string">" / "</span> .. _maxMP, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- UNDOCUMENTED
+</span><a id="206"></a><span class="comment">-- @todo You should most *certainly* fix this!
+</span><span class="keyword">function</span> ShipVitalsBox:setSeamonsterGauge(currentHealth, maxHealth)
+  self._gaugeSeamonster:setValue(currentHealth,maxHealth)
+  self._gaugeSeamonster.front:echo(<span class="string">"&amp;nbsp;Seamonster: "</span> .. currentHealth ..<span class="string">"/"</span>.. maxHealth, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+  self._gaugeSeamonster.back:echo(<span class="string">"&amp;nbsp;Seamonster: "</span> .. currentHealth ..<span class="string">"/"</span>.. maxHealth, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets target HP gauge and readout.
+</span><span class="comment">-- @tparam int _value Target HP (percent)
+</span><a id="216"></a><span class="comment">-- @usage shipVitalsBox:setTargetHealth(57)
+</span><span class="keyword">function</span> ShipVitalsBox:setTargetHealth(_value)
+    self._gaugeTargetHP:setValue(_value,<span class="number">100</span>)
+    self._gaugeTargetHP.front:echo(<span class="string">"&amp;nbsp;"</span> .. _value .. <span class="string">"%"</span>,<span class="string">"white"</span>,<span class="string">"b12"</span>)
+    self._gaugeTargetHP.back:echo(<span class="string">"&amp;nbsp;"</span> .. _value .. <span class="string">"%"</span>,<span class="string">"white"</span>,<span class="string">"b12"</span>)
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets willpower gauge and text.
+</span><span class="comment">-- @tparam int _currentWP Current willpower
+</span><a id="226"></a><span class="comment">-- @tparam int _maxWP Maximum willpower
+</span><span class="keyword">function</span> ShipVitalsBox:setWillpower(_currentWP, _maxWP)
+    self._gaugeWillpower:setValue(_currentWP, _maxWP)
+    self._gaugeWillpower.front:echo(<span class="string">"&amp;nbsp;WP: "</span> .. round((_currentWP/_maxWP)*<span class="number">100</span>)..<span class="string">"%"</span>, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+    self._gaugeWillpower.back:echo(<span class="string">"&amp;nbsp;WP: "</span> .. round((_currentWP/_maxWP)*<span class="number">100</span>)..<span class="string">"%"</span>, <span class="string">"white"</span>, <span class="string">"b10"</span> )
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Label methods
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section label
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets balance indicator.
+</span><span class="comment">-- @tparam Boolean _haveBalance True if on balance.
+</span><a id="246"></a><span class="comment">-- @usage shipVitalsBox:setBalance(true)
+</span><span class="keyword">function</span> ShipVitalsBox:setBalance(_haveBalance)
+    <span class="keyword">if</span> _haveBalance <span class="keyword">then</span>
+        self._labelBalance:setStyleSheet(gui.css.balanceGreen:getCSS())
+    <span class="keyword">else</span>
+        self._labelBalance:setStyleSheet(gui.css.balanceRed:getCSS())
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><a id="256"></a><span class="comment">--- UNDOCUMENTED
+</span><span class="keyword">function</span> ShipVitalsBox:setCrewBalanceLabel(_haveBalance)
+    <span class="keyword">if</span> _haveBalance <span class="keyword">then</span>
+        self._labelCrewBalance:setStyleSheet(gui.css.ship.balanceBlue)
+    <span class="keyword">else</span>
+        self._labelCrewBalance:setStyleSheet(gui.css.ship.balanceRed)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets equilibrium indicator.
+</span><span class="comment">-- @tparam boolean _haveEquilibrium True if on balance.
+</span><a id="268"></a><span class="comment">-- @usage shipVitalsBox:setEquilibrium(true)
+</span><span class="keyword">function</span> ShipVitalsBox:setEquilibrium(_haveEquilibrium)
+
+    <span class="keyword">if</span> _haveEquilibrium <span class="keyword">then</span>
+        self._labelEquilibrium:setStyleSheet(gui.css.ship.balanceGreen)
+    <span class="keyword">else</span>
+        self._labelEquilibrium:setStyleSheet(gui.css.ship.balanceRed)
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Sets target name to be displayed.
+</span><span class="comment">-- @tparam string _name Set target name
+</span><a id="282"></a><span class="comment">-- @usage shipVitalsBox:setTargetName("orc48192")
+</span><span class="keyword">function</span> ShipVitalsBox:setTargetName(_name)
+    self._labelTargetName:echo(<span class="string">"&amp;nbsp;"</span> .. _name)
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Handles updating after SVO ship prompt.
+</span><span class="comment">--
+</span><span class="comment">-- There's no point in updating the entire thing every go, so let's just run this every time "svo done with prompt" is raised. Consistent and clean, with no external dependencies outside of svof.
+</span><a id="291"></a><span class="comment">-- @usage shipVitalsBox:setTargetName("orc48192")
+</span><span class="keyword">function</span> ShipVitalsBox:promptUpdate()
+
+    <span class="keyword">if</span> <span class="keyword">not</span> svo.stats <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> loginComplete <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+
+    self:setHealth   ( svo.stats.currenthealth,    svo.stats.maxhealth    )
+    self:setMana     ( svo.stats.currentmana,      svo.stats.maxmana      )
+    self:setEndurance( svo.stats.currentendurance, svo.stats.maxendurance )
+    self:setWillpower( svo.stats.currentwillpower, svo.stats.maxwillpower )
+
+    self:setBalance    ( svo.bals.balance     )
+    self:setEquilibrium( svo.bals.equilibrium )
+
+    <span class="keyword">local</span> _isLowHP = <span class="keyword">not</span> (svo.stats.hp &gt;= <span class="number">40</span>) <span class="keyword">or</span> (svo.stats.hp == <span class="number">0</span>)
+    self:setLowHP(_isLowHP)
+
+<span class="keyword">end</span>
+
+
+
+
+
+<span class="comment">--------------------------------------------------------------------------------
+</span><span class="comment">--- Misc methods
+</span><span class="comment">-- For creating and Initialising ShipCompass object.
+</span><span class="comment">-- @section misc
+</span><span class="comment">--------------------------------------------------------------------------------
+</span>
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Shows or hides the whole object on the screen.
+</span><span class="comment">-- Just a shortcut for things like getting into my ship UI.
+</span><span class="comment">-- @tparam bool _visible True to show object, false to hide.
+</span><a id="324"></a><span class="comment">-- @usage shipVitalsBox:setVisible(true)
+</span><span class="keyword">function</span> ShipVitalsBox:setVisible(_visible)
+    <span class="keyword">if</span> _visible <span class="keyword">then</span>
+        self._container:show()
+    <span class="keyword">else</span>
+        self._container:hide()
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Handles audio alerts for low HP. Plays sounds if true, and conditions within met.
+</span><span class="comment">-- Unlike VitalsBox counterpart, does *not* have flashers.
+</span><span class="comment">-- @tparam boolean _value True, if in low HP state.
+</span><a id="337"></a><span class="comment">-- @usage shipVitalsBox:setLowHP(true)
+</span><span class="keyword">function</span> ShipVitalsBox:setLowHP(_value)
+
+    <span class="keyword">if</span> _value <span class="keyword">and</span> svo.stats.hp &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> soundCooldown <span class="keyword">then</span>
+        playSoundFile(cloudDir..<span class="string">[[Sounds\warning.wav]]</span>)
+        soundCooldown = <span class="keyword">true</span>
+        tempTimer( <span class="number">1.0</span>, <span class="keyword">function</span>() soundCooldown = <span class="keyword">false</span> <span class="keyword">end</span> )
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+
+<span class="comment">----------------------------------------
+</span><span class="comment">--- Updates all prompt-tagged elements in a single call.
+</span><span class="comment">-- Fires off of the event "svo done with prompt" by default.
+</span><a id="351"></a><span class="comment">-- @return None.
+</span><span class="keyword">function</span> ShipVitalsBox:update(...)
+
+    <span class="keyword">if</span> <span class="keyword">not</span> svo.stats <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> loginComplete <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+    <span class="keyword">if</span> <span class="keyword">not</span> jcs <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span>
+
+    self:setHealth(    svo.stats.currenthealth,    svo.stats.maxhealth    )
+    self:setMana(      svo.stats.currentmana,      svo.stats.maxmana      )
+    self:setEndurance( svo.stats.currentendurance, svo.stats.maxendurance )
+    self:setWillpower( svo.stats.currentwillpower, svo.stats.maxwillpower )
+
+    self:setBalance(     svo.bals.balance     )
+    self:setEquilibrium( svo.bals.equilibrium )
+
+    self:setLowHP(<span class="keyword">not</span> (svo.stats.hp &gt;= <span class="number">40</span>) <span class="keyword">or</span> (svo.stats.hp == <span class="number">0</span>))
+
+    <span class="comment">--self:showTargetHP(svo.me.gametargethp)
+</span>    <span class="comment">--self:setTargetName(svo.me.gametarget or "")
+</span>    <span class="comment">--self:setTargetHealth(svo.me.gametargethp or 0 )
+</span>
+    self:setCrewBalanceLabel(self.crewBalance)
+    self:setFigurehead(self.figurehead)
+
+<span class="keyword">end</span></pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.3</a></i>
+<i style="float:right;">Last updated 2021-01-24 19:56:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
